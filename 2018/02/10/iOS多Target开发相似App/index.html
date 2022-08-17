@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>iOS多Target开发相似App | Hexo</title>
+  <meta name="description" content="我们在iOS开发中可能会遇到同时开发多个类似项目的情况。这些项目大同小异，有诸多代码可以共用，如果每个项目都分别开发，这在后期的迭代中会十分繁琐。为了解决这个问题，使用多Target开发是一种比较好的选择，本文就这一技术实现进行简要总结。">
+<meta name="keywords" content="移动开发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS多Target开发相似App">
+<meta property="og:url" content="http://yoursite.com/2018/02/10/iOS多Target开发相似App/index.html">
+<meta property="og:site_name" content="梧雨北辰的博客">
+<meta property="og:description" content="我们在iOS开发中可能会遇到同时开发多个类似项目的情况。这些项目大同小异，有诸多代码可以共用，如果每个项目都分别开发，这在后期的迭代中会十分繁琐。为了解决这个问题，使用多Target开发是一种比较好的选择，本文就这一技术实现进行简要总结。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1244124-72d370487e724419.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1244124-355533856df44b16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1244124-b78642363f7d0a0d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1244124-ae5e46a7d2c3f927.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1244124-8a3839defed21646.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1244124-63a550909a0a2bbc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1244124-a9d8cd9d9082380d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1244124-3d5dfd16700ceb2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1244124-3db248a3e49c6a4f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1244124-afb7d7a92379c410.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1244124-f24686677a7e4cdb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1244124-f010d430c1b3426b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1244124-9d2efd2a48a3c8f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2022-08-17T03:01:16.092Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS多Target开发相似App">
+<meta name="twitter:description" content="我们在iOS开发中可能会遇到同时开发多个类似项目的情况。这些项目大同小异，有诸多代码可以共用，如果每个项目都分别开发，这在后期的迭代中会十分繁琐。为了解决这个问题，使用多Target开发是一种比较好的选择，本文就这一技术实现进行简要总结。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1244124-72d370487e724419.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2018/02/10/iOS多Target开发相似App/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="梧雨北辰的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">昵称</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech>
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle="tooltip" data-placement="top"><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle="tooltip" data-placement="top"><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发工具/">开发工具</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/闲暇所学/">闲暇所学</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/">CPU</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive/">Reactive</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveCocoa/">ReactiveCocoa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人博客/">个人博客</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发工具/">开发工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/抓包/">抓包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/架构/">架构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/移动开发/">移动开发</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络/">网络</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CPU/" style="font-size: 13px;">CPU</a> <a href="/tags/Github/" style="font-size: 13px;">Github</a> <a href="/tags/Reactive/" style="font-size: 13px;">Reactive</a> <a href="/tags/ReactiveCocoa/" style="font-size: 13px;">ReactiveCocoa</a> <a href="/tags/iOS/" style="font-size: 13.5px;">iOS</a> <a href="/tags/个人博客/" style="font-size: 13px;">个人博客</a> <a href="/tags/开发工具/" style="font-size: 13px;">开发工具</a> <a href="/tags/抓包/" style="font-size: 13px;">抓包</a> <a href="/tags/架构/" style="font-size: 13px;">架构</a> <a href="/tags/移动开发/" style="font-size: 14px;">移动开发</a> <a href="/tags/网络/" style="font-size: 13px;">网络</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/iOS/">iOS</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/04/03/ReactiveCocoa函数响应式编程-应用篇/" class="title">ReactiveCocoa函数响应式编程-应用篇</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-04-03T06:58:39.000Z" itemprop="datePublished">2018-04-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/iOS/">iOS</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/04/03/ReactiveCocoa函数响应式编程-基础篇/" class="title">ReactiveCocoa函数响应式编程-基础篇</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-04-03T06:34:57.000Z" itemprop="datePublished">2018-04-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/闲暇所学/">闲暇所学</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/02/28/搭建个人博客网站Github、Hexo与Next/" class="title">搭建个人博客网站Github、Hexo与Next</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-02-28T06:34:57.000Z" itemprop="datePublished">2018-02-28</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/iOS/">iOS</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/02/10/iOS多Target开发相似App/" class="title">iOS多Target开发相似App</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-02-10T09:20:47.000Z" itemprop="datePublished">2018-02-10</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/iOS/">iOS</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/02/10/iOS开发中的CPU架构问题/" class="title">iOS开发中的CPU架构问题</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-02-10T09:15:04.000Z" itemprop="datePublished">2018-02-10</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-iOS多Target开发相似App" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS多Target开发相似App
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/02/10/iOS多Target开发相似App/" class="article-date">
+	  <time datetime="2018-02-10T09:20:47.000Z" itemprop="datePublished">2018-02-10</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/移动开发/">移动开发</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/02/10/iOS多Target开发相似App/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>我们在iOS开发中可能会遇到同时开发多个类似项目的情况。这些项目大同小异，有诸多代码可以共用，如果每个项目都分别开发，这在后期的迭代中会十分繁琐。为了解决这个问题，使用多Target开发是一种比较好的选择，本文就这一技术实现进行简要总结。<br><a id="more"></a></p>
+<h1 id="一、理解项目中的Porject与Target"><a href="#一、理解项目中的Porject与Target" class="headerlink" title="一、理解项目中的Porject与Target"></a>一、理解项目中的Porject与Target</h1><p>使用Xcode来开发项目，其中的Project是一个整体项目相当于一个仓库，包括了所有的代码和资源文件。而Target相当于一个具体的产品，包含了对于代码，资源文件的具体使用规则和配置。一个Project可以包含多个Target，也就是说通过不同Target我们可以生成不同的APP。</p>
+<h1 id="二、多Target开发项目的实践步骤"><a href="#二、多Target开发项目的实践步骤" class="headerlink" title="二、多Target开发项目的实践步骤"></a>二、多Target开发项目的实践步骤</h1><p>使用多Target来创建项目，就以我当前正在开发的亲戚买房APP为例。需求是这样的：亲戚买房是一个为买房人提供砍价服务的APP，APP的用户需要区分为用户，专家和砍价师三个用户群体。所以这里以Customer，Consul，Bargain三个Target来开发应用</p>
+<h2 id="1-以QQMF-亲戚买房-为名创建一个新的工程如下"><a href="#1-以QQMF-亲戚买房-为名创建一个新的工程如下" class="headerlink" title="1.以QQMF(亲戚买房)为名创建一个新的工程如下:"></a>1.以QQMF(亲戚买房)为名创建一个新的工程如下:</h2><p><img src="http://upload-images.jianshu.io/upload_images/1244124-72d370487e724419.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2017-11-20 上午11.25.03.png"></p>
+<h2 id="2-创建三种Target"><a href="#2-创建三种Target" class="headerlink" title="2.创建三种Target"></a>2.创建三种Target</h2><p>创建新Target的方式有两种：<br>第一种：依次选择File-&gt;New-&gt;Target，然后选择一个模板(通常是Single View App)来创建。只是这样创建的target带有Appdelegate和main等文件，在这里并不会用到这些文件，所以我们采用第二种方式创建。<br>第二种：<br>在Targets中点击已有的Target，右键选择Duplicate可以复制生成一个<strong>copy的新Target，并且在文件目录中生成对应的</strong>copy-Info.plist文件。这样生成的target与被拷贝的target相似度很大，减少了过多的修改。通常为了减少后期的修改，我们也会首先在原有的Target中修改一些配置之后再Duplicate。<br><img src="http://upload-images.jianshu.io/upload_images/1244124-355533856df44b16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2017-11-20 上午11.27.06.png"></p>
+<p>执行了Duplicate操作之后的效果如下：<br><img src="http://upload-images.jianshu.io/upload_images/1244124-b78642363f7d0a0d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2017-11-20 上午11.29.38.png"></p>
+<h2 id="3-修改Targe和plist文件的名称为自己需要的名称"><a href="#3-修改Targe和plist文件的名称为自己需要的名称" class="headerlink" title="3.修改Targe和plist文件的名称为自己需要的名称"></a>3.修改Targe和plist文件的名称为自己需要的名称</h2><p>在Target里可以直接修改Target的名称，在文件目录下也可以直接修改plist文件的名称。如果我们不想文件结构那么乱，也可以像其他文件一样移动plist文件的位置并重新引用到工程中，如下：<br><img src="http://upload-images.jianshu.io/upload_images/1244124-ae5e46a7d2c3f927.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2017-11-20 下午6.35.12.png"><br>特别注意：我们在移动文件的时候可能需要重新引用文件到工程中，此时add文件的时候一定要注意选择Target，如果是共用文件一定要勾选对应的Target，类似AppDelegate这样文件的操作如下：<br><img src="http://upload-images.jianshu.io/upload_images/1244124-8a3839defed21646.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2017-11-20 下午6.29.01.png"></p>
+<h2 id="4-修改Xcode左上角的Target名称"><a href="#4-修改Xcode左上角的Target名称" class="headerlink" title="4.修改Xcode左上角的Target名称"></a>4.修改Xcode左上角的Target名称</h2><p>选中Xcode左上角的创建工程时的Target(QQMF)，选择Manage schemes<br><img src="http://upload-images.jianshu.io/upload_images/1244124-63a550909a0a2bbc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2017-11-20 下午6.38.06.png"><br>在如下的schemes中修改Target的名称，这里也可以删除多余的最初的QQMF<br><img src="http://upload-images.jianshu.io/upload_images/1244124-a9d8cd9d9082380d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2017-11-20 上午11.47.18.png"></p>
+<p>特别说明：QQMF是我们创建工程自带的Target,其实也可以修改它的名字以供自定义使用，而这里我们是直接删掉了它，这样之后，项目自带的info.plist也是没用的了，也可以删掉。</p>
+<h2 id="5-设置Target与plist文件对应"><a href="#5-设置Target与plist文件对应" class="headerlink" title="5.设置Target与plist文件对应"></a>5.设置Target与plist文件对应</h2><p>切换到Target目录下，我们可以在这里删掉用不到的QQMF，选择其中一个Target之后并选择general，然后可以看到每个Target的右侧都有对应的choose info.plist file选项，点击可以选择与Target对应的plist文件。这也就相当于不同的Target项目对应了不同的plist配置。<br><img src="http://upload-images.jianshu.io/upload_images/1244124-3d5dfd16700ceb2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2017-11-20 下午2.01.27.png"></p>
+<h2 id="6-为每个Target设置Display-Name，Bundle-Identifier等信息"><a href="#6-为每个Target设置Display-Name，Bundle-Identifier等信息" class="headerlink" title="6.为每个Target设置Display Name，Bundle Identifier等信息"></a>6.为每个Target设置Display Name，Bundle Identifier等信息</h2><p>点击Target-&gt;选择General，我们分别设置不同项目的名称和BundleID信息，以及证书等<br><img src="http://upload-images.jianshu.io/upload_images/1244124-3db248a3e49c6a4f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2017-11-20 下午2.28.17.png"></p>
+<h2 id="7-同一份代码区分不同Target的操作"><a href="#7-同一份代码区分不同Target的操作" class="headerlink" title="7.同一份代码区分不同Target的操作"></a>7.同一份代码区分不同Target的操作</h2><p>使用多Target是为了共用一部分代码，但是有些共用的文件在不同的Target下是有细微不同的，那么我们在具体实现的时候就需要作出区分。这里解决的方法是针对不同的Target定义宏。<br>首先选择一个Target,如Customer，依次选择Build Settings -&gt;搜索PreprocessorMacros,  在找到PreprocessorMacros之后，我们分别在Debug和Release中设置TargetType=1如下图进行设置：<br><img src="http://upload-images.jianshu.io/upload_images/1244124-afb7d7a92379c410.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2017-11-20 下午6.45.35.png"></p>
+<p>其他的Target也是同样的设置方式，只是要区分TargetType的值，分别是2，3(TargetType及其值都是自定义的)。然后就是在代码中的使用如下图，分别选择Xcode左上角不同的Target运行，查看控制台验证是否成功。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1244124-f24686677a7e4cdb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2017-11-20 下午6.55.02.png"></p>
+<h2 id="8-解决使用Cocoapods的问题"><a href="#8-解决使用Cocoapods的问题" class="headerlink" title="8.解决使用Cocoapods的问题"></a>8.解决使用Cocoapods的问题</h2><p>因为存在多个Target，我们需要区别的设置不同target需要的第三方库，如下图。这里可能出现的问题是如果有很多类似AFNetworking这样的被多个Target需要的类库，我们在删除和增加的时候就会频繁的操作而且会代码冗余。<br><img src="http://upload-images.jianshu.io/upload_images/1244124-f010d430c1b3426b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2017-11-20 下午7.22.34.png"><br>解决上述问题的比较优雅的做法是如下：<br><img src="http://upload-images.jianshu.io/upload_images/1244124-9d2efd2a48a3c8f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2017-11-20 下午7.39.25.png"></p>
+<h2 id="三、遇到的问题"><a href="#三、遇到的问题" class="headerlink" title="三、遇到的问题"></a>三、遇到的问题</h2><ol>
+<li>问题：invalid token at start of a preprocessor expression<br>原因：这是我在pch文件中判断target类型出现的错误，这句话的大致意思是：在预编译阶段，代码并未运行，无法判断宏定义的值。最后查找到原因是我在上述步骤设置宏定义的时候，手误设置了TargetType==1，这本是一句需要执行才能得到结果的代码。所以无法在#if的条件编译中通过。<br>解决：在条件编译中不使用代码运行时才生成的量即可。</li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://yoursite.com/2018/02/10/iOS多Target开发相似App/" title="iOS多Target开发相似App" target="_blank" rel="external">http://yoursite.com/2018/02/10/iOS多Target开发相似App/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt>
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">昵称</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/02/28/搭建个人博客网站Github、Hexo与Next/" title="搭建个人博客网站Github、Hexo与Next"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/02/10/iOS开发中的CPU架构问题/" title="iOS开发中的CPU架构问题"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan">
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan">
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class>
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle="tooltip" data-placement="top"><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle="tooltip" data-placement="top"><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
