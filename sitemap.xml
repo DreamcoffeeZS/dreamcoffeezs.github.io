@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/books/index.html</loc>
+    
+    <lastmod>2022-08-17</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/links/index.html</loc>
+    
+    <lastmod>2022-08-17</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/tags/index.html</loc>
     
     <lastmod>2022-08-17</lastmod>
@@ -11,7 +29,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/categories/index.html</loc>
+    <loc>http://yoursite.com/repository/index.html</loc>
     
     <lastmod>2022-08-17</lastmod>
     
@@ -29,6 +47,15 @@
   </url>
   
   <url>
+    <loc>http://yoursite.com/categories/index.html</loc>
+    
+    <lastmod>2022-08-17</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/04/03/ReactiveCocoa%E5%87%BD%E6%95%B0%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B-%E5%BA%94%E7%94%A8%E7%AF%87/</loc>
     
     <lastmod>2022-08-17</lastmod>
@@ -38,7 +65,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2018/02/10/iOS%E5%A4%9ATarget%E5%BC%80%E5%8F%91%E7%9B%B8%E4%BC%BCApp/</loc>
+    <loc>http://yoursite.com/2018/02/10/iOS%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84CPU%E6%9E%B6%E6%9E%84%E9%97%AE%E9%A2%98/</loc>
     
     <lastmod>2022-08-17</lastmod>
     
@@ -47,7 +74,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2018/02/10/iOS%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84CPU%E6%9E%B6%E6%9E%84%E9%97%AE%E9%A2%98/</loc>
+    <loc>http://yoursite.com/2018/02/10/iOS%E5%A4%9ATarget%E5%BC%80%E5%8F%91%E7%9B%B8%E4%BC%BCApp/</loc>
     
     <lastmod>2022-08-17</lastmod>
     
