@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>iOS编译原理 | Hexo</title>
+  <meta name="description" content="主要内容:  理解C、C++以及OC的关系 编译型语言与解释型语言 编译器LLVM与CLang 理解iOS编译流程 预处理 编译 汇编 链接  一、理解C、C++以及OC的关系1.C语言 C语言是一门面向过程的计算机编程语言，既可用于系统软件开发，也适用于应用软件开发； C语言编译器普遍存在于各种不同的操作系统中，例如Microsoft Windows,Mac OS X, Linux, Unix等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS编译原理">
+<meta property="og:url" content="http://yoursite.com/2021/11/02/ios%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="梧雨北辰的博客">
+<meta property="og:description" content="主要内容:  理解C、C++以及OC的关系 编译型语言与解释型语言 编译器LLVM与CLang 理解iOS编译流程 预处理 编译 汇编 链接  一、理解C、C++以及OC的关系1.C语言 C语言是一门面向过程的计算机编程语言，既可用于系统软件开发，也适用于应用软件开发； C语言编译器普遍存在于各种不同的操作系统中，例如Microsoft Windows,Mac OS X, Linux, Unix等">
+<meta property="og:locale">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/651ade0e8b42478994d08c42356d218f~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8b0e10d16e16408d86cf70758c4b8e03~tplv-k3u1fbpfcp-watermark.image">
+<meta property="article:published_time" content="2021-11-02T14:56:55.000Z">
+<meta property="article:modified_time" content="2022-08-18T07:05:34.028Z">
+<meta property="article:author" content="Zhou Shuai">
+<meta property="article:tag" content="编译原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/651ade0e8b42478994d08c42356d218f~tplv-k3u1fbpfcp-watermark.image">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2021/11/02/ios%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="梧雨北辰的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body class="main-center theme-purple" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wuyubeichen" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">梧雨北辰</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">iOS Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Beijing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/wuyubeichen" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/wuyubeichen" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%97%B2%E6%9A%87%E6%89%80%E5%AD%A6/">闲暇所学</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive/" rel="tag">Reactive</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveCocoa/" rel="tag">ReactiveCocoa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/" rel="tag">Swift</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode/" rel="tag">Xcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/" rel="tag">iOS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS%E5%BA%95%E5%B1%82/" rel="tag">iOS底层</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" rel="tag">个人博客</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%93%E5%8C%85/" rel="tag">抓包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="tag">移动开发</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CPU/" style="font-size: 13px;">CPU</a> <a href="/tags/Github/" style="font-size: 13px;">Github</a> <a href="/tags/Python/" style="font-size: 13.33px;">Python</a> <a href="/tags/Reactive/" style="font-size: 13px;">Reactive</a> <a href="/tags/ReactiveCocoa/" style="font-size: 13px;">ReactiveCocoa</a> <a href="/tags/Swift/" style="font-size: 14px;">Swift</a> <a href="/tags/Xcode/" style="font-size: 13px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 13.33px;">iOS</a> <a href="/tags/iOS%E5%BA%95%E5%B1%82/" style="font-size: 13.33px;">iOS底层</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 13px;">个人博客</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 13px;">开发工具</a> <a href="/tags/%E6%8A%93%E5%8C%85/" style="font-size: 13px;">抓包</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13px;">架构</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" style="font-size: 13.67px;">移动开发</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13px;">编译原理</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 13px;">网络</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/02/mach-o%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90/" class="title">Mach-O简单分析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-02T14:58:08.000Z" itemprop="datePublished">2021-11-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/02/mach-o%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="title">Mach-O文件结构</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-02T14:57:35.000Z" itemprop="datePublished">2021-11-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/02/ios%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="title">iOS编译原理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-02T14:56:55.000Z" itemprop="datePublished">2021-11-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/02/xcode%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="title">Xcode多环境配置</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-02T14:54:10.000Z" itemprop="datePublished">2021-11-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Swift/">Swift</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/11/09/swift%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%8D%8F%E8%AE%AE/" class="title">Swift学习：协议</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-11-09T10:10:47.000Z" itemprop="datePublished">2018-11-09</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-ios编译原理" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS编译原理
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/11/02/ios%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="article-date">
+	  <time datetime="2021-11-02T14:56:55.000Z" itemprop="datePublished">2021-11-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/11/02/ios%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><strong>主要内容:</strong></p>
+<ol>
+<li>理解<code>C</code>、<code>C++</code>以及<code>OC</code>的关系</li>
+<li>编译型语言与解释型语言</li>
+<li>编译器<code>LLVM</code>与<code>CLang</code></li>
+<li>理解<code>iOS</code>编译流程</li>
+<li>预处理</li>
+<li>编译</li>
+<li>汇编</li>
+<li>链接</li>
+</ol>
+<h4 id="一、理解C、C-以及OC的关系"><a href="#一、理解C、C-以及OC的关系" class="headerlink" title="一、理解C、C++以及OC的关系"></a>一、理解C、C++以及OC的关系</h4><h5 id="1-C语言"><a href="#1-C语言" class="headerlink" title="1.C语言"></a>1.C语言</h5><ol>
+<li><code>C</code>语言是一门面向过程的计算机编程语言，既可用于系统软件开发，也适用于应用软件开发；</li>
+<li><code>C</code>语言编译器普遍存在于各种不同的操作系统中，例如<code>Microsoft Windows</code>,<code>Mac OS X</code>, <code>Linux</code>, <code>Unix</code>等；</li>
+<li><code>C</code>语言的设计影响了众多后来的编程语言，例如<code>C++</code>、<code>Objective-C</code>、<code>Java</code>、<code>C#</code>等；</li>
+</ol>
+<h5 id="2-C-语言"><a href="#2-C-语言" class="headerlink" title="2.C++语言"></a>2.C++语言</h5><ol>
+<li>兼容了<code>C</code>语言面向过程特点，但又进行了扩充和完善；</li>
+<li>作为一种面向对象的语言，具有封装、多继承、多态等特性；</li>
+</ol>
+<h5 id="3-Objective-C语言"><a href="#3-Objective-C语言" class="headerlink" title="3.Objective-C语言"></a>3.Objective-C语言</h5><ol>
+<li>扩展了<code>C</code>语言的能力，使其具备面向对象设计的能力，相当于<code>C</code>的超集；</li>
+<li><code>OC</code>代码中也可以有<code>C</code>和<code>C++</code>语句，它可以调用<code>C</code>函数，也可以通过<code>C++</code>对象访问方法；</li>
+</ol>
+<h5 id="4-OC与C-的比较"><a href="#4-OC与C-的比较" class="headerlink" title="4.OC与C++的比较"></a>4.OC与C++的比较</h5><ol>
+<li><code>OC</code>与<code>C++</code>都是从<code>C</code>语言演变而来面向对象设计语言，也都兼容标准的<code>C</code>语言；但它们属于不同的面向对象学派；</li>
+<li>两者最大的不同在于：<code>OC</code>提供了运行时的动态绑定机制，而<code>C++</code>是编译时静态绑定，并通过嵌入类和虚函数来模拟实现；</li>
+<li><code>OC</code>在编译阶段降低了编译要求提高了灵活性，而<code>C++</code>则是提高了编译要求，在编译过程中就发现更多的潜在错误，在运行前改正，降低了灵活性；</li>
+</ol>
+<p>以下面的代码为例，在编译期间，<code>C++</code>认为是错误的，而<code>OC</code>则认为没有问题：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">NSString</span> <span class="operator">*</span>test <span class="operator">=</span>(id) [[<span class="type">NSArray</span> alloc] <span class="keyword">init</span>];</span><br></pre></td></tr></table></figure>
+
+<p><code>OC</code>与<code>C++</code>在使用细节上的不同如下：</p>
+<ol>
+<li>定型：<code>OC</code>是动态定型，可以允许根据字符串名字来访问方法和类，还可以动态链接和添加类；</li>
+<li>继承：<code>OC</code>不支持多继承，<code>C++</code>支持多继承；</li>
+<li>函数调用：<code>OC</code>通过消息传递实现函数调用，而<code>C++</code>直接进行函数调用；</li>
+<li>接口：<code>OC</code>采用<code>Protocol</code>形式来定义接口，而<code>C++</code>采用虚函数形式来定义接口；</li>
+<li>重载：<code>OC</code>不允许同一个类中两个方法有相同的名字(即使只是参数类型不同)，但<code>C++</code>可以；</li>
+</ol>
+<h4 id="二、编译型语言与解释型语言"><a href="#二、编译型语言与解释型语言" class="headerlink" title="二、编译型语言与解释型语言"></a>二、编译型语言与解释型语言</h4><p><code>Objective-C</code>属于编译型语言，这是为了保证<code>iPhone</code>的执行效率；</p>
+<h5 id="1-编译型语言"><a href="#1-编译型语言" class="headerlink" title="1.编译型语言"></a>1.编译型语言</h5><ol>
+<li>程序运行前，必须先通过<code>编译器</code>生成<code>机器码</code>，机器码直接通过<code>CPU</code>执行，运行时不需要重新翻译；</li>
+<li>程序执行效率高，但依赖编译器，调试周期长、跨平台性差些；</li>
+<li>代表语言：<code>C</code>、<code>C++</code>、<code>OC</code>等；</li>
+</ol>
+<h5 id="2-解释型语言"><a href="#2-解释型语言" class="headerlink" title="2.解释型语言"></a>2.解释型语言</h5><ol>
+<li>程序运行前，不需要进行编译，而是以文本方式存储程序代码，运行时需要解释器解释后再运行；</li>
+<li>程序执行效率低下，但是程序具有动态性，运行后也可以随时增加和更新代码来改变程序逻辑；</li>
+<li>代表语言：<code>Javascript</code>、<code>Python</code>等；</li>
+</ol>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/651ade0e8b42478994d08c42356d218f~tplv-k3u1fbpfcp-watermark.image" alt="编译原理-语言的分类.jpg"></p>
+<h4 id="三、编译器LLVM与CLang"><a href="#三、编译器LLVM与CLang" class="headerlink" title="三、编译器LLVM与CLang"></a>三、编译器LLVM与CLang</h4><h5 id="1-编译器"><a href="#1-编译器" class="headerlink" title="1.编译器"></a>1.编译器</h5><p>概念：把一种编程语言(<code>原始语言</code>)转换为另一种编程语言(目标语言)的程序;</p>
+<p>大多数编译器都分<code>前端</code>和<code>后端</code>两部分：</p>
+<ul>
+<li>前端：负责<code>词法分析</code>、<code>语法分析</code>、<code>生成中间代码</code>；</li>
+<li>后端：以<code>中间代码</code>作为输入，进行与架构无关的代码优化，接着针对不同架构生成不同的机器码；</li>
+</ul>
+<p>补充：</p>
+<ol>
+<li>前后端以<code>中间代码</code>作为媒介，使得前后端可以独立的变化，互不影响；</li>
+<li>这样的好处在于：新增一门语言只需要修改前端，而新增一种<code>CPU</code>架构只需要修改后端即可；</li>
+</ol>
+<h5 id="2-LLVM与Clang"><a href="#2-LLVM与Clang" class="headerlink" title="2.LLVM与Clang"></a>2.LLVM与Clang</h5><p><code>LLVM</code>是苹果当前使用的编译器：</p>
+<ol>
+<li><code>LLVM</code>是一套编译器基础设施项目，为自由软件，以<code>C++</code>写成，包含一系列模块化的编译器组件和工具链，用来开发编译器<code>前端</code>和<code>后端</code>；</li>
+<li>基于 <code>LLVM</code> 衍生出了一些强大的子项目，比如：<code>Clang</code> 和 <code>LLDB</code>。</li>
+</ol>
+<p><code>CLang</code>基于<code>LLVM</code>，是一个高度模块化开发的轻量级编译器；</p>
+<ol>
+<li><code>CLang</code>主要来自苹果电脑的支持，同时支持<code>C</code>、<code>Objective-C</code>以及<code>C++</code>；</li>
+<li><code>CLang</code>用于替代<code>Xcode5</code>版本前使用的<code>GCC</code>，编译速度提高了<code>3</code>倍：</li>
+</ol>
+<h5 id="3-理解iOS中的编译器"><a href="#3-理解iOS中的编译器" class="headerlink" title="3.理解iOS中的编译器"></a>3.理解iOS中的编译器</h5><ol>
+<li>在<code>iOS</code>开发中，通常<code>LLVM</code>被认为是编译器的后端，而<code>Clang</code>是作为编译器的前端；</li>
+<li>二者以 <code>IR</code>（中间代码）作为媒介，这样前后端分离，使得前后端可以独立的变化，互不影响；</li>
+<li><code>C</code> 语言家族的前端是 <code>clang</code>，<code>swift</code> 的前端是 <code>swiftc</code>，但二者的后端都是 <code>LLVM</code>；</li>
+</ol>
+<h4 id="四、理解iOS编译流程"><a href="#四、理解iOS编译流程" class="headerlink" title="四、理解iOS编译流程"></a>四、理解iOS编译流程</h4><h5 id="1-编译流程图"><a href="#1-编译流程图" class="headerlink" title="1.编译流程图"></a>1.编译流程图</h5><p><a target="_blank" rel="noopener" href="http://llvm.org/docs/">LLVM的编译过程</a>相当复杂，<code>iOS</code>代码运行需要经过：<code>预处理</code>、<code>编译</code>、<code>汇编</code>、<code>链接</code>四个关键阶段，具体的流程如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8b0e10d16e16408d86cf70758c4b8e03~tplv-k3u1fbpfcp-watermark.image" alt="编译原理-编译流程.png"></p>
+<h5 id="2-准备测试文件"><a href="#2-准备测试文件" class="headerlink" title="2.准备测试文件"></a>2.准备测试文件</h5><p>以<code>OC</code>语言为例，详细分析代码的编译流程，准备一个<code>main.m</code>文件的内容如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="string">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="comment">/// 增加注释：宏定义Name</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Name <span class="string">&quot;梧雨北辰&quot;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> * argv[])</span> &#123;</span><br><span class="line">    NSLog(@<span class="string">&quot;Hello, %s&quot;</span>, Name);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="五、预处理-Prepressing"><a href="#五、预处理-Prepressing" class="headerlink" title="五、预处理(Prepressing)"></a>五、预处理(Prepressing)</h4><h5 id="1-主要功能"><a href="#1-主要功能" class="headerlink" title="1.主要功能"></a>1.主要功能</h5><ol>
+<li>替换宏：替换代码中各种宏定义，如定义的常量、函数等；</li>
+<li>导入头文件：将<code>#include</code>包含的文件插入到该指令位置等；</li>
+<li>清理注释：删除所有注释：<code>//</code> 、<code>/*</code> <code>*/</code>等；</li>
+<li>条件编译：处理<code>#if</code>、<code>#ifdef</code>，<code>#endif</code>等类似的条件编译；</li>
+<li>添加行号和文件名标识：以便于编译时编译器能够显示警告和错误的所在行号；</li>
+</ol>
+<h5 id="2-查看预处理结果"><a href="#2-查看预处理结果" class="headerlink" title="2.查看预处理结果"></a>2.查看预处理结果</h5><p>使用<code>xcrun</code>命令，在终端执行预处理操作：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcrun clang <span class="operator">-</span><span class="type">E</span> main.m</span><br></pre></td></tr></table></figure>
+
+<p>终端显示效果如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># <span class="number">1</span> <span class="string">&quot;main.m&quot;</span></span><br><span class="line"># <span class="number">1</span> <span class="string">&quot;&lt;built-in&gt;&quot;</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="operator">...</span></span><br><span class="line"></span><br><span class="line"># <span class="number">1</span> <span class="string">&quot;/Applications/Xcode13.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/FoundationLegacySwiftCompatibility.h&quot;</span> <span class="number">1</span> <span class="number">3</span></span><br><span class="line"># <span class="number">193</span> <span class="string">&quot;/Applications/Xcode13.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h&quot;</span> <span class="number">2</span> <span class="number">3</span></span><br><span class="line"># <span class="number">2</span> <span class="string">&quot;main.m&quot;</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line">int main(int argc, const char <span class="operator">*</span> argv[]) &#123;</span><br><span class="line"> <span class="type">NSLog</span>(@<span class="string">&quot;Hello, %s&quot;</span>, <span class="string">&quot;梧雨北辰&quot;</span>);</span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果分析：</p>
+<ol>
+<li>预处理后的文件中，注释已经被清理，宏定义也已经被替换；</li>
+<li>预处理后的文件有很多行，因为该过程中导入了头文件(<code>Foundation.h</code>)，而且这个过程是递归的；</li>
+</ol>
+<h4 id="六、编译-Compilation"><a href="#六、编译-Compilation" class="headerlink" title="六、编译(Compilation)"></a>六、编译(Compilation)</h4><h5 id="1-词法分析-Lexical-Analysis"><a href="#1-词法分析-Lexical-Analysis" class="headerlink" title="1. 词法分析(Lexical Analysis)"></a>1. 词法分析(Lexical Analysis)</h5><p>主要功能：通过扫描器，分割识别源代码符号(如大小括号、<code>=</code>、字符串)；</p>
+<p>使用<code>xcrun</code>命令，在终端执行词法分析操作：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcrun clang <span class="operator">-</span>fmodules <span class="operator">-</span>fsyntax<span class="operator">-</span>only <span class="operator">-</span><span class="type">Xclang</span> <span class="operator">-</span>dump<span class="operator">-</span>tokens main.m</span><br></pre></td></tr></table></figure>
+
+<p>终端显示效果如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">annot_module_include &#x27;#<span class="keyword">import</span> &lt;Foundation/Foundation.h&gt;</span><br><span class="line"><span class="operator">/</span>&#x27;     <span class="type">Loc</span><span class="operator">=&lt;</span>main.m:<span class="number">1</span>:<span class="number">1</span><span class="operator">&gt;</span></span><br><span class="line">int &#x27;int&#x27;  [<span class="type">StartOfLine</span>]  <span class="type">Loc</span><span class="operator">=&lt;</span>main.m:<span class="number">4</span>:<span class="number">1</span><span class="operator">&gt;</span></span><br><span class="line">identifier &#x27;main&#x27;  [<span class="type">LeadingSpace</span>]</span><br><span class="line"></span><br><span class="line"><span class="operator">......</span></span><br><span class="line"></span><br><span class="line">r_brace &#x27;&#125;&#x27;    [<span class="type">StartOfLine</span>]  <span class="type">Loc</span><span class="operator">=&lt;</span>main.m:<span class="number">7</span>:<span class="number">1</span><span class="operator">&gt;</span></span><br><span class="line">eof &#x27;&#x27;        <span class="type">Loc</span><span class="operator">=&lt;</span>main.m:<span class="number">10</span>:<span class="number">1</span><span class="operator">&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>结果分析：</p>
+<ol>
+<li>每个被分割的源代码符号都被记录了位置，方便后续定位错误；</li>
+<li>比如<code>Loc=&lt;main.m:4:1&gt;</code> 就表示：<code>&#39;int&#39;</code>这个符号是从源文件<code>main.m</code>的第<code>4</code>行的第<code>1</code>个字符开始的；</li>
+</ol>
+<h5 id="2-语法分析-Semantic-Analysis"><a href="#2-语法分析-Semantic-Analysis" class="headerlink" title="2.语法分析(Semantic Analysis)"></a>2.语法分析(Semantic Analysis)</h5><p>主要功能：对源代码符号进行分析，验证语法是否正确，最后生成<code>AST</code>语法树；</p>
+<p>使用<code>xcrun</code>命令，查看语法分析结果：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcrun clang <span class="operator">-</span>fsyntax<span class="operator">-</span>only <span class="operator">-</span><span class="type">Xclang</span> <span class="operator">-</span>ast<span class="operator">-</span>dump main.c  <span class="keyword">open</span> <span class="operator">-</span>f</span><br></pre></td></tr></table></figure>
+
+<p><code>AST</code>语法树：</p>
+<ol>
+<li>是抽象语法树，结构上比代码更精简，遍历速度更快；</li>
+<li>能够更快的进行静态检查，同时生成<code>IR</code>(中间代码)；</li>
+</ol>
+<h5 id="3-静态分析-Static-Analysis"><a href="#3-静态分析-Static-Analysis" class="headerlink" title="3.静态分析(Static Analysis)"></a>3.静态分析(Static Analysis)</h5><p>主要功能：对<code>AST</code>树进行遍历分析，包括<code>类型检查</code>、<code>方法实现检查</code>，会及时提示错误；</p>
+<h5 id="4-生成中间代码-Code-Generation"><a href="#4-生成中间代码-Code-Generation" class="headerlink" title="4.生成中间代码(Code Generation)"></a>4.生成中间代码(Code Generation)</h5><p>主要功能：<code>CodeGen</code>负责将<code>AST</code>语法树自顶向下遍历，逐步翻译成<code>IR</code>中间代码；</p>
+<p><code>IR</code>中间代码：</p>
+<ol>
+<li>这是一种更接近于机器码的语言，使得编译器被分为前端和后端，不同的平台可以利用各自的编译器将中间代码，转化为适合不同平台的机器码；</li>
+<li>对于<code>iOS</code>系统来说，<code>IR</code>中间代码生成的就是<code>Mach-O</code>可执行文件;</li>
+<li><code>IR</code>是前端的输出，后端的输入；</li>
+</ol>
+<h4 id="七、汇编-Assembly"><a href="#七、汇编-Assembly" class="headerlink" title="七、汇编(Assembly)"></a>七、汇编(Assembly)</h4><p>输出<code>中间代码</code>标志着前端工作的完成，接下来将进入后端的处理流程。</p>
+<h5 id="1-LLVM优化中间代码"><a href="#1-LLVM优化中间代码" class="headerlink" title="1.LLVM优化中间代码"></a>1.LLVM优化中间代码</h5><p>中间代码<code>IR</code>进入后端，<code>LLVM</code>会对其进行优化：</p>
+<ol>
+<li><code>Optimization Level</code></li>
+<li><code>bitcode</code></li>
+</ol>
+<h5 id="2-生成汇编代码"><a href="#2-生成汇编代码" class="headerlink" title="2.生成汇编代码"></a>2.生成汇编代码</h5><p><code>LLVM</code>对<code>IR</code>进行优化后，会针对不同架构生成不同汇编代码；</p>
+<p>汇编阶段的目的：</p>
+<ol>
+<li>将代码汇编化，并将符号进行归类；</li>
+<li>将外部导入符号，放到重定位符号表；</li>
+<li>最后生成一个或多个<code>.o</code>目标文件；</li>
+</ol>
+<p>使用<code>xcrun</code>命令，生成汇编文件：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcrun clang <span class="operator">-</span><span class="type">S</span> main.m <span class="operator">-</span>o main.s</span><br></pre></td></tr></table></figure>
+
+<p>打开<code>.s</code>文件，摘取内容如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">    .section    __TEXT,__text,regular,pure_instructions</span><br><span class="line">    .build_version macos, <span class="number">11</span>, <span class="number">0</span> sdk_version <span class="number">11</span>, <span class="number">3</span></span><br><span class="line">    .globl  _main                           ## <span class="operator">--</span> <span class="type">Begin</span> function main</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ......</span></span><br><span class="line"></span><br><span class="line">    callq   _NSLog</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ......</span></span><br><span class="line">.subsections_via_symbols</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，汇编文件中的<code>NSLog</code>操作已经被转化为汇编命令形式的调用，即<code>callq _NSLog</code>；</p>
+<h5 id="3-生成目标文件"><a href="#3-生成目标文件" class="headerlink" title="3.生成目标文件"></a>3.生成目标文件</h5><p>该阶段是<code>汇编器</code>将<code>汇编代码</code>转换为<code>机器代码</code>，并输出<code>目标文件</code>，即<code>.o</code>文件；</p>
+<p>使用<code>xcrun</code>命令，生成目标文件:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcrun clang <span class="operator">-</span>fmodules <span class="operator">-</span>c main.m <span class="operator">-</span>o main.o</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>file</code>命令，查看目标文件类型:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">%</span> file main.o</span><br><span class="line">main.o: <span class="type">Mach</span><span class="operator">-</span><span class="type">O</span> <span class="number">64</span><span class="operator">-</span>bit object x86_64</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，汇编器生成<code>Mach-O</code>格式的文件，而且是<code>object</code>类型，即目标文件类型：</p>
+<ol>
+<li><code>Mach-O</code>文件是用于<code>iOS</code>和<code>OS</code>平台上的文件类型；</li>
+<li><code>Mach-O</code>作为<code>a.out</code>格式的替代，提供了更强的扩展性，也提升了符号表中信息的访问速度；</li>
+</ol>
+<p>使用<code>xcrun</code>命令，查看下<code>main.o</code>中的符号：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcrun nm <span class="operator">-</span>nm main.o</span><br></pre></td></tr></table></figure>
+
+<p>终端显示效果如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">                 (undefined) external _NSLog</span><br><span class="line">                 (undefined) external ___CFConstantStringClassReference</span><br><span class="line"><span class="number">0000000000000000</span> (__TEXT,__text) external _main</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，此时我们使用的<code>NSLog</code>函数，对应着<code>_NSLog</code>符号：</p>
+<ol>
+<li><code>undefined</code>：表示在当前文件暂时找不到符号<code>_NSLog</code>；</li>
+<li><code>external</code>：表示这个符号是外部可以访问的，对应表示文件私有的符号是<code>non-external</code>；</li>
+</ol>
+<h4 id="八、链接-Linking"><a href="#八、链接-Linking" class="headerlink" title="八、链接(Linking)"></a>八、链接(Linking)</h4><p>主要功能：符号解析、重定位、合并目标文件，最终生成可执行文件；</p>
+<h5 id="1-使用xcrun命令执行链接，得到可执行文件"><a href="#1-使用xcrun命令执行链接，得到可执行文件" class="headerlink" title="1.使用xcrun命令执行链接，得到可执行文件"></a>1.使用xcrun命令执行链接，得到可执行文件</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcrun clang main.o <span class="operator">-</span>o main</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-使用file命令，查看文件类型"><a href="#2-使用file命令，查看文件类型" class="headerlink" title="2.使用file命令，查看文件类型"></a>2.使用file命令，查看文件类型</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">%</span> file main</span><br><span class="line">main: <span class="type">Mach</span><span class="operator">-</span><span class="type">O</span> <span class="number">64</span><span class="operator">-</span>bit executable x86_64</span><br><span class="line"><span class="operator">%</span> <span class="operator">./</span>main</span><br><span class="line"><span class="number">2021</span><span class="operator">-</span><span class="number">10</span><span class="operator">-</span><span class="number">01</span> <span class="number">19</span>:<span class="number">06</span>:<span class="number">41.846</span> main[<span class="number">5663</span>:<span class="number">660299</span>] <span class="type">Hello</span>, 梧雨北辰</span><br></pre></td></tr></table></figure>
+
+<p>结果分析：虽然还是<code>Mach-O</code>格式，但此时已经是<code>executable</code>类型了，即可执行文件。而且运行该文件后也打印出了预期的结果；</p>
+<h5 id="3-再次使用xcrun命令，查看可执行文件的符号表"><a href="#3-再次使用xcrun命令，查看可执行文件的符号表" class="headerlink" title="3.再次使用xcrun命令，查看可执行文件的符号表"></a>3.再次使用xcrun命令，查看可执行文件的符号表</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">%</span> xcrun nm <span class="operator">-</span>nm main</span><br><span class="line">                 (undefined) external _NSLog (from <span class="type">Foundation</span>)</span><br><span class="line">                 (undefined) external ___CFConstantStringClassReference (from <span class="type">CoreFoundation</span>)</span><br><span class="line">                 (undefined) external dyld_stub_binder (from libSystem)</span><br><span class="line"><span class="number">0000000100000000</span> (__TEXT,__text) [referenced dynamically] external __mh_execute_header</span><br><span class="line">0000000100003f40 (__TEXT,__text) external _main</span><br><span class="line"><span class="number">0000000100008008</span> (__DATA,__data) non<span class="operator">-</span>external __dyld_private</span><br></pre></td></tr></table></figure>
+
+<p>结果分析：<code>_NSLog</code>符号依然是<code>undefined</code>，不过此时多了一些信息，即<code>from Foundation</code>，表示这个符号来自于<code>Foundation</code>，会在运行时动态绑定；</p>
+<h5 id="4-链接阶段的主要任务"><a href="#4-链接阶段的主要任务" class="headerlink" title="4.链接阶段的主要任务"></a>4.链接阶段的主要任务</h5><p>1.符号解析</p>
+<p>将每个符号引用和对应的符号定义关联起来；</p>
+<ul>
+<li>链接器链接多文件时会创建符号表，用于记录所有已经定义和未定义的符号；<ol>
+<li>出现相同符号，会报错：<code>&quot;ld:dumplicate symbols&quot;</code>；</li>
+<li>在其他目标文件里没有找到到符号，会报错：<code>&quot;Undefined symbols&quot;</code>；</li>
+</ol>
+</li>
+<li>另外，链接器在整理函数的符号调用关系时，可以帮助我们理清那些函数没有被调用，并自动去除掉；</li>
+</ul>
+<p>2.重定位</p>
+<p>将变量名、函数名这些符号定义与一个内存位置关联起来；</p>
+<ul>
+<li>因为只有通过了绑定，机器才知道需要操作什么内存地址；</li>
+<li>否则，我们就需要在写代码时给每个指令设置好内存地址，不仅操作繁琐，而且容易引起出错；</li>
+</ul>
+<p>3.合并目标文件</p>
+<p>将多个<code>.m文件</code>编译产生的<code>.o</code>目标文件与其他<code>Mach-O</code>文件(如<code>dylib</code>、<code>a</code>、<code>tbd</code>），合成一个<code>Mach-O</code>格式的可执行文件；</p>
+<ul>
+<li>通常项目都会包含多个文件，不同文件之间的<code>变量</code>和<code>接口函数</code>就会产生相互依赖关系；</li>
+<li>程序运行前，需要使用链接器将多个文件里的符号和地址绑定起来，才能保证整个程序里的变量、接口的正常调用；</li>
+</ul>
+<h5 id="5-理解静态链接与动态链接"><a href="#5-理解静态链接与动态链接" class="headerlink" title="5.理解静态链接与动态链接"></a>5.理解静态链接与动态链接</h5><p>静态链接：作用于编译期，链接后的文件依然可能会存在一些<code>&quot;undefined&quot;</code>的符号。但是这些符号都会被记录下来，在运行时再通过<code>dlopen</code>和<code>dlsym</code>动态链接绑定；</p>
+<p>动态链接：作用于运行时，这样的优势在于：诸多类似<code>UIKit</code>这样的共享库将不必包含在每一个<code>App</code>包里。比如：我们使用到的<code>UIKit</code>系统库，等到点击<code>App</code>真正开始运行之前，才会去链接依赖的<code>UIKit</code>，链接完成再运行<code>App</code>；</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://yoursite.com/2021/11/02/ios%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" title="iOS编译原理" target="_blank" rel="external">http://yoursite.com/2021/11/02/ios编译原理/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wuyubeichen" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wuyubeichen" target="_blank"><span class="text-dark">梧雨北辰</span><small class="ml-1x">iOS Developer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2021/11/02/mach-o%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" title="Mach-O文件结构"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2021/11/02/xcode%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" title="Xcode多环境配置"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/wuyubeichen" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/wuyubeichen" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '2e6fa2ad89748dbf4116',
+    clientSecret: 'f9c89ddcbf94ec2d51bf77a2741a883278b6c9e9',
+    repo: 'wuyubeichen.github.io',
+    owner: 'wuyubeichen',
+    admin: ['wuyubeichen'],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    language: 'zh-CN',
+    enableHotKey: 'true'
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>

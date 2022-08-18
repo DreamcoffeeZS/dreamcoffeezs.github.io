@@ -18,12 +18,12 @@
   
   
   <title>Charles抓包HTTP、HTTPS | Hexo</title>
-  <meta name="description" content="抓包分析数据在移动开发中十分重要，可以帮助我们更快的了解数据构成，提高开发效率。但是在苹果要求上线的App必须使用HTTS之后，HTTPS数据包的抓取分析较为麻烦，在此总结了在mac上使用Charles抓包的详细步骤。 首先我们下载最先版本的Charles官网下载：https:&#x2F;&#x2F;www.charlesproxy.com&#x2F;download&#x2F;免费版下载：http:&#x2F;&#x2F;xclient.info&#x2F;sea">
+  <meta name="description" content="抓包分析数据在移动开发中十分重要，可以帮助我们更快的了解数据构成，提高开发效率。但是在苹果要求上线的App必须使用HTTS之后，HTTPS数据包的抓取分析较为麻烦，在此总结了在mac上使用Charles抓包的详细步骤。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Charles抓包HTTP、HTTPS">
 <meta property="og:url" content="http://yoursite.com/2018/02/10/Charles%E6%8A%93%E5%8C%85HTTP%E3%80%81HTTPS/index.html">
 <meta property="og:site_name" content="梧雨北辰的博客">
-<meta property="og:description" content="抓包分析数据在移动开发中十分重要，可以帮助我们更快的了解数据构成，提高开发效率。但是在苹果要求上线的App必须使用HTTS之后，HTTPS数据包的抓取分析较为麻烦，在此总结了在mac上使用Charles抓包的详细步骤。 首先我们下载最先版本的Charles官网下载：https:&#x2F;&#x2F;www.charlesproxy.com&#x2F;download&#x2F;免费版下载：http:&#x2F;&#x2F;xclient.info&#x2F;sea">
+<meta property="og:description" content="抓包分析数据在移动开发中十分重要，可以帮助我们更快的了解数据构成，提高开发效率。但是在苹果要求上线的App必须使用HTTS之后，HTTPS数据包的抓取分析较为麻烦，在此总结了在mac上使用Charles抓包的详细步骤。">
 <meta property="og:locale">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1244124-1e102569baeb07af?imageMogr2/auto-orient/strip%7CimageView2/2/w/500">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1244124-33e1d1bfc220ab1b?imageMogr2/auto-orient/strip%7CimageView2/2/w/500">
@@ -38,7 +38,7 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1244124-8bf445a572b2f7e8?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1244124-d3fb57a7e92f23ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500">
 <meta property="article:published_time" content="2018-02-10T08:16:49.000Z">
-<meta property="article:modified_time" content="2022-08-17T03:01:16.091Z">
+<meta property="article:modified_time" content="2022-08-18T06:35:37.925Z">
 <meta property="article:author" content="Zhou Shuai">
 <meta property="article:tag" content="开发工具">
 <meta property="article:tag" content="移动开发">
@@ -237,7 +237,7 @@
   <div class="widget">
     <h3 class="widget-title">Categories</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%97%B2%E6%9A%87%E6%89%80%E5%AD%A6/">闲暇所学</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%97%B2%E6%9A%87%E6%89%80%E5%AD%A6/">闲暇所学</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -247,7 +247,7 @@
   <div class="widget">
     <h3 class="widget-title">Tags</h3>
     <div class="widget-body">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive/" rel="tag">Reactive</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveCocoa/" rel="tag">ReactiveCocoa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/" rel="tag">iOS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" rel="tag">个人博客</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%93%E5%8C%85/" rel="tag">抓包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="tag">移动开发</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive/" rel="tag">Reactive</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveCocoa/" rel="tag">ReactiveCocoa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/" rel="tag">Swift</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode/" rel="tag">Xcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/" rel="tag">iOS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS%E5%BA%95%E5%B1%82/" rel="tag">iOS底层</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" rel="tag">个人博客</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%93%E5%8C%85/" rel="tag">抓包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="tag">移动开发</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -257,7 +257,7 @@
   <div class="widget">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/CPU/" style="font-size: 13px;">CPU</a> <a href="/tags/Github/" style="font-size: 13px;">Github</a> <a href="/tags/Reactive/" style="font-size: 13px;">Reactive</a> <a href="/tags/ReactiveCocoa/" style="font-size: 13px;">ReactiveCocoa</a> <a href="/tags/iOS/" style="font-size: 13.5px;">iOS</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 13px;">个人博客</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 13px;">开发工具</a> <a href="/tags/%E6%8A%93%E5%8C%85/" style="font-size: 13px;">抓包</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13px;">架构</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" style="font-size: 14px;">移动开发</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 13px;">网络</a>
+      <a href="/tags/CPU/" style="font-size: 13px;">CPU</a> <a href="/tags/Github/" style="font-size: 13px;">Github</a> <a href="/tags/Python/" style="font-size: 13.33px;">Python</a> <a href="/tags/Reactive/" style="font-size: 13px;">Reactive</a> <a href="/tags/ReactiveCocoa/" style="font-size: 13px;">ReactiveCocoa</a> <a href="/tags/Swift/" style="font-size: 14px;">Swift</a> <a href="/tags/Xcode/" style="font-size: 13px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 13.33px;">iOS</a> <a href="/tags/iOS%E5%BA%95%E5%B1%82/" style="font-size: 13.33px;">iOS底层</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 13px;">个人博客</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 13px;">开发工具</a> <a href="/tags/%E6%8A%93%E5%8C%85/" style="font-size: 13px;">抓包</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13px;">架构</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" style="font-size: 13.67px;">移动开发</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13px;">编译原理</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 13px;">网络</a>
     </div>
   </div>
 
@@ -266,7 +266,7 @@
   <div class="widget">
     <h3 class="widget-title">Archive</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -282,13 +282,13 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/iOS/">iOS</a>
+                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
               </p>
               <p class="item-title">
-                <a href="/2018/04/03/ReactiveCocoa%E5%87%BD%E6%95%B0%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B-%E5%BA%94%E7%94%A8%E7%AF%87/" class="title">ReactiveCocoa函数响应式编程-应用篇</a>
+                <a href="/2021/11/02/mach-o%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90/" class="title">Mach-O简单分析</a>
               </p>
               <p class="item-date">
-                <time datetime="2018-04-03T06:58:39.000Z" itemprop="datePublished">2018-04-03</time>
+                <time datetime="2021-11-02T14:58:08.000Z" itemprop="datePublished">2021-11-02</time>
               </p>
             </div>
           </li>
@@ -297,13 +297,13 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/iOS/">iOS</a>
+                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
               </p>
               <p class="item-title">
-                <a href="/2018/04/03/ReactiveCocoa%E5%87%BD%E6%95%B0%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B-%E5%9F%BA%E7%A1%80%E7%AF%87/" class="title">ReactiveCocoa函数响应式编程-基础篇</a>
+                <a href="/2021/11/02/mach-o%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="title">Mach-O文件结构</a>
               </p>
               <p class="item-date">
-                <time datetime="2018-04-03T06:34:57.000Z" itemprop="datePublished">2018-04-03</time>
+                <time datetime="2021-11-02T14:57:35.000Z" itemprop="datePublished">2021-11-02</time>
               </p>
             </div>
           </li>
@@ -312,13 +312,13 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/%E9%97%B2%E6%9A%87%E6%89%80%E5%AD%A6/">闲暇所学</a>
+                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
               </p>
               <p class="item-title">
-                <a href="/2018/02/28/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99Github%E3%80%81Hexo%E4%B8%8ENext/" class="title">搭建个人博客网站Github、Hexo与Next</a>
+                <a href="/2021/11/02/ios%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="title">iOS编译原理</a>
               </p>
               <p class="item-date">
-                <time datetime="2018-02-28T06:34:57.000Z" itemprop="datePublished">2018-02-28</time>
+                <time datetime="2021-11-02T14:56:55.000Z" itemprop="datePublished">2021-11-02</time>
               </p>
             </div>
           </li>
@@ -327,13 +327,13 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/iOS/">iOS</a>
+                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
               </p>
               <p class="item-title">
-                <a href="/2018/02/10/iOS%E5%A4%9ATarget%E5%BC%80%E5%8F%91%E7%9B%B8%E4%BC%BCApp/" class="title">iOS多Target开发相似App</a>
+                <a href="/2021/11/02/xcode%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="title">Xcode多环境配置</a>
               </p>
               <p class="item-date">
-                <time datetime="2018-02-10T09:20:47.000Z" itemprop="datePublished">2018-02-10</time>
+                <time datetime="2021-11-02T14:54:10.000Z" itemprop="datePublished">2021-11-02</time>
               </p>
             </div>
           </li>
@@ -342,13 +342,13 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/iOS/">iOS</a>
+                <a class="category-link" href="/categories/Swift/">Swift</a>
               </p>
               <p class="item-title">
-                <a href="/2018/02/10/iOS%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84CPU%E6%9E%B6%E6%9E%84%E9%97%AE%E9%A2%98/" class="title">iOS开发中的CPU架构问题</a>
+                <a href="/2018/11/09/swift%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%8D%8F%E8%AE%AE/" class="title">Swift学习：协议</a>
               </p>
               <p class="item-date">
-                <time datetime="2018-02-10T09:15:04.000Z" itemprop="datePublished">2018-02-10</time>
+                <time datetime="2018-11-09T10:10:47.000Z" itemprop="datePublished">2018-11-09</time>
               </p>
             </div>
           </li>
@@ -414,9 +414,9 @@
     <div class="article-entry marked-body" itemprop="articleBody">
       
         <p>抓包分析数据在移动开发中十分重要，可以帮助我们更快的了解数据构成，提高开发效率。但是在苹果要求上线的App必须使用HTTS之后，HTTPS数据包的抓取分析较为麻烦，在此总结了在mac上使用Charles抓包的详细步骤。</p>
-<p>首先我们下载最先版本的Charles<br>官网下载：<a target="_blank" rel="noopener" href="https://www.charlesproxy.com/download/">https://www.charlesproxy.com/download/</a><br>免费版下载：<a target="_blank" rel="noopener" href="http://xclient.info/search/s/charles/">http://xclient.info/search/s/charles/</a></p>
 <span id="more"></span>
 
+<p>首先我们下载最先版本的Charles<br>官网下载：<a target="_blank" rel="noopener" href="https://www.charlesproxy.com/download/">https://www.charlesproxy.com/download/</a><br>免费版下载：<a target="_blank" rel="noopener" href="http://xclient.info/search/s/charles/">http://xclient.info/search/s/charles/</a></p>
 <h1 id="一、开启网络请求记录，设置系统网络代理"><a href="#一、开启网络请求记录，设置系统网络代理" class="headerlink" title="一、开启网络请求记录，设置系统网络代理"></a>一、开启网络请求记录，设置系统网络代理</h1><p>安装Charles之后，我们选择Proxy-&gt;Start Recording，开始记录网络请求，然后勾选MacOS Proxy(和其他的代理对象如：Mozilla Firefox Proxy火狐浏览器）,将系统代理设置通过Charles Proxy。</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/1244124-1e102569baeb07af?imageMogr2/auto-orient/strip%7CimageView2/2/w/500" alt="这里写图片描述"></p>
 <p>此时打开系统偏好设置-&gt;网络-&gt;高级，我们可以看到本机HTTP和HTTPS请求被代理到127.0.0.1，端口号是8888。至此，我们已经完成了基本的网路请求设置，通过此Mac发起的HTTP请求，我们都可以通过Charles分析。</p>
@@ -500,7 +500,7 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/2018/02/10/iOS%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84CPU%E6%9E%B6%E6%9E%84%E9%97%AE%E9%A2%98/" title="iOS开发中的CPU架构问题"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+      <a href="/2018/02/10/iOS%E5%BC%80%E5%8F%91CPU%E6%9E%B6%E6%9E%84%E9%97%AE%E9%A2%98/" title="iOS开发中的CPU架构问题"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
     </li>
     
     

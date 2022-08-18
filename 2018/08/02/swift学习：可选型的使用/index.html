@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Swift学习：可选型的使用 | Hexo</title>
+  <meta name="description" content="顾名思义，可选类型表示一个变量可能有值，也可能没有值（nil），但是它的用法却与OC中的nil完全不同 主要内容：  可选型使用要点 可选型解包 可选链 Option chaining 空合并运算符nil coalesce 隐式可选型 可选型使用的其他示例 最后小结  一、可选型使用要点 可选类型类似于OC指针的nil值，但是OC中的nil只对类有用，而可选择型中nil对所有类型都可用，更安全 可">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift学习：可选型的使用">
+<meta property="og:url" content="http://yoursite.com/2018/08/02/swift%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%8F%AF%E9%80%89%E5%9E%8B%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="梧雨北辰的博客">
+<meta property="og:description" content="顾名思义，可选类型表示一个变量可能有值，也可能没有值（nil），但是它的用法却与OC中的nil完全不同 主要内容：  可选型使用要点 可选型解包 可选链 Option chaining 空合并运算符nil coalesce 隐式可选型 可选型使用的其他示例 最后小结  一、可选型使用要点 可选类型类似于OC指针的nil值，但是OC中的nil只对类有用，而可选择型中nil对所有类型都可用，更安全 可">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-08-02T10:14:55.000Z">
+<meta property="article:modified_time" content="2022-08-18T07:05:34.055Z">
+<meta property="article:author" content="Zhou Shuai">
+<meta property="article:tag" content="Swift">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2018/08/02/swift%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%8F%AF%E9%80%89%E5%9E%8B%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="梧雨北辰的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body class="main-center theme-purple" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wuyubeichen" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">梧雨北辰</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">iOS Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Beijing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/wuyubeichen" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/wuyubeichen" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%97%B2%E6%9A%87%E6%89%80%E5%AD%A6/">闲暇所学</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive/" rel="tag">Reactive</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveCocoa/" rel="tag">ReactiveCocoa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/" rel="tag">Swift</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode/" rel="tag">Xcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/" rel="tag">iOS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS%E5%BA%95%E5%B1%82/" rel="tag">iOS底层</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" rel="tag">个人博客</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%93%E5%8C%85/" rel="tag">抓包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="tag">移动开发</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CPU/" style="font-size: 13px;">CPU</a> <a href="/tags/Github/" style="font-size: 13px;">Github</a> <a href="/tags/Python/" style="font-size: 13.33px;">Python</a> <a href="/tags/Reactive/" style="font-size: 13px;">Reactive</a> <a href="/tags/ReactiveCocoa/" style="font-size: 13px;">ReactiveCocoa</a> <a href="/tags/Swift/" style="font-size: 14px;">Swift</a> <a href="/tags/Xcode/" style="font-size: 13px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 13.33px;">iOS</a> <a href="/tags/iOS%E5%BA%95%E5%B1%82/" style="font-size: 13.33px;">iOS底层</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 13px;">个人博客</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 13px;">开发工具</a> <a href="/tags/%E6%8A%93%E5%8C%85/" style="font-size: 13px;">抓包</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13px;">架构</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" style="font-size: 13.67px;">移动开发</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13px;">编译原理</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 13px;">网络</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/02/mach-o%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90/" class="title">Mach-O简单分析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-02T14:58:08.000Z" itemprop="datePublished">2021-11-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/02/mach-o%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="title">Mach-O文件结构</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-02T14:57:35.000Z" itemprop="datePublished">2021-11-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/02/ios%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="title">iOS编译原理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-02T14:56:55.000Z" itemprop="datePublished">2021-11-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/02/xcode%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="title">Xcode多环境配置</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-02T14:54:10.000Z" itemprop="datePublished">2021-11-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Swift/">Swift</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/11/09/swift%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%8D%8F%E8%AE%AE/" class="title">Swift学习：协议</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-11-09T10:10:47.000Z" itemprop="datePublished">2018-11-09</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-swift学习：可选型的使用" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Swift学习：可选型的使用
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/08/02/swift%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%8F%AF%E9%80%89%E5%9E%8B%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
+	  <time datetime="2018-08-02T10:14:55.000Z" itemprop="datePublished">2018-08-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Swift/">Swift</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Swift/" rel="tag">Swift</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/08/02/swift%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%8F%AF%E9%80%89%E5%9E%8B%E7%9A%84%E4%BD%BF%E7%94%A8/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><strong>顾名思义，可选类型表示一个变量可能有值，也可能没有值（nil），但是它的用法却与OC中的nil完全不同</strong></p>
+<p>主要内容：</p>
+<ol>
+<li>可选型使用要点</li>
+<li>可选型解包</li>
+<li>可选链 <code>Option chaining</code></li>
+<li>空合并运算符<code>nil coalesce</code></li>
+<li>隐式可选型</li>
+<li>可选型使用的其他示例</li>
+<li>最后小结</li>
+</ol>
+<h4 id="一、可选型使用要点"><a href="#一、可选型使用要点" class="headerlink" title="一、可选型使用要点"></a>一、可选型使用要点</h4><ol>
+<li>可选类型类似于<code>OC</code>指针的<code>nil</code>值，但是<code>OC</code>中的<code>nil</code>只对类有用，而可选择型中<code>nil</code>对所有类型都可用，更安全</li>
+<li>可选型的声明的方式是<code>“数据类型+问号”</code>。如：<code>var errorCode :Int? = 404</code></li>
+<li>当要使用一个可选类型的变量时，要在后面加感叹号<code>“!”</code>或者<code>“?”</code>。</li>
+<li>不能把一个可选型便量赋值给非可选型的变量, 如：<code>let tempValue = nil</code>，这样会报错；</li>
+<li>可选型数据一般都是可变的，所以可选型的数据也通常是变量；</li>
+<li>声明一个可选型的时候，必须是添加？,swift不能隐式的自动推断可选型；</li>
+</ol>
+<p><code>swift</code>不能用同类中的一个特殊值代表无或者没有，在<code>Swift</code>中，<code>nil</code>代表着没有，但是它却不能直接使用，示例如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> errorCode :<span class="type">Int</span> <span class="operator">=</span> <span class="number">404</span></span><br><span class="line">errorCode <span class="operator">=</span> <span class="literal">nil</span> <span class="comment">//报错</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//改：使用Int?  声明一个整型可选型</span></span><br><span class="line"><span class="keyword">var</span> errorCode :<span class="type">Int</span>? <span class="operator">=</span> <span class="number">404</span></span><br><span class="line">errorCode <span class="operator">=</span> <span class="literal">nil</span> <span class="comment">//将其声明为为可选型变量才能赋值为nil</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="二、可选型解包"><a href="#二、可选型解包" class="headerlink" title="二、可选型解包"></a>二、可选型解包</h4><p>一个可选型数据，就意味着其值是可以为<code>nil</code>的，这样的数据不可以直接使用，所以将可选型解包后再使用是十分重要的操作。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//直接使用</span></span><br><span class="line"><span class="keyword">var</span> errorCode: <span class="type">String</span>? <span class="operator">=</span> <span class="string">&quot;404&quot;</span></span><br><span class="line"><span class="built_in">print</span>(errorCode)</span><br><span class="line"></span><br><span class="line"><span class="comment">//&quot;The errorCode is&quot; +errorCode //直接使用显式可选型会编译不通过，报错</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="1-解包方法1：普通的if判断，但不方便"><a href="#1-解包方法1：普通的if判断，但不方便" class="headerlink" title="1.解包方法1：普通的if判断，但不方便"></a>1.解包方法1：普通的if判断，但不方便</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(errorCode <span class="operator">!=</span> <span class="literal">nil</span>)&#123;</span><br><span class="line">    <span class="string">&quot;The errorCode is &quot;</span> <span class="operator">+</span> errorCode<span class="operator">!</span></span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="string">&quot;No error&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-解包方法2：强制解包，使用感叹号“-”，存在错误风险"><a href="#2-解包方法2：强制解包，使用感叹号“-”，存在错误风险" class="headerlink" title="2.解包方法2：强制解包，使用感叹号“!”，存在错误风险"></a>2.解包方法2：强制解包，使用感叹号“!”，存在错误风险</h5><p>一般情况下，我们在确定使用的可选型变量不会是nil，才通过!强制解包并使用</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> errorCode: <span class="type">String</span>? <span class="operator">=</span> <span class="string">&quot;404&quot;</span></span><br><span class="line"><span class="string">&quot;The errorCode is &quot;</span> <span class="operator">+</span> errorCode<span class="operator">!</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="3-解包方法3：尝试解包，使用问号“？”，较为安全"><a href="#3-解包方法3：尝试解包，使用问号“？”，较为安全" class="headerlink" title="3.解包方法3：尝试解包，使用问号“？”，较为安全"></a>3.解包方法3：尝试解包，使用问号“？”，较为安全</h5><p>当不确定使用的可选型变量是否是nil,通过?执行调用方法等操作，意味着不为nil时才可以执行成功</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> errorCode: <span class="type">String</span>? <span class="operator">=</span> <span class="string">&quot;404&quot;</span></span><br><span class="line"><span class="string">&quot;The errorCode is &quot;</span> <span class="operator">+</span> errorCode？</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-解包方法4：if-let解包-当我们希望在可选型为nil时候，执行别的代码，此时更适合使用if-let方式解包"><a href="#4-解包方法4：if-let解包-当我们希望在可选型为nil时候，执行别的代码，此时更适合使用if-let方式解包" class="headerlink" title="4.解包方法4：if-let解包, 当我们希望在可选型为nil时候，执行别的代码，此时更适合使用if-let方式解包"></a>4.解包方法4：if-let解包, 当我们希望在可选型为nil时候，执行别的代码，此时更适合使用if-let方式解包</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> unwrappedErrorCode <span class="operator">=</span> errorCode&#123;</span><br><span class="line">    <span class="comment">//unwrappedErrorCode 是经过解包的数据，得到非nil值</span></span><br><span class="line">    <span class="string">&quot;The errorCode is&quot;</span> <span class="operator">+</span> unwrappedErrorCode</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="operator">------------</span>优美的分割线<span class="operator">-----------------</span></span><br><span class="line"> <span class="comment">//if-let解包方法的改进：可以使用原来的变量名</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> errorCode <span class="operator">=</span> errorCode&#123;</span><br><span class="line">    <span class="comment">//errorCode 是经过解包的数据，得到非nil值</span></span><br><span class="line">    <span class="comment">//括号内的errorCode 只在此括号内使用</span></span><br><span class="line">    <span class="string">&quot;The errorCode is&quot;</span> <span class="operator">+</span> errorCode</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="comment">//处理nil情况</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="5-解包时注意事项："><a href="#5-解包时注意事项：" class="headerlink" title="5.解包时注意事项："></a>5.解包时注意事项：</h5><p>隐式声明的可选型不需要解包，但是这样可能因为nil报错（详情请看第五部分）</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> blog:<span class="type">String</span>! <span class="operator">=</span> <span class="string">&quot;helloWord&quot;</span></span><br><span class="line"><span class="comment">//blog = nil </span></span><br><span class="line"><span class="string">&quot;My blog is&quot;</span> <span class="operator">+</span> blog</span><br></pre></td></tr></table></figure>
+
+<p>if-let可以同时解包多个变量，而且因为使用了if，也可以增加判断逻辑</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> errorCode <span class="operator">=</span> errorCode, errorMessage <span class="operator">=</span> </span><br><span class="line">                  errorMessage <span class="keyword">where</span> errorCode <span class="operator">==</span> <span class="string">&quot;404&quot;</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Page not found&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;No error&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="三、可选链-Option-chaining"><a href="#三、可选链-Option-chaining" class="headerlink" title="三、可选链 Option chaining"></a>三、可选链 Option chaining</h4><p>可选链的使用简化了可选型的使用。在某些情况下可以避免<code>if-let</code> 解包的使用，而是通过尝试解包（使用问号<code>？</code>）或者强制解包（感叹号<code>!</code>）来使用操作对象 示例：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> errorCodeStr: <span class="type">String</span>? <span class="operator">=</span> <span class="string">&quot;Hello, playground&quot;</span></span><br><span class="line"><span class="comment">//errorCodeStr.uppercaseString ; errorCodeStr是可选型不能直接使用，需要解包如下：</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> errorCodeStr <span class="operator">=</span> errorCodeStr&#123;</span><br><span class="line">    errorCodeStr.uppercaseString</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码使用可选链简化，如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//推荐写法:使用？尝试解包，如果成功就会将字符串大写</span></span><br><span class="line">errorCodeStr<span class="operator">?</span>.uppercaseString</span><br><span class="line"><span class="comment">//不安全写法，当errorCode为nil时报错，除非我们确保errorCodeStr不为nil才能这样写</span></span><br><span class="line">errorCodeStr<span class="operator">!</span>.uppercaseString</span><br></pre></td></tr></table></figure>
+
+<p>基于这样的使用，可能会出现类似 <code>Person?.address?.addressName</code> 的使用，这就构成了可选链,调用链中任何一个节点为<code>nil</code>,整个调用都会失败，返回<code>nil</code>，使用<code>？</code>是安全的;</p>
+<h4 id="四、空合并运算符nil-coalesce"><a href="#四、空合并运算符nil-coalesce" class="headerlink" title="四、空合并运算符nil coalesce"></a>四、空合并运算符nil coalesce</h4><p>使用空合并运算符，可以解决解包之后的存值问题</p>
+<h5 id="示例1："><a href="#示例1：" class="headerlink" title="示例1："></a>示例1：</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> uppperCaseErrorStr <span class="operator">=</span> errorCodeStr<span class="operator">?</span>.uppercaseString</span><br><span class="line"><span class="comment">//uppperCaseErrorStr此时是一个可选型变量，不需要显示声明，因为后面的表达式是可选型</span></span><br><span class="line"><span class="comment">//实现解包同时实现了大写</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> errorCodeStr  <span class="operator">=</span> errorCodeStr<span class="operator">?</span>.uppercaseString&#123;</span><br><span class="line">    errorCodeStr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="示例2："><a href="#示例2：" class="headerlink" title="示例2："></a>示例2：</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> errorMessage: <span class="type">String</span>? <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line"><span class="keyword">let</span> message: <span class="type">String</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> errorMessage <span class="operator">=</span> errorMessage&#123;</span><br><span class="line">    message <span class="operator">=</span> errorMessage</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    message <span class="operator">=</span> <span class="string">&quot;no error&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="改进示例2：使用三目运算符"><a href="#改进示例2：使用三目运算符" class="headerlink" title="改进示例2：使用三目运算符"></a>改进示例2：使用三目运算符</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> message2 <span class="operator">=</span> errorMessage <span class="operator">==</span> <span class="literal">nil</span> <span class="operator">?</span> <span class="string">&quot;no errror&quot;</span> :errorMessage;</span><br></pre></td></tr></table></figure>
+
+<p>改进示例2:使用空合并运算符??，如果errorMessage有值，使用errorMessage!赋值</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//？？是空和并运算符</span></span><br><span class="line"><span class="keyword">let</span> message3 <span class="operator">=</span> errorMessage <span class="operator">??</span> <span class="string">&quot;no error&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="五、隐式可选型"><a href="#五、隐式可选型" class="headerlink" title="五、隐式可选型"></a>五、隐式可选型</h4><ol>
+<li>区别于显式可选型的创建：类型+<code>？</code>，创建隐式可选型使用：类型+<code>！</code></li>
+<li>隐式可选型变量使用时，相当于其后面自带了一个感叹号，可以直接赋值给一个非可选型变量，但是隐式可选型依然保持可选型的特性，可以被赋值为<code>nil</code>，这就体现出来隐式可选类型的优点,即可用被赋值为<code>nil</code>，也可以不用每次显式的解包</li>
+<li>隐式解析可选类型还可以在类中做属性，解决循环引用问题</li>
+</ol>
+<p>示例：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> errorMessage: <span class="type">String</span>! <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">errorMessage <span class="operator">=</span> <span class="string">&quot;not found&quot;</span></span><br><span class="line"><span class="comment">//这里errorMessage是隐式可选型，使用时候不需要显式的解包，但是如果errorMessage为nil就会报错</span></span><br><span class="line"><span class="string">&quot;The error is &quot;</span> <span class="operator">+</span> errorMessage</span><br></pre></td></tr></table></figure>
+
+<h4 id="六、可选型使用的其他示例"><a href="#六、可选型使用的其他示例" class="headerlink" title="六、可选型使用的其他示例"></a>六、可选型使用的其他示例</h4><h5 id="示例1"><a href="#示例1" class="headerlink" title="示例1."></a>示例1.</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> error1:(errorCode: <span class="type">Int</span>, errorMessage: <span class="type">String</span>?) <span class="operator">=</span> (<span class="number">404</span> , <span class="string">&quot;page not found&quot;</span>)</span><br><span class="line">error1.errorMessage <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line"><span class="comment">//error1 = nil 整个元组并非可选型，不能使用nil赋值</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="示例2"><a href="#示例2" class="headerlink" title="示例2."></a>示例2.</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ageInt: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;xyz&quot;</span></span><br><span class="line"><span class="comment">//使用强制转换之后，age是可选型，需要按照可选型的规则去使用</span></span><br><span class="line"><span class="keyword">var</span> age <span class="operator">=</span> <span class="type">Int</span>(ageInt)</span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> age <span class="operator">=</span> age <span class="keyword">where</span> age <span class="operator">&lt;</span> <span class="number">20</span>&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;you are a tennager!&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="示例3"><a href="#示例3" class="headerlink" title="示例3."></a>示例3.</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> greeting <span class="operator">=</span> <span class="string">&quot;hello&quot;</span></span><br><span class="line"><span class="comment">//rangeString 返回一个可选型，需要按照可选型的规则去使用</span></span><br><span class="line">greeting.rangeOfString(<span class="string">&quot;ll&quot;</span>) <span class="comment">//2..&lt;4</span></span><br><span class="line">greeting.rangeOf3String(<span class="string">&quot;oo&quot;</span>)<span class="comment">//nil</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="七、最后小结"><a href="#七、最后小结" class="headerlink" title="七、最后小结"></a>七、最后小结</h4><ol>
+<li>有了可选型，你在声明隐式可选变量或特性的时候就不用指定初始值，因为它有缺省值nil。尤其是在一个创建一个类的属性的时候。</li>
+<li>由于隐式解析可选的值会在使用时自动解析，所以没必要使用操作符!来解析它。但是有可能运行时报错。</li>
+<li>使用可选链会选择性的执行隐式解析可选表达式上的某一个操作。如果值为nil，就不会执行任何操作，因此也不会产生运行错误。</li>
+<li>非可选型的变量或者常量不可能赋值为nil，所以不能使用：notOptioalValue !&#x3D; nil,判断是否nil。这是可选型和非可选型数据的一个明显区别</li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://yoursite.com/2018/08/02/swift%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%8F%AF%E9%80%89%E5%9E%8B%E7%9A%84%E4%BD%BF%E7%94%A8/" title="Swift学习：可选型的使用" target="_blank" rel="external">http://yoursite.com/2018/08/02/swift学习：可选型的使用/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wuyubeichen" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wuyubeichen" target="_blank"><span class="text-dark">梧雨北辰</span><small class="ml-1x">iOS Developer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/08/03/swift%E5%AD%A6%E4%B9%A0%EF%BC%9A%E6%9E%84%E9%80%A0%E5%99%A8%EF%BC%88%E4%B8%8A%EF%BC%89/" title="Swift学习：构造器（上）"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/08/01/swift%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%B1%9E%E6%80%A7/" title="Swift学习：属性"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/wuyubeichen" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/wuyubeichen" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '2e6fa2ad89748dbf4116',
+    clientSecret: 'f9c89ddcbf94ec2d51bf77a2741a883278b6c9e9',
+    repo: 'wuyubeichen.github.io',
+    owner: 'wuyubeichen',
+    admin: ['wuyubeichen'],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    language: 'zh-CN',
+    enableHotKey: 'true'
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>
