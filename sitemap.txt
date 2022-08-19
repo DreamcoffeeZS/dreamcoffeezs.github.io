@@ -1,3 +1,4 @@
+https://wuyubeichen.github.io/about/index.html
 https://wuyubeichen.github.io/2018/08/10/Swift%E5%AD%A6%E4%B9%A010-%E5%8D%8F%E8%AE%AE/
 https://wuyubeichen.github.io/2018/08/09/Swift%E5%AD%A6%E4%B9%A009-%E6%89%A9%E5%B1%95/
 https://wuyubeichen.github.io/2018/08/08/Swift%E5%AD%A6%E4%B9%A008-%E6%B3%9B%E5%9E%8B/
@@ -21,7 +22,6 @@ https://wuyubeichen.github.io/books/index.html
 https://wuyubeichen.github.io/links/index.html
 https://wuyubeichen.github.io/tags/index.html
 https://wuyubeichen.github.io/repository/index.html
-https://wuyubeichen.github.io/about/index.html
 https://wuyubeichen.github.io/categories/index.html
 https://wuyubeichen.github.io/2018/04/03/ReactiveCocoa%E5%BA%94%E7%94%A8%E7%AF%87/
 https://wuyubeichen.github.io/2018/02/10/iOS%E5%A4%9ATarget%E5%BC%80%E5%8F%91/
