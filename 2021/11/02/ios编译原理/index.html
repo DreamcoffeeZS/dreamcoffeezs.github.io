@@ -24,11 +24,11 @@
 <meta property="og:url" content="https://wuyubeichen.github.io/2021/11/02/ios%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="梧雨北辰的博客">
 <meta property="og:description" content="主要内容:  理解C、C++以及OC的关系 编译型语言与解释型语言 编译器LLVM与CLang 理解iOS编译流程 预处理 编译 汇编 链接  一、理解C、C++以及OC的关系1.C语言 C语言是一门面向过程的计算机编程语言，既可用于系统软件开发，也适用于应用软件开发； C语言编译器普遍存在于各种不同的操作系统中，例如Microsoft Windows,Mac OS X, Linux, Unix等">
-<meta property="og:locale">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/651ade0e8b42478994d08c42356d218f~tplv-k3u1fbpfcp-watermark.image">
 <meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8b0e10d16e16408d86cf70758c4b8e03~tplv-k3u1fbpfcp-watermark.image">
-<meta property="article:published_time" content="2021-11-02T14:56:55.000Z">
-<meta property="article:modified_time" content="2022-08-18T07:05:34.028Z">
+<meta property="article:published_time" content="2021-11-02T14:54:10.000Z">
+<meta property="article:modified_time" content="2022-08-22T01:37:46.595Z">
 <meta property="article:author" content="Zhou Shuai">
 <meta property="article:tag" content="编译原理">
 <meta name="twitter:card" content="summary">
@@ -72,7 +72,7 @@
 
     <form class="search-form sidebar-form">
         <div class="input-group">
-            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
             <span class="input-group-btn">
                 <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
             </span>
@@ -82,7 +82,7 @@
   <div class="ins-search-mask"></div>
   <div class="ins-search-container">
     <div class="ins-input-wrapper">
-      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
       <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
     </div>
     <div class="ins-section-wrapper">
@@ -101,7 +101,7 @@
       </button>
     </div>
     <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
-      <ul class="nav navbar-nav main-nav ">
+      <ul class="nav navbar-nav main-nav menu-highlight">
         
         
         <li class="menu-item menu-item-home">
@@ -109,7 +109,7 @@
             
             <i class="icon icon-home-fill"></i>
             
-            <span class="menu-title">Home</span>
+            <span class="menu-title">首页</span>
           </a>
         </li>
         
@@ -119,7 +119,7 @@
             
             <i class="icon icon-archives-fill"></i>
             
-            <span class="menu-title">Archives</span>
+            <span class="menu-title">归档</span>
           </a>
         </li>
         
@@ -129,7 +129,7 @@
             
             <i class="icon icon-folder"></i>
             
-            <span class="menu-title">Categories</span>
+            <span class="menu-title">分类</span>
           </a>
         </li>
         
@@ -139,7 +139,7 @@
             
             <i class="icon icon-tags"></i>
             
-            <span class="menu-title">Tags</span>
+            <span class="menu-title">标签</span>
           </a>
         </li>
         
@@ -149,17 +149,7 @@
             
             <i class="icon icon-project"></i>
             
-            <span class="menu-title">Repository</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-books">
-          <a href="/books">
-            
-            <i class="icon icon-book-fill"></i>
-            
-            <span class="menu-title">Books</span>
+            <span class="menu-title">项目</span>
           </a>
         </li>
         
@@ -169,7 +159,7 @@
             
             <i class="icon icon-friendship"></i>
             
-            <span class="menu-title">Links</span>
+            <span class="menu-title">友链</span>
           </a>
         </li>
         
@@ -179,7 +169,7 @@
             
             <i class="icon icon-cup-fill"></i>
             
-            <span class="menu-title">About</span>
+            <span class="menu-title">关于</span>
           </a>
         </li>
         
@@ -190,11 +180,7 @@
     	
         <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
-        <li><a href="http://weibo.com/wuyubeichen" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
-        
-        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
-        
-        <li><a href="https://www.behance.net/wuyubeichen" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
         
         <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
         
@@ -209,7 +195,7 @@
   <div class="slimContent">
     
       <div class="widget">
-    <h3 class="widget-title">Board</h3>
+    <h3 class="widget-title">公告</h3>
     <div class="widget-body">
         <div id="board">
             <div class="content">
@@ -222,9 +208,9 @@
     
       
   <div class="widget">
-    <h3 class="widget-title">Categories</h3>
+    <h3 class="widget-title">分类</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%97%B2%E6%9A%87%E6%89%80%E5%AD%A6/">闲暇所学</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BC%80%E5%8F%91/">iOS开发</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%97%B2%E6%9A%87%E6%89%80%E5%AD%A6/">闲暇所学</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -232,9 +218,9 @@
     
       
   <div class="widget">
-    <h3 class="widget-title">Tags</h3>
+    <h3 class="widget-title">标签</h3>
     <div class="widget-body">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive/" rel="tag">Reactive</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveCocoa/" rel="tag">ReactiveCocoa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/" rel="tag">Swift</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode/" rel="tag">Xcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/" rel="tag">iOS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS%E5%BA%95%E5%B1%82/" rel="tag">iOS底层</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" rel="tag">个人博客</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%93%E5%8C%85/" rel="tag">抓包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="tag">移动开发</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive/" rel="tag">Reactive</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveCocoa/" rel="tag">ReactiveCocoa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/" rel="tag">Swift</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode/" rel="tag">Xcode</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/" rel="tag">iOS</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS%E5%BA%95%E5%B1%82/" rel="tag">iOS底层</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS%E9%AB%98%E7%BA%A7/" rel="tag">iOS高级</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" rel="tag">个人博客</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%93%E5%8C%85/" rel="tag">抓包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="tag">移动开发</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -242,18 +228,18 @@
     
       
   <div class="widget">
-    <h3 class="widget-title">Tag Cloud</h3>
+    <h3 class="widget-title">标签云</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/CPU/" style="font-size: 13px;">CPU</a> <a href="/tags/Github/" style="font-size: 13px;">Github</a> <a href="/tags/Python/" style="font-size: 13.33px;">Python</a> <a href="/tags/Reactive/" style="font-size: 13px;">Reactive</a> <a href="/tags/ReactiveCocoa/" style="font-size: 13px;">ReactiveCocoa</a> <a href="/tags/Swift/" style="font-size: 14px;">Swift</a> <a href="/tags/Xcode/" style="font-size: 13px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 13.33px;">iOS</a> <a href="/tags/iOS%E5%BA%95%E5%B1%82/" style="font-size: 13.33px;">iOS底层</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 13px;">个人博客</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 13px;">开发工具</a> <a href="/tags/%E6%8A%93%E5%8C%85/" style="font-size: 13px;">抓包</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13px;">架构</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" style="font-size: 13.67px;">移动开发</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13px;">编译原理</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 13px;">网络</a>
+      <a href="/tags/CPU/" style="font-size: 13px;">CPU</a> <a href="/tags/Github/" style="font-size: 13px;">Github</a> <a href="/tags/Python/" style="font-size: 13px;">Python</a> <a href="/tags/Reactive/" style="font-size: 13px;">Reactive</a> <a href="/tags/ReactiveCocoa/" style="font-size: 13px;">ReactiveCocoa</a> <a href="/tags/Swift/" style="font-size: 14px;">Swift</a> <a href="/tags/Xcode/" style="font-size: 13.33px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 13.67px;">iOS</a> <a href="/tags/iOS%E5%BA%95%E5%B1%82/" style="font-size: 13.33px;">iOS底层</a> <a href="/tags/iOS%E9%AB%98%E7%BA%A7/" style="font-size: 13px;">iOS高级</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 13px;">个人博客</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 13px;">开发工具</a> <a href="/tags/%E6%8A%93%E5%8C%85/" style="font-size: 13px;">抓包</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13px;">架构</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" style="font-size: 13.67px;">移动开发</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13px;">编译原理</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 13px;">网络</a>
     </div>
   </div>
 
     
       
   <div class="widget">
-    <h3 class="widget-title">Archive</h3>
+    <h3 class="widget-title">归档</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -261,41 +247,71 @@
     
       
   <div class="widget">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">最新文章</h3>
     <div class="widget-body">
-      <ul class="recent-post-list list-unstyled no-thumbnail">
+      <ul class="recent-post-list list-unstyled ">
         
           <li>
             
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
-              </p>
-              <p class="item-title">
-                <a href="/2021/11/02/mach-o%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90/" class="title">Mach-O简单分析</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2021-11-02T14:58:08.000Z" itemprop="datePublished">2021-11-02</time>
-              </p>
+            <div class="item-thumb">
+              <a href="/2021/11/04/mach-o%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
             </div>
-          </li>
-          
-          <li>
             
             <div class="item-inner">
               <p class="item-category">
                 <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
               </p>
               <p class="item-title">
-                <a href="/2021/11/02/mach-o%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="title">Mach-O文件结构</a>
+                <a href="/2021/11/04/mach-o%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90/" class="title">Mach-O简单分析</a>
               </p>
               <p class="item-date">
-                <time datetime="2021-11-02T14:57:35.000Z" itemprop="datePublished">2021-11-02</time>
+                <time datetime="2021-11-04T14:23:12.000Z" itemprop="datePublished">2021-11-04</time>
               </p>
             </div>
           </li>
           
           <li>
+            
+            <div class="item-thumb">
+              <a href="/2021/11/03/mach-o%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/03/mach-o%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="title">Mach-O文件结构</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-03T14:57:35.000Z" itemprop="datePublished">2021-11-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2021/11/02/ios%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
             
             <div class="item-inner">
               <p class="item-category">
@@ -305,21 +321,6 @@
                 <a href="/2021/11/02/ios%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="title">iOS编译原理</a>
               </p>
               <p class="item-date">
-                <time datetime="2021-11-02T14:56:55.000Z" itemprop="datePublished">2021-11-02</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
-              </p>
-              <p class="item-title">
-                <a href="/2021/11/02/Xcode%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="title">Xcode多环境配置</a>
-              </p>
-              <p class="item-date">
                 <time datetime="2021-11-02T14:54:10.000Z" itemprop="datePublished">2021-11-02</time>
               </p>
             </div>
@@ -327,15 +328,50 @@
           
           <li>
             
+            <div class="item-thumb">
+              <a href="/2021/11/01/xcode%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/Python/">Python</a>
+                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
               </p>
               <p class="item-title">
-                <a href="/2018/10/02/Python%E5%AD%A6%E4%B9%A002-%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E4%B8%8E%E8%BF%90%E8%A1%8C/" class="title">Python学习(2)：环境安装与运行</a>
+                <a href="/2021/11/01/xcode%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="title">Xcode多环境配置</a>
               </p>
               <p class="item-date">
-                <time datetime="2018-10-02T15:40:57.000Z" itemprop="datePublished">2018-10-02</time>
+                <time datetime="2021-11-01T14:54:10.000Z" itemprop="datePublished">2021-11-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2019/03/18/iOS%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%8E%9F%E7%90%86/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2019/03/18/iOS%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%8E%9F%E7%90%86/" class="title">iOS自动释放池原理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-03-18T10:18:44.000Z" itemprop="datePublished">2019-03-18</time>
               </p>
             </div>
           </li>
@@ -351,6 +387,15 @@
 
   
   
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%90%86%E8%A7%A3C%E3%80%81C-%E4%BB%A5%E5%8F%8AOC%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">1.</span> <span class="toc-text">一、理解C、C++以及OC的关系</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-C%E8%AF%AD%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">1.C语言</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-C-%E8%AF%AD%E8%A8%80"><span class="toc-number">1.2.</span> <span class="toc-text">2.C++语言</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-Objective-C%E8%AF%AD%E8%A8%80"><span class="toc-number">1.3.</span> <span class="toc-text">3.Objective-C语言</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-OC%E4%B8%8EC-%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-number">1.4.</span> <span class="toc-text">4.OC与C++的比较</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E7%BC%96%E8%AF%91%E5%9E%8B%E8%AF%AD%E8%A8%80%E4%B8%8E%E8%A7%A3%E9%87%8A%E5%9E%8B%E8%AF%AD%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text">二、编译型语言与解释型语言</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E7%BC%96%E8%AF%91%E5%9E%8B%E8%AF%AD%E8%A8%80"><span class="toc-number">2.1.</span> <span class="toc-text">1.编译型语言</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E8%A7%A3%E9%87%8A%E5%9E%8B%E8%AF%AD%E8%A8%80"><span class="toc-number">2.2.</span> <span class="toc-text">2.解释型语言</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%BC%96%E8%AF%91%E5%99%A8LLVM%E4%B8%8ECLang"><span class="toc-number">3.</span> <span class="toc-text">三、编译器LLVM与CLang</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E7%BC%96%E8%AF%91%E5%99%A8"><span class="toc-number">3.1.</span> <span class="toc-text">1.编译器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-LLVM%E4%B8%8EClang"><span class="toc-number">3.2.</span> <span class="toc-text">2.LLVM与Clang</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E7%90%86%E8%A7%A3iOS%E4%B8%AD%E7%9A%84%E7%BC%96%E8%AF%91%E5%99%A8"><span class="toc-number">3.3.</span> <span class="toc-text">3.理解iOS中的编译器</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E7%90%86%E8%A7%A3iOS%E7%BC%96%E8%AF%91%E6%B5%81%E7%A8%8B"><span class="toc-number">4.</span> <span class="toc-text">四、理解iOS编译流程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E7%BC%96%E8%AF%91%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-number">4.1.</span> <span class="toc-text">1.编译流程图</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%87%86%E5%A4%87%E6%B5%8B%E8%AF%95%E6%96%87%E4%BB%B6"><span class="toc-number">4.2.</span> <span class="toc-text">2.准备测试文件</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E9%A2%84%E5%A4%84%E7%90%86-Prepressing"><span class="toc-number">5.</span> <span class="toc-text">五、预处理(Prepressing)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD"><span class="toc-number">5.1.</span> <span class="toc-text">1.主要功能</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E6%9F%A5%E7%9C%8B%E9%A2%84%E5%A4%84%E7%90%86%E7%BB%93%E6%9E%9C"><span class="toc-number">5.2.</span> <span class="toc-text">2.查看预处理结果</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E7%BC%96%E8%AF%91-Compilation"><span class="toc-number">6.</span> <span class="toc-text">六、编译(Compilation)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90-Lexical-Analysis"><span class="toc-number">6.1.</span> <span class="toc-text">1. 词法分析(Lexical Analysis)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90-Semantic-Analysis"><span class="toc-number">6.2.</span> <span class="toc-text">2.语法分析(Semantic Analysis)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90-Static-Analysis"><span class="toc-number">6.3.</span> <span class="toc-text">3.静态分析(Static Analysis)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E7%94%9F%E6%88%90%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81-Code-Generation"><span class="toc-number">6.4.</span> <span class="toc-text">4.生成中间代码(Code Generation)</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E6%B1%87%E7%BC%96-Assembly"><span class="toc-number">7.</span> <span class="toc-text">七、汇编(Assembly)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-LLVM%E4%BC%98%E5%8C%96%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81"><span class="toc-number">7.1.</span> <span class="toc-text">1.LLVM优化中间代码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E7%94%9F%E6%88%90%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81"><span class="toc-number">7.2.</span> <span class="toc-text">2.生成汇编代码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E7%94%9F%E6%88%90%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6"><span class="toc-number">7.3.</span> <span class="toc-text">3.生成目标文件</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E9%93%BE%E6%8E%A5-Linking"><span class="toc-number">8.</span> <span class="toc-text">八、链接(Linking)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8xcrun%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E9%93%BE%E6%8E%A5%EF%BC%8C%E5%BE%97%E5%88%B0%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6"><span class="toc-number">8.1.</span> <span class="toc-text">1.使用xcrun命令执行链接，得到可执行文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8file%E5%91%BD%E4%BB%A4%EF%BC%8C%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B"><span class="toc-number">8.2.</span> <span class="toc-text">2.使用file命令，查看文件类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E5%86%8D%E6%AC%A1%E4%BD%BF%E7%94%A8xcrun%E5%91%BD%E4%BB%A4%EF%BC%8C%E6%9F%A5%E7%9C%8B%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E7%AC%A6%E5%8F%B7%E8%A1%A8"><span class="toc-number">8.3.</span> <span class="toc-text">3.再次使用xcrun命令，查看可执行文件的符号表</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E9%93%BE%E6%8E%A5%E9%98%B6%E6%AE%B5%E7%9A%84%E4%B8%BB%E8%A6%81%E4%BB%BB%E5%8A%A1"><span class="toc-number">8.4.</span> <span class="toc-text">4.链接阶段的主要任务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-%E7%90%86%E8%A7%A3%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E4%B8%8E%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5"><span class="toc-number">8.5.</span> <span class="toc-text">5.理解静态链接与动态链接</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
 <main class="main" role="main">
   <div class="content">
   <article id="post-ios编译原理" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
@@ -369,7 +414,7 @@
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
 	<a href="/2021/11/02/ios%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="article-date">
-	  <time datetime="2021-11-02T14:56:55.000Z" itemprop="datePublished">2021-11-02</time>
+	  <time datetime="2021-11-02T14:54:10.000Z" itemprop="datePublished">2021-11-02</time>
 	</a>
 </span>
         
@@ -394,7 +439,7 @@
 	</span>
 
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/11/02/ios%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/#comments" class="article-comment-link">Comments</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/11/02/ios%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/#comments" class="article-comment-link">评论</a></span>
         
       </div>
     </div>
@@ -635,7 +680,7 @@
       </div>
       <div class="media-body">
         <h3 class="media-heading"><a href="https://github.com/wuyubeichen" target="_blank"><span class="text-dark">梧雨北辰</span><small class="ml-1x">iOS Developer</small></a></h3>
-        <div>个人简介。</div>
+        <div>天行健，君子以自强不息</div>
       </div>
     </figure>
   </div>
@@ -662,14 +707,22 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/2021/11/02/mach-o%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" title="Mach-O文件结构"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+      <a href="/2021/11/03/mach-o%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" title="Mach-O文件结构"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
     </li>
     
     
     <li class="next">
-      <a href="/2021/11/02/Xcode%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" title="Xcode多环境配置"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2021/11/01/xcode%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" title="Xcode多环境配置"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn " data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">    <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
     
   </ul>
   
@@ -694,11 +747,7 @@
     	
         <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
-        <li><a href="http://weibo.com/wuyubeichen" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
-        
-        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
-        
-        <li><a href="https://www.behance.net/wuyubeichen" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
         
         <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
         
@@ -726,11 +775,11 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
         },
         ROOT_URL: '/',
         CONTENT_URL: '/content.json',

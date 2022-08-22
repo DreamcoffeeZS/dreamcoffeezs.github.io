@@ -18,17 +18,16 @@
   
   
   <title>Python学习(1)：入门与导学 | Hexo</title>
-  <meta name="description" content="Life is simple ,I use Python. 代码：代码是现实世界事物在计算机世界中的映射 编程：将现实世界中事物用计算机语言来描述 最近在网上找了一些资料在学习Python，就想把每次的学习内容记录下来，这也是为了避免新学的东西容易遗忘。自己选择Python只有一个原因，那就是兴趣。作为一个iOS开发者，我也很好奇，传说中无所不能的Python到底是怎样的一种语言，使用Python">
+  <meta name="description" content="Life is simple ,I use Python. 代码：代码是现实世界事物在计算机世界中的映射编程：将现实世界中事物用计算机语言来描述 最近在网上找了一些资料在学习Python，就想把每次的学习内容记录下来，这也是为了避免新学的东西容易遗忘。自己选择Python只有一个原因，那就是兴趣。作为一个iOS开发者，我也很好奇，传说中无所不能的Python到底是怎样的一种语言，使用Python是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python学习(1)：入门与导学">
 <meta property="og:url" content="https://wuyubeichen.github.io/2018/10/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/index.html">
 <meta property="og:site_name" content="梧雨北辰的博客">
-<meta property="og:description" content="Life is simple ,I use Python. 代码：代码是现实世界事物在计算机世界中的映射 编程：将现实世界中事物用计算机语言来描述 最近在网上找了一些资料在学习Python，就想把每次的学习内容记录下来，这也是为了避免新学的东西容易遗忘。自己选择Python只有一个原因，那就是兴趣。作为一个iOS开发者，我也很好奇，传说中无所不能的Python到底是怎样的一种语言，使用Python">
-<meta property="og:locale">
+<meta property="og:description" content="Life is simple ,I use Python. 代码：代码是现实世界事物在计算机世界中的映射编程：将现实世界中事物用计算机语言来描述 最近在网上找了一些资料在学习Python，就想把每次的学习内容记录下来，这也是为了避免新学的东西容易遗忘。自己选择Python只有一个原因，那就是兴趣。作为一个iOS开发者，我也很好奇，传说中无所不能的Python到底是怎样的一种语言，使用Python是">
+<meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-10-01T15:39:33.000Z">
-<meta property="article:modified_time" content="2022-08-18T07:05:34.061Z">
+<meta property="article:modified_time" content="2022-08-22T01:37:46.591Z">
 <meta property="article:author" content="Zhou Shuai">
-<meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
   <link rel="canonical" href="https://wuyubeichen.github.io/2018/10/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/index.html">
@@ -69,7 +68,7 @@
 
     <form class="search-form sidebar-form">
         <div class="input-group">
-            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
             <span class="input-group-btn">
                 <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
             </span>
@@ -79,7 +78,7 @@
   <div class="ins-search-mask"></div>
   <div class="ins-search-container">
     <div class="ins-input-wrapper">
-      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
       <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
     </div>
     <div class="ins-section-wrapper">
@@ -98,7 +97,7 @@
       </button>
     </div>
     <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
-      <ul class="nav navbar-nav main-nav ">
+      <ul class="nav navbar-nav main-nav menu-highlight">
         
         
         <li class="menu-item menu-item-home">
@@ -106,7 +105,7 @@
             
             <i class="icon icon-home-fill"></i>
             
-            <span class="menu-title">Home</span>
+            <span class="menu-title">首页</span>
           </a>
         </li>
         
@@ -116,7 +115,7 @@
             
             <i class="icon icon-archives-fill"></i>
             
-            <span class="menu-title">Archives</span>
+            <span class="menu-title">归档</span>
           </a>
         </li>
         
@@ -126,7 +125,7 @@
             
             <i class="icon icon-folder"></i>
             
-            <span class="menu-title">Categories</span>
+            <span class="menu-title">分类</span>
           </a>
         </li>
         
@@ -136,7 +135,7 @@
             
             <i class="icon icon-tags"></i>
             
-            <span class="menu-title">Tags</span>
+            <span class="menu-title">标签</span>
           </a>
         </li>
         
@@ -146,17 +145,7 @@
             
             <i class="icon icon-project"></i>
             
-            <span class="menu-title">Repository</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-books">
-          <a href="/books">
-            
-            <i class="icon icon-book-fill"></i>
-            
-            <span class="menu-title">Books</span>
+            <span class="menu-title">项目</span>
           </a>
         </li>
         
@@ -166,7 +155,7 @@
             
             <i class="icon icon-friendship"></i>
             
-            <span class="menu-title">Links</span>
+            <span class="menu-title">友链</span>
           </a>
         </li>
         
@@ -176,7 +165,7 @@
             
             <i class="icon icon-cup-fill"></i>
             
-            <span class="menu-title">About</span>
+            <span class="menu-title">关于</span>
           </a>
         </li>
         
@@ -187,11 +176,7 @@
     	
         <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
-        <li><a href="http://weibo.com/wuyubeichen" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
-        
-        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
-        
-        <li><a href="https://www.behance.net/wuyubeichen" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
         
         <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
         
@@ -206,7 +191,7 @@
   <div class="slimContent">
     
       <div class="widget">
-    <h3 class="widget-title">Board</h3>
+    <h3 class="widget-title">公告</h3>
     <div class="widget-body">
         <div id="board">
             <div class="content">
@@ -219,9 +204,9 @@
     
       
   <div class="widget">
-    <h3 class="widget-title">Categories</h3>
+    <h3 class="widget-title">分类</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%97%B2%E6%9A%87%E6%89%80%E5%AD%A6/">闲暇所学</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BC%80%E5%8F%91/">iOS开发</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%97%B2%E6%9A%87%E6%89%80%E5%AD%A6/">闲暇所学</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -229,9 +214,9 @@
     
       
   <div class="widget">
-    <h3 class="widget-title">Tags</h3>
+    <h3 class="widget-title">标签</h3>
     <div class="widget-body">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive/" rel="tag">Reactive</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveCocoa/" rel="tag">ReactiveCocoa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/" rel="tag">Swift</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode/" rel="tag">Xcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/" rel="tag">iOS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS%E5%BA%95%E5%B1%82/" rel="tag">iOS底层</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" rel="tag">个人博客</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%93%E5%8C%85/" rel="tag">抓包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="tag">移动开发</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive/" rel="tag">Reactive</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveCocoa/" rel="tag">ReactiveCocoa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/" rel="tag">Swift</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode/" rel="tag">Xcode</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/" rel="tag">iOS</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS%E5%BA%95%E5%B1%82/" rel="tag">iOS底层</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS%E9%AB%98%E7%BA%A7/" rel="tag">iOS高级</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" rel="tag">个人博客</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%93%E5%8C%85/" rel="tag">抓包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="tag">移动开发</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -239,18 +224,18 @@
     
       
   <div class="widget">
-    <h3 class="widget-title">Tag Cloud</h3>
+    <h3 class="widget-title">标签云</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/CPU/" style="font-size: 13px;">CPU</a> <a href="/tags/Github/" style="font-size: 13px;">Github</a> <a href="/tags/Python/" style="font-size: 13.33px;">Python</a> <a href="/tags/Reactive/" style="font-size: 13px;">Reactive</a> <a href="/tags/ReactiveCocoa/" style="font-size: 13px;">ReactiveCocoa</a> <a href="/tags/Swift/" style="font-size: 14px;">Swift</a> <a href="/tags/Xcode/" style="font-size: 13px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 13.33px;">iOS</a> <a href="/tags/iOS%E5%BA%95%E5%B1%82/" style="font-size: 13.33px;">iOS底层</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 13px;">个人博客</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 13px;">开发工具</a> <a href="/tags/%E6%8A%93%E5%8C%85/" style="font-size: 13px;">抓包</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13px;">架构</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" style="font-size: 13.67px;">移动开发</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13px;">编译原理</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 13px;">网络</a>
+      <a href="/tags/CPU/" style="font-size: 13px;">CPU</a> <a href="/tags/Github/" style="font-size: 13px;">Github</a> <a href="/tags/Python/" style="font-size: 13px;">Python</a> <a href="/tags/Reactive/" style="font-size: 13px;">Reactive</a> <a href="/tags/ReactiveCocoa/" style="font-size: 13px;">ReactiveCocoa</a> <a href="/tags/Swift/" style="font-size: 14px;">Swift</a> <a href="/tags/Xcode/" style="font-size: 13.33px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 13.67px;">iOS</a> <a href="/tags/iOS%E5%BA%95%E5%B1%82/" style="font-size: 13.33px;">iOS底层</a> <a href="/tags/iOS%E9%AB%98%E7%BA%A7/" style="font-size: 13px;">iOS高级</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 13px;">个人博客</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 13px;">开发工具</a> <a href="/tags/%E6%8A%93%E5%8C%85/" style="font-size: 13px;">抓包</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13px;">架构</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" style="font-size: 13.67px;">移动开发</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13px;">编译原理</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 13px;">网络</a>
     </div>
   </div>
 
     
       
   <div class="widget">
-    <h3 class="widget-title">Archive</h3>
+    <h3 class="widget-title">归档</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -258,41 +243,71 @@
     
       
   <div class="widget">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">最新文章</h3>
     <div class="widget-body">
-      <ul class="recent-post-list list-unstyled no-thumbnail">
+      <ul class="recent-post-list list-unstyled ">
         
           <li>
             
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
-              </p>
-              <p class="item-title">
-                <a href="/2021/11/02/mach-o%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90/" class="title">Mach-O简单分析</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2021-11-02T14:58:08.000Z" itemprop="datePublished">2021-11-02</time>
-              </p>
+            <div class="item-thumb">
+              <a href="/2021/11/04/mach-o%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
             </div>
-          </li>
-          
-          <li>
             
             <div class="item-inner">
               <p class="item-category">
                 <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
               </p>
               <p class="item-title">
-                <a href="/2021/11/02/mach-o%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="title">Mach-O文件结构</a>
+                <a href="/2021/11/04/mach-o%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90/" class="title">Mach-O简单分析</a>
               </p>
               <p class="item-date">
-                <time datetime="2021-11-02T14:57:35.000Z" itemprop="datePublished">2021-11-02</time>
+                <time datetime="2021-11-04T14:23:12.000Z" itemprop="datePublished">2021-11-04</time>
               </p>
             </div>
           </li>
           
           <li>
+            
+            <div class="item-thumb">
+              <a href="/2021/11/03/mach-o%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/03/mach-o%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="title">Mach-O文件结构</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-03T14:57:35.000Z" itemprop="datePublished">2021-11-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2021/11/02/ios%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
             
             <div class="item-inner">
               <p class="item-category">
@@ -302,21 +317,6 @@
                 <a href="/2021/11/02/ios%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="title">iOS编译原理</a>
               </p>
               <p class="item-date">
-                <time datetime="2021-11-02T14:56:55.000Z" itemprop="datePublished">2021-11-02</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
-              </p>
-              <p class="item-title">
-                <a href="/2021/11/02/Xcode%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="title">Xcode多环境配置</a>
-              </p>
-              <p class="item-date">
                 <time datetime="2021-11-02T14:54:10.000Z" itemprop="datePublished">2021-11-02</time>
               </p>
             </div>
@@ -324,15 +324,50 @@
           
           <li>
             
+            <div class="item-thumb">
+              <a href="/2021/11/01/xcode%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/categories/Python/">Python</a>
+                <a class="category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
               </p>
               <p class="item-title">
-                <a href="/2018/10/02/Python%E5%AD%A6%E4%B9%A002-%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E4%B8%8E%E8%BF%90%E8%A1%8C/" class="title">Python学习(2)：环境安装与运行</a>
+                <a href="/2021/11/01/xcode%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="title">Xcode多环境配置</a>
               </p>
               <p class="item-date">
-                <time datetime="2018-10-02T15:40:57.000Z" itemprop="datePublished">2018-10-02</time>
+                <time datetime="2021-11-01T14:54:10.000Z" itemprop="datePublished">2021-11-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2019/03/18/iOS%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%8E%9F%E7%90%86/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2019/03/18/iOS%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%8E%9F%E7%90%86/" class="title">iOS自动释放池原理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-03-18T10:18:44.000Z" itemprop="datePublished">2019-03-18</time>
               </p>
             </div>
           </li>
@@ -348,6 +383,15 @@
 
   
   
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BA%86%E8%A7%A3Python"><span class="toc-number">1.</span> <span class="toc-text">一、了解Python</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Python%E8%83%BD%E5%81%9A%E4%BA%9B%E4%BB%80%E4%B9%88"><span class="toc-number">2.</span> <span class="toc-text">二、Python能做些什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81Pthon%E7%89%B9%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">三、Pthon特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Python%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="toc-number">4.</span> <span class="toc-text">四、Python的缺点</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E8%BF%90%E8%A1%8C%E6%95%88%E7%8E%87%E4%BD%8E"><span class="toc-number">4.1.</span> <span class="toc-text">1.运行效率低</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E4%B8%8D%E8%83%BD%E5%8A%A0%E5%AF%86"><span class="toc-number">4.2.</span> <span class="toc-text">2.不能加密</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%94%E3%80%81Python%E4%B9%8B%E7%A6%85"><span class="toc-number">5.</span> <span class="toc-text">五、Python之禅</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%AD%E3%80%81Python%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99"><span class="toc-number">6.</span> <span class="toc-text">六、Python学习的相关资料</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
 <main class="main" role="main">
   <div class="content">
   <article id="post-Python学习01-入门与导学" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
@@ -376,11 +420,6 @@
   </span>
 
         
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/tags/Python/" rel="tag">Python</a>
-  </span>
-
 
         
 	<span class="article-read hidden-xs">
@@ -391,45 +430,49 @@
 	</span>
 
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/10/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/#comments" class="article-comment-link">Comments</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/10/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/#comments" class="article-comment-link">评论</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
         <p><strong>Life is simple ,I use Python.</strong></p>
-<p>代码：代码是现实世界事物在计算机世界中的映射 编程：将现实世界中事物用计算机语言来描述</p>
-<p>最近在网上找了一些资料在学习Python，就想把每次的学习内容记录下来，这也是为了避免新学的东西容易遗忘。自己选择Python只有一个原因，那就是兴趣。作为一个iOS开发者，我也很好奇，传说中无所不能的Python到底是怎样的一种语言，使用Python是否也能做出一些有意思的事情，比如爬虫、机器学习等。下面的系列文章就是我的Python学习之旅。</p>
-<h1 id="一、了解Python"><a href="#一、了解Python" class="headerlink" title="一、了解Python"></a>一、了解Python</h1><p>Python并不是一门新兴的语言，反而是诞生于上世纪90年代初的语言。 随着大数据与人工智能的流行，Python逐步的流行起来。Python就像一个技术的润滑剂，大多数互联网公司或多或少都会用到，可以在开发中解决大大小小的很多问题。根据TIOBE语言排行，Python的语言排行为第四位，热度上升很快，其流行程度可见一斑。</p>
-<p>说明：本系列文章是本人的Python学习记录，在1-9篇都是在Python自带的解释器IDLE中编写和运行代码。在实际开发中专业的开发工具使用Pycharm，而做一些轻量化的开发使用的是Sublime text3或者Visual Studio Code</p>
-<h1 id="二、Python能做些什么"><a href="#二、Python能做些什么" class="headerlink" title="二、Python能做些什么"></a>二、Python能做些什么</h1><p>Pyhotn几乎是万能的，相对于其他语言可以做的事情很多。</p>
-<p>1.爬虫</p>
-<p>2.大数据与数据分析(Spark)</p>
-<p>3.自动化运维与自动化测试</p>
-<p>4.Web开发：Flask，Diango</p>
-<p>5.机器学习：Tensor Flow</p>
-<p>6.胶水语言：混合其他如C++、Java等来编程。能够把用其他语言制作的各种模块(尤其是C&#x2F;C++)很轻松的结合在一起。</p>
-<h1 id="三、Pthon特点"><a href="#三、Pthon特点" class="headerlink" title="三、Pthon特点"></a>三、Pthon特点</h1><p>1.Python语法简洁，灵活，优雅，哲学，编写程序容易阅读;</p>
-<p>一种有趣的说法是：Python的语言风格是Pythonic，也就是很Python的意思。就像我们阅读英文短文一样。</p>
-<p>2.Python支持跨平台，可以运行在Windows、Linux以及MacOS。</p>
-<p>3.Python是面向对象的动态语言，既有动态脚本的特性，又有面向对象的特性，非常具有自己的特点。</p>
-<p>4.Python拥有极为强大而丰富的标准库与第三方库，比如电子邮件，比如图形GUI界面;</p>
-<p>5.Python易于上手，难于精通;</p>
-<p>6.Python的语言靠缩进区分代码块，不强制每句代码添加分号；也不需要花括号确定作用域。</p>
-<p>7.Python依靠缩进区分作用域，因此不支持代码压缩，常常以源代码形式的存在，开源性较好。</p>
-<h1 id="四、Python的缺点"><a href="#四、Python的缺点" class="headerlink" title="四、Python的缺点"></a>四、Python的缺点</h1><h2 id="1-运行效率低"><a href="#1-运行效率低" class="headerlink" title="1.运行效率低"></a>1.运行效率低</h2><p>Python主要缺点就是一个字：慢，其相对于C、C++、Java运行效率较慢。</p>
-<p>这主要是因为Pyhton是一种解释性语言，对于当前主流的编程语言大致可分为两类：编译型语言(C、C++)和解释型语言(Javascript、Python)。</p>
-<p><strong>编译型语言</strong>： 程序在执行之前需要一个专门的编译过程，把程序编译成为机器语言的文件，运行时不需要重新翻译，直接使用编译的结果就行了。程序执行效率高，依赖编译器，跨平台性差些。如C、C++、Delphi等. [1]</p>
-<p><strong>解释型语言</strong>： 解释性语言编写的程序不进行预先编译，以文本方式存储程序代码。在发布程序时，看起来省了道编译工序。但是，在运行程序的时候，解释性语言必须先解释再运行</p>
-<p>运行效率与开发效率，鱼与熊掌不可兼得。类似汇编和C的运行效率很高，但是却不适合做web开发。对于语言的选择，适合的才是最好的。</p>
-<h2 id="2-不能加密"><a href="#2-不能加密" class="headerlink" title="2.不能加密"></a>2.不能加密</h2><p>python依靠缩进来编写代码，代码不能被压缩和混淆，所以这也注定了Python代码不能被加密的特性。</p>
-<h1 id="五、Python之禅"><a href="#五、Python之禅" class="headerlink" title="五、Python之禅"></a>五、Python之禅</h1><p>Python的交互式编译器内嵌了几句话(输入import this)，被开发者称之为Pyhon之禅，包含了Python编程的一种大致思想和规范。</p>
-<p>1.Simple is better than complex</p>
-<p>简洁胜于复杂</p>
-<p>2.Now is better than never ，Although never is often better than right now</p>
-<p>做也许好过不做，但不加思索就动手还不如不做</p>
-<h1 id="六、Python学习的相关资料"><a href="#六、Python学习的相关资料" class="headerlink" title="六、Python学习的相关资料"></a>六、Python学习的相关资料</h1><p><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000">廖雪峰Python3的官方网站</a></p>
-<p><a target="_blank" rel="noopener" href="http://www.runoob.com/python/python-tutorial.html">Python基本教程</a></p>
+<p>代码：代码是现实世界事物在计算机世界中的映射<br>编程：将现实世界中事物用计算机语言来描述</p>
+<p>最近在网上找了一些资料在学习<code>Python</code>，就想把每次的学习内容记录下来，这也是为了避免新学的东西容易遗忘。自己选择<code>Python</code>只有一个原因，那就是兴趣。作为一个<code>iOS</code>开发者，我也很好奇，传说中无所不能的<code>Python</code>到底是怎样的一种语言，使用<code>Python</code>是否也能做出一些有意思的事情，比如爬虫、机器学习等。下面的系列文章就是我的<code>Python</code>学习之旅。</p>
+<h4 id="一、了解Python"><a href="#一、了解Python" class="headerlink" title="一、了解Python"></a>一、了解Python</h4><p><code>Python</code>并不是一门新兴的语言，反而是诞生于上世纪90年代初的语言。 随着大数据与人工智能的流行，<code>Python</code>逐步的流行起来。<code>Python</code>就像一个技术的润滑剂，大多数互联网公司或多或少都会用到，可以在开发中解决大大小小的很多问题。根据<code>TIOBE</code>语言排行，<code>Python</code>的语言排行为第四位，热度上升很快，其流行程度可见一斑。</p>
+<p>说明：本系列文章是本人的<code>Python</code>学习记录，在<code>1-9</code>篇都是在<code>Python</code>自带的解释器<code>IDLE</code>中编写和运行代码。在实际开发中专业的开发工具使用<code>Pycharm</code>，而做一些轻量化的开发使用的是<code>Sublime text3</code>或者<code>Visual Studio Code</code></p>
+<h4 id="二、Python能做些什么"><a href="#二、Python能做些什么" class="headerlink" title="二、Python能做些什么"></a>二、Python能做些什么</h4><p><code>Pyhotn</code>几乎是万能的，相对于其他语言可以做的事情很多:</p>
+<ol>
+<li>爬虫 </li>
+<li>大数据与数据分析(<code>Spark</code>)</li>
+<li>自动化运维与自动化测试</li>
+<li><code>Web</code>开发：<code>Flask</code>，<code>Diango</code></li>
+<li>机器学习：Tensor<code> </code>Flow</li>
+<li>胶水语言：混合其他如<code>C++</code>、<code>Java</code>等来编程。能够把用其他语言制作的各种模块(尤其是<code>C/C++</code>)很轻松的结合在一起。</li>
+</ol>
+<h4 id="三、Pthon特点"><a href="#三、Pthon特点" class="headerlink" title="三、Pthon特点"></a>三、Pthon特点</h4><ol>
+<li><code>Python</code>语法简洁，灵活，优雅，哲学，编写程序容易阅读;</li>
+<li><code>Python</code>支持跨平台，可以运行在<code>Windows</code>、<code>Linux</code>以及<code>MacOS</code>;</li>
+<li><code>Python</code>是面向对象的动态语言，既有动态脚本的特性，又有面向对象的特性，非常具有自己的特点;</li>
+<li><code>Python</code>拥有极为强大而丰富的标准库与第三方库，比如电子邮件，比如图形<code>GUI</code>界面;</li>
+<li><code>Python</code>易于上手，难于精通;</li>
+<li><code>Python</code>的语言靠缩进区分代码块，不强制每句代码添加分号；也不需要花括号确定作用域;</li>
+<li><code>Python</code>依靠缩进区分作用域，因此不支持代码压缩，常常以源代码形式的存在，开源性较好;</li>
+</ol>
+<h4 id="四、Python的缺点"><a href="#四、Python的缺点" class="headerlink" title="四、Python的缺点"></a>四、Python的缺点</h4><h5 id="1-运行效率低"><a href="#1-运行效率低" class="headerlink" title="1.运行效率低"></a>1.运行效率低</h5><p><code>Python</code>主要缺点就是一个字：慢，其相对于<code>C</code>、<code>C++</code>、<code>Java</code>运行效率较慢。</p>
+<p>这主要是因为<code>Pyhton</code>是一种解释性语言，对于当前主流的编程语言大致可分为两类：编译型语言(<code>C</code>、<code>C++</code>)和解释型语言(<code>Javascript</code>、<code>Python</code>)。</p>
+<p><strong>编译型语言</strong>：<br>程序在执行之前需要一个专门的编译过程，把程序编译成为机器语言的文件，运行时不需要重新翻译，直接使用编译的结果就行了。程序执行效率高，依赖编译器，跨平台性差些。如<code>C</code>、<code>C++</code>、<code>Delphi</code>等. [1] </p>
+<p><strong>解释型语言</strong>：<br>解释性语言编写的程序不进行预先编译，以文本方式存储程序代码。在发布程序时，看起来省了道编译工序。但是，在运行程序的时候，解释性语言必须先解释再运行</p>
+<p> 运行效率与开发效率，鱼与熊掌不可兼得。类似汇编和C的运行效率很高，但是却不适合做web开发。对于语言的选择，适合的才是最好的。</p>
+<h5 id="2-不能加密"><a href="#2-不能加密" class="headerlink" title="2.不能加密"></a>2.不能加密</h5><p><code>python</code>依靠缩进来编写代码，代码不能被压缩和混淆，所以这也注定了<code>Python</code>代码不能被加密的特性。</p>
+<h4 id="五、Python之禅"><a href="#五、Python之禅" class="headerlink" title="五、Python之禅"></a>五、Python之禅</h4><p><code>Python</code>的交互式编译器内嵌了几句话(输入<code>import this</code>)，被开发者称之为<code>Pyhon</code>之禅，包含了<code>Python</code>编程的一种大致思想和规范。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>Simple <span class="keyword">is</span> better than <span class="built_in">complex</span></span><br><span class="line">简洁胜于复杂</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>Now <span class="keyword">is</span> better than never ，Although never <span class="keyword">is</span> often  better than right now</span><br><span class="line">做也许好过不做，但不加思索就动手还不如不做</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="六、Python学习的相关资料"><a href="#六、Python学习的相关资料" class="headerlink" title="六、Python学习的相关资料"></a>六、Python学习的相关资料</h4><ol>
+<li><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000">廖雪峰Python3的官方网站</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.runoob.com/python/python-tutorial.html">Python基本教程</a></li>
+</ol>
 
       
     </div>
@@ -459,7 +502,7 @@
       </div>
       <div class="media-body">
         <h3 class="media-heading"><a href="https://github.com/wuyubeichen" target="_blank"><span class="text-dark">梧雨北辰</span><small class="ml-1x">iOS Developer</small></a></h3>
-        <div>个人简介。</div>
+        <div>天行健，君子以自强不息</div>
       </div>
     </figure>
   </div>
@@ -486,14 +529,22 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/2018/10/02/Python%E5%AD%A6%E4%B9%A002-%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E4%B8%8E%E8%BF%90%E8%A1%8C/" title="Python学习(2)：环境安装与运行"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+      <a href="/2018/10/02/Python%E5%AD%A6%E4%B9%A002-%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E4%B8%8E%E8%BF%90%E8%A1%8C/" title="Python学习(2)：环境安装与运行"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
     </li>
     
     
     <li class="next">
-      <a href="/2018/08/10/Swift%E5%AD%A6%E4%B9%A010-%E5%8D%8F%E8%AE%AE/" title="Swift学习10-协议"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2018/08/10/Swift%E5%AD%A6%E4%B9%A010-%E5%8D%8F%E8%AE%AE/" title="Swift学习10-协议"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn " data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">    <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
     
   </ul>
   
@@ -518,11 +569,7 @@
     	
         <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
-        <li><a href="http://weibo.com/wuyubeichen" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
-        
-        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
-        
-        <li><a href="https://www.behance.net/wuyubeichen" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
         
         <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
         
@@ -550,11 +597,11 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
         },
         ROOT_URL: '/',
         CONTENT_URL: '/content.json',
