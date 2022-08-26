@@ -17,21 +17,23 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Python学习(1)：入门与导学 | Hexo</title>
-  <meta name="description" content="Life is simple ,I use Python. 代码：代码是现实世界事物在计算机世界中的映射编程：将现实世界中事物用计算机语言来描述 最近在网上找了一些资料在学习Python，就想把每次的学习内容记录下来，这也是为了避免新学的东西容易遗忘。自己选择Python只有一个原因，那就是兴趣。作为一个iOS开发者，我也很好奇，传说中无所不能的Python到底是怎样的一种语言，使用Python是">
+  <title>Python学习03-理解计算机中的编码 | Hexo</title>
+  <meta name="description" content="我们学习Python编程，经常对字符串这样的数据进行处理。我们也都知道计算机内部信息是采用二进制编码的，那么这其中的处理原理是什么呢？本篇就计算机中关于编码的知识进行总结。 一、为什么计算机内部信息采用二进制编码计算机是由逻辑电路组成的，而逻辑电路只有接通与断开两个状态，正好可以对映二进制的“1”与“0”。这样的计算机设计在技术上会简单许多。 二、计算机编码的由来计算机内部信息采用二进制编码，这决">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python学习(1)：入门与导学">
-<meta property="og:url" content="https://wuyubeichen.github.io/2018/10/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/index.html">
+<meta property="og:title" content="Python学习03-理解计算机中的编码">
+<meta property="og:url" content="https://wuyubeichen.github.io/2018/10/03/Python%E5%AD%A6%E4%B9%A003-%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A0%81/index.html">
 <meta property="og:site_name" content="梧雨北辰的博客">
-<meta property="og:description" content="Life is simple ,I use Python. 代码：代码是现实世界事物在计算机世界中的映射编程：将现实世界中事物用计算机语言来描述 最近在网上找了一些资料在学习Python，就想把每次的学习内容记录下来，这也是为了避免新学的东西容易遗忘。自己选择Python只有一个原因，那就是兴趣。作为一个iOS开发者，我也很好奇，传说中无所不能的Python到底是怎样的一种语言，使用Python是">
+<meta property="og:description" content="我们学习Python编程，经常对字符串这样的数据进行处理。我们也都知道计算机内部信息是采用二进制编码的，那么这其中的处理原理是什么呢？本篇就计算机中关于编码的知识进行总结。 一、为什么计算机内部信息采用二进制编码计算机是由逻辑电路组成的，而逻辑电路只有接通与断开两个状态，正好可以对映二进制的“1”与“0”。这样的计算机设计在技术上会简单许多。 二、计算机编码的由来计算机内部信息采用二进制编码，这决">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2018-10-01T15:39:33.000Z">
-<meta property="article:modified_time" content="2022-08-26T01:24:16.557Z">
+<meta property="og:image" content="http://182.92.228.41/wp-content/uploads/python_coding_ascall.png">
+<meta property="article:published_time" content="2018-10-03T15:40:57.000Z">
+<meta property="article:modified_time" content="2022-08-26T01:24:16.558Z">
 <meta property="article:author" content="Zhou Shuai">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://182.92.228.41/wp-content/uploads/python_coding_ascall.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://wuyubeichen.github.io/2018/10/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/index.html">
+  <link rel="canonical" href="https://wuyubeichen.github.io/2018/10/03/Python%E5%AD%A6%E4%B9%A003-%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A0%81/index.html">
   
     <link rel="alternate" href="/atom.xml" title="梧雨北辰的博客" type="application/atom+xml">
   
@@ -251,21 +253,21 @@
   <div class="slimContent">
     <nav id="toc" class="article-toc">
       <h3 class="toc-title">文章目录</h3>
-      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BA%86%E8%A7%A3Python"><span class="toc-number">1.</span> <span class="toc-text">一、了解Python</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Python%E8%83%BD%E5%81%9A%E4%BA%9B%E4%BB%80%E4%B9%88"><span class="toc-number">2.</span> <span class="toc-text">二、Python能做些什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81Pthon%E7%89%B9%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">三、Pthon特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Python%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="toc-number">4.</span> <span class="toc-text">四、Python的缺点</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E8%BF%90%E8%A1%8C%E6%95%88%E7%8E%87%E4%BD%8E"><span class="toc-number">4.1.</span> <span class="toc-text">1.运行效率低</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E4%B8%8D%E8%83%BD%E5%8A%A0%E5%AF%86"><span class="toc-number">4.2.</span> <span class="toc-text">2.不能加密</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%94%E3%80%81Python%E4%B9%8B%E7%A6%85"><span class="toc-number">5.</span> <span class="toc-text">五、Python之禅</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%AD%E3%80%81Python%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99"><span class="toc-number">6.</span> <span class="toc-text">六、Python学习的相关资料</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%86%85%E9%83%A8%E4%BF%A1%E6%81%AF%E9%87%87%E7%94%A8%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">一、为什么计算机内部信息采用二进制编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BC%96%E7%A0%81%E7%9A%84%E7%94%B1%E6%9D%A5"><span class="toc-number">2.</span> <span class="toc-text">二、计算机编码的由来</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E8%AE%A4%E8%AF%86%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BC%96%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">三、认识常见的计算机编码</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-ASCll%E7%BC%96%E7%A0%81"><span class="toc-number">3.1.</span> <span class="toc-text">1.ASCll编码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-ISO-8859-1-x2F-Windows-1252"><span class="toc-number">3.2.</span> <span class="toc-text">2.ISO-8859-1&#x2F;Windows-1252</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-GB2312%E7%BC%96%E7%A0%81-%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-%E4%B8%8EGBK%E7%BC%96%E7%A0%81"><span class="toc-number">3.3.</span> <span class="toc-text">3.GB2312编码(简体中文)与GBK编码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-GBK%E4%B8%8EGB18030"><span class="toc-number">3.4.</span> <span class="toc-text">4.GBK与GB18030</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-Unicode%E7%BC%96%E7%A0%81"><span class="toc-number">3.5.</span> <span class="toc-text">5.Unicode编码</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">4.</span> <span class="toc-text">四、参考文章</span></a></li></ol>
     </nav>
   </div>
 </aside>
 
 <main class="main" role="main">
   <div class="content">
-  <article id="post-Python学习01-入门与导学" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-Python学习03-理解计算机中的编码" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      Python学习(1)：入门与导学
+      Python学习03-理解计算机中的编码
     </h1>
   
 
@@ -273,8 +275,8 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2018/10/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/" class="article-date">
-	  <time datetime="2018-10-01T15:39:33.000Z" itemprop="datePublished">2018-10-01</time>
+	<a href="/2018/10/03/Python%E5%AD%A6%E4%B9%A003-%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A0%81/" class="article-date">
+	  <time datetime="2018-10-03T15:40:57.000Z" itemprop="datePublished">2018-10-03</time>
 	</a>
 </span>
         
@@ -299,55 +301,51 @@
 	</span>
 
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/10/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/10/03/Python%E5%AD%A6%E4%B9%A003-%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A0%81/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.1k(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.4k(字)</span>
 	
 	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 4(分)</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 5(分)</span>
 	
 
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <p><strong>Life is simple ,I use Python.</strong></p>
-<p>代码：代码是现实世界事物在计算机世界中的映射<br>编程：将现实世界中事物用计算机语言来描述</p>
-<p>最近在网上找了一些资料在学习<code>Python</code>，就想把每次的学习内容记录下来，这也是为了避免新学的东西容易遗忘。自己选择<code>Python</code>只有一个原因，那就是兴趣。作为一个<code>iOS</code>开发者，我也很好奇，传说中无所不能的<code>Python</code>到底是怎样的一种语言，使用<code>Python</code>是否也能做出一些有意思的事情，比如爬虫、机器学习等。下面的系列文章就是我的<code>Python</code>学习之旅。</p>
-<h4 id="一、了解Python"><a href="#一、了解Python" class="headerlink" title="一、了解Python"></a>一、了解Python</h4><p><code>Python</code>并不是一门新兴的语言，反而是诞生于上世纪90年代初的语言。 随着大数据与人工智能的流行，<code>Python</code>逐步的流行起来。<code>Python</code>就像一个技术的润滑剂，大多数互联网公司或多或少都会用到，可以在开发中解决大大小小的很多问题。根据<code>TIOBE</code>语言排行，<code>Python</code>的语言排行为第四位，热度上升很快，其流行程度可见一斑。</p>
-<p>说明：本系列文章是本人的<code>Python</code>学习记录，在<code>1-9</code>篇都是在<code>Python</code>自带的解释器<code>IDLE</code>中编写和运行代码。在实际开发中专业的开发工具使用<code>Pycharm</code>，而做一些轻量化的开发使用的是<code>Sublime text3</code>或者<code>Visual Studio Code</code></p>
-<h4 id="二、Python能做些什么"><a href="#二、Python能做些什么" class="headerlink" title="二、Python能做些什么"></a>二、Python能做些什么</h4><p><code>Pyhotn</code>几乎是万能的，相对于其他语言可以做的事情很多:</p>
-<ol>
-<li>爬虫 </li>
-<li>大数据与数据分析(<code>Spark</code>)</li>
-<li>自动化运维与自动化测试</li>
-<li><code>Web</code>开发：<code>Flask</code>，<code>Diango</code></li>
-<li>机器学习：Tensor<code> </code>Flow</li>
-<li>胶水语言：混合其他如<code>C++</code>、<code>Java</code>等来编程。能够把用其他语言制作的各种模块(尤其是<code>C/C++</code>)很轻松的结合在一起。</li>
-</ol>
-<h4 id="三、Pthon特点"><a href="#三、Pthon特点" class="headerlink" title="三、Pthon特点"></a>三、Pthon特点</h4><ol>
-<li><code>Python</code>语法简洁，灵活，优雅，哲学，编写程序容易阅读;</li>
-<li><code>Python</code>支持跨平台，可以运行在<code>Windows</code>、<code>Linux</code>以及<code>MacOS</code>;</li>
-<li><code>Python</code>是面向对象的动态语言，既有动态脚本的特性，又有面向对象的特性，非常具有自己的特点;</li>
-<li><code>Python</code>拥有极为强大而丰富的标准库与第三方库，比如电子邮件，比如图形<code>GUI</code>界面;</li>
-<li><code>Python</code>易于上手，难于精通;</li>
-<li><code>Python</code>的语言靠缩进区分代码块，不强制每句代码添加分号；也不需要花括号确定作用域;</li>
-<li><code>Python</code>依靠缩进区分作用域，因此不支持代码压缩，常常以源代码形式的存在，开源性较好;</li>
-</ol>
-<h4 id="四、Python的缺点"><a href="#四、Python的缺点" class="headerlink" title="四、Python的缺点"></a>四、Python的缺点</h4><h5 id="1-运行效率低"><a href="#1-运行效率低" class="headerlink" title="1.运行效率低"></a>1.运行效率低</h5><p><code>Python</code>主要缺点就是一个字：慢，其相对于<code>C</code>、<code>C++</code>、<code>Java</code>运行效率较慢。</p>
-<p>这主要是因为<code>Pyhton</code>是一种解释性语言，对于当前主流的编程语言大致可分为两类：编译型语言(<code>C</code>、<code>C++</code>)和解释型语言(<code>Javascript</code>、<code>Python</code>)。</p>
-<p><strong>编译型语言</strong>：<br>程序在执行之前需要一个专门的编译过程，把程序编译成为机器语言的文件，运行时不需要重新翻译，直接使用编译的结果就行了。程序执行效率高，依赖编译器，跨平台性差些。如<code>C</code>、<code>C++</code>、<code>Delphi</code>等. [1] </p>
-<p><strong>解释型语言</strong>：<br>解释性语言编写的程序不进行预先编译，以文本方式存储程序代码。在发布程序时，看起来省了道编译工序。但是，在运行程序的时候，解释性语言必须先解释再运行</p>
-<p> 运行效率与开发效率，鱼与熊掌不可兼得。类似汇编和C的运行效率很高，但是却不适合做web开发。对于语言的选择，适合的才是最好的。</p>
-<h5 id="2-不能加密"><a href="#2-不能加密" class="headerlink" title="2.不能加密"></a>2.不能加密</h5><p><code>python</code>依靠缩进来编写代码，代码不能被压缩和混淆，所以这也注定了<code>Python</code>代码不能被加密的特性。</p>
-<h4 id="五、Python之禅"><a href="#五、Python之禅" class="headerlink" title="五、Python之禅"></a>五、Python之禅</h4><p><code>Python</code>的交互式编译器内嵌了几句话(输入<code>import this</code>)，被开发者称之为<code>Pyhon</code>之禅，包含了<code>Python</code>编程的一种大致思想和规范。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>Simple <span class="keyword">is</span> better than <span class="built_in">complex</span></span><br><span class="line">简洁胜于复杂</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>Now <span class="keyword">is</span> better than never ，Although never <span class="keyword">is</span> often  better than right now</span><br><span class="line">做也许好过不做，但不加思索就动手还不如不做</span><br></pre></td></tr></table></figure>
+        <p>我们学习<code>Python</code>编程，经常对字符串这样的数据进行处理。我们也都知道计算机内部信息是采用二进制编码的，那么这其中的处理原理是什么呢？本篇就计算机中关于编码的知识进行总结。</p>
+<h4 id="一、为什么计算机内部信息采用二进制编码"><a href="#一、为什么计算机内部信息采用二进制编码" class="headerlink" title="一、为什么计算机内部信息采用二进制编码"></a>一、为什么计算机内部信息采用二进制编码</h4><p>计算机是由逻辑电路组成的，而逻辑电路只有<code>接通</code>与<code>断开</code>两个状态，正好可以对映二进制的<code>“1”</code>与<code>“0”</code>。这样的计算机设计在技术上会简单许多。</p>
+<h4 id="二、计算机编码的由来"><a href="#二、计算机编码的由来" class="headerlink" title="二、计算机编码的由来"></a>二、计算机编码的由来</h4><p>计算机内部信息采用二进制编码，这决定了它只能直接识别<code>0</code>和<code>1</code>。我们所有各类型数据也都需要被转换为二进制<code>0</code>和<code>1</code>的序列存放在计算机中的。但是这样就产生了问题，对于一个很长的二进制序列，我们很难理解它的含义。</p>
+<p>因此，我们可以规定每个字符的二进制序列，并把它存在计算机内，当需要将二进制位转换成我们能看懂的字符数据时，让计算机去截取二进制位查找对应的表，翻译成我们看的懂的数据。这种规定字符的二进制序列的做法就是一种<code>编码</code>行为，让计算机翻译就是一种<code>解码</code>行为。 </p>
+<p>这样，也就产生了各种我们常见的计算机编码，如：<code>ASCll</code>编码、<code>UTF-8</code>编码、<code>Unicode</code>编码等。</p>
+<h4 id="三、认识常见的计算机编码"><a href="#三、认识常见的计算机编码" class="headerlink" title="三、认识常见的计算机编码"></a>三、认识常见的计算机编码</h4><h5 id="1-ASCll编码"><a href="#1-ASCll编码" class="headerlink" title="1.ASCll编码"></a>1.ASCll编码</h5><p>计算机是由美国人发明的，他们设计的<code>ASCll</code>编码是基于罗马字母表的一套电脑编码系统，主要用于显示现代英语和其他西欧语言。英语只有<code>26</code>个英文字母，所以<code>ASCll</code>编码只用<code>8</code>位二进制就表示了所有他们需要的字符。<code>ASCll</code>编码也是现今最通用的单字节编码系统。但是我们的汉字有几万个之多，<code>ASCll</code>编码并不能完全适用，所以后来我们也创造了适合中文的编码方式。</p>
+<img src="http://182.92.228.41/wp-content/uploads/python_coding_ascall.png" >
 
-
-<h4 id="六、Python学习的相关资料"><a href="#六、Python学习的相关资料" class="headerlink" title="六、Python学习的相关资料"></a>六、Python学习的相关资料</h4><ol>
-<li><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000">廖雪峰Python3的官方网站</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.runoob.com/python/python-tutorial.html">Python基本教程</a></li>
+<p>在计算机的存储中，一个<code>ASCII</code>码值占一个字节(<code>8</code>个二进制位)，其最高位(<code>b7</code>)用作奇偶校验位。所谓奇偶校验，是指在代码传送过程中用来检验是否出现错误的一种方法，一般分奇校验和偶校验两种。</p>
+<ul>
+<li>奇校验规定：正确的代码一个字节中<code>1</code>的个数必须是奇数，若非奇数，则在最高位<code>b7</code>添<code>1</code>；</li>
+<li>偶校验规定：正确的代码一个字节中<code>1</code>的个数必须是偶数，若非偶数，则在最高位<code>b7</code>添<code>1</code>。</li>
+</ul>
+<h5 id="2-ISO-8859-1-x2F-Windows-1252"><a href="#2-ISO-8859-1-x2F-Windows-1252" class="headerlink" title="2.ISO-8859-1&#x2F;Windows-1252"></a>2.ISO-8859-1&#x2F;Windows-1252</h5><p><code>ISO-8859-1</code>编码:<br><code>ASCll</code>编码的一个字节并未用完，后来的欧洲国家为了增加它们经常使用的字符，就在原<code>ASCll</code>编码的基础上扩充进而创造了<code>ISO-8859-1</code>编码，又称西欧语言。</p>
+<p><code>Windows-1252</code>编码:<br><code>Windows-1252</code>编码是<code>ISO-8859-1</code>编码的超集，现在的<code>HTML5</code>规范中就要求<code>ISO-8859-1</code> 的文档实际上用 <code>Windows-1252</code> 编码进行分析。</p>
+<h5 id="3-GB2312编码-简体中文-与GBK编码"><a href="#3-GB2312编码-简体中文-与GBK编码" class="headerlink" title="3.GB2312编码(简体中文)与GBK编码"></a>3.GB2312编码(简体中文)与GBK编码</h5><p>汉字众多，一个字节长度的编码显然不适合，所以我国在<code>1981</code>年<code>5</code>月<code>1</code>日开始实施的一套国家标准<code>GB2312</code>，适用于汉字处理、汉字通信等系统之间的信息交换。</p>
+<p><code>GB2312</code>使用两个字节来表示汉字。小于<code>127</code>的依然表示原来的字符（也就是该字节最高位为<code>0</code>），当计算机遇到两个大于<code>127</code>的字节时候（也就是两个字节的最高位都是<code>1</code>），就一次性读取两个字节，将它解码成一个汉字。</p>
+<p><code>GB2312</code>标准共收录<code>6763</code>个汉字，其中一级汉字<code>3755</code>个，二级汉字<code>3008</code>个；同时，<code>GB2312</code>收录了包括拉丁字母、希腊字母、日文平假名及片假名字母、俄语西里尔字母在内的<code>682</code>个全角字符。</p>
+<h5 id="4-GBK与GB18030"><a href="#4-GBK与GB18030" class="headerlink" title="4.GBK与GB18030"></a>4.GBK与GB18030</h5><p><code>GB2312</code>的出现，基本满足了汉字的计算机处理需要，它所收录的汉字已经覆盖中国大陆<code>99.75%</code>的使用频率。但是对于人名、古汉语等方面出现的罕用字，<code>GB2312</code>不能处理，这导致了后来<code>GBK</code>及<code>GB18030</code>汉字字符集的出现。</p>
+<ul>
+<li><code>GBK</code>：向下兼容<code>GB2312</code>，增加新的汉字，共收录了<code>21003</code>个汉字。</li>
+<li><code>GB18030</code>：再次对<code>GBK</code>的扩充，增加了日韩和少数民族的字符编码。</li>
+</ul>
+<h5 id="5-Unicode编码"><a href="#5-Unicode编码" class="headerlink" title="5.Unicode编码"></a>5.Unicode编码</h5><p>如果每个国家都按照自己的标准编码字符集，就会对编码不同的两个国家的交流造成很困难。为了统一所有文字的编码，<code>Unicode</code>应运而生。</p>
+<p>但是，<code>UNicode</code>仅仅只是一个字符集，就是为每个字符规定一个用来表示该字符的二进制数字，至于这个二进制代码如何存储则没有任何规定。试想，如果按照汉字所需的<code>2</code>到<code>4</code>个字节来编码，那么英文文档的大小也就大出了<code>1</code>到<code>3</code>倍。</p>
+<p>为了解决<code>Unicode</code>编码的问题，<code>UTT-8</code>和<code>UTF-16</code>以及<code>UTF-32</code>出现了。</p>
+<ul>
+<li><code>UTF-8</code>是目前互联网上使用最广泛的一种 <code>Unicode</code> 编码方式，它的最大特点就是可变长。它可以使用 <code>1 - 4 </code>个字节表示一个字符，根据字符的不同变换长度；<br>*<code> UTF-16</code>编码介于 <code>UTF-32</code> 与 <code>UTF-8 </code>之间，同时结合了定长和变长两种编码方法的特点；</li>
+</ul>
+<h4 id="四、参考文章"><a href="#四、参考文章" class="headerlink" title="四、参考文章"></a>四、参考文章</h4><ol>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/ISO-8859-1/7878872">ISO-8859-1编码</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Windows-1252">Windows-1252编码</a></li>
 </ol>
 
       
@@ -358,7 +356,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://wuyubeichen.github.io/2018/10/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/" title="Python学习(1)：入门与导学" target="_blank" rel="external">https://wuyubeichen.github.io/2018/10/01/Python学习01-入门与导学/</a>
+      <a href="https://wuyubeichen.github.io/2018/10/03/Python%E5%AD%A6%E4%B9%A003-%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A0%81/" title="Python学习03-理解计算机中的编码" target="_blank" rel="external">https://wuyubeichen.github.io/2018/10/03/Python学习03-理解计算机中的编码/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -405,12 +403,12 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/2018/10/02/Python%E5%AD%A6%E4%B9%A002-%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E4%B8%8E%E8%BF%90%E8%A1%8C/" title="Python学习(2)：环境安装与运行"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+      <a href="/2018/10/04/Python%E5%AD%A6%E4%B9%A004-%E5%8F%98%E9%87%8F%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Python学习04-变量与数据类型"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
     </li>
     
     
     <li class="next">
-      <a href="/2018/08/10/Swift%E5%AD%A6%E4%B9%A010-%E5%8D%8F%E8%AE%AE/" title="Swift学习10-协议"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2018/10/02/Python%E5%AD%A6%E4%B9%A002-%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E4%B8%8E%E8%BF%90%E8%A1%8C/" title="Python学习(2)：环境安装与运行"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     

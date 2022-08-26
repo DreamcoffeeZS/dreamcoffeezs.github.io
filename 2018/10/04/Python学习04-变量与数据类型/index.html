@@ -17,21 +17,26 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Python学习(1)：入门与导学 | Hexo</title>
-  <meta name="description" content="Life is simple ,I use Python. 代码：代码是现实世界事物在计算机世界中的映射编程：将现实世界中事物用计算机语言来描述 最近在网上找了一些资料在学习Python，就想把每次的学习内容记录下来，这也是为了避免新学的东西容易遗忘。自己选择Python只有一个原因，那就是兴趣。作为一个iOS开发者，我也很好奇，传说中无所不能的Python到底是怎样的一种语言，使用Python是">
+  <title>Python学习04-变量与数据类型 | Hexo</title>
+  <meta name="description" content="学习一门新语言，一切从变量与基本类型说起。Python中的变量使用与其他常见语言有所不同，最大的特点就是Python的变量不需要声明。 一、Python中变量使用特点 每个变量在使用前都必须赋值，变量赋值后才会被创建。 Python中的变量就是变量，它没有类型，我们所说的&quot;类型&quot;是变量所指的内存中对象的类型。 等号(&#x3D;)用来给变量赋值。 等号(&#x3D;)运算符左边是一个变量名，等号(">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python学习(1)：入门与导学">
-<meta property="og:url" content="https://wuyubeichen.github.io/2018/10/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/index.html">
+<meta property="og:title" content="Python学习04-变量与数据类型">
+<meta property="og:url" content="https://wuyubeichen.github.io/2018/10/04/Python%E5%AD%A6%E4%B9%A004-%E5%8F%98%E9%87%8F%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/index.html">
 <meta property="og:site_name" content="梧雨北辰的博客">
-<meta property="og:description" content="Life is simple ,I use Python. 代码：代码是现实世界事物在计算机世界中的映射编程：将现实世界中事物用计算机语言来描述 最近在网上找了一些资料在学习Python，就想把每次的学习内容记录下来，这也是为了避免新学的东西容易遗忘。自己选择Python只有一个原因，那就是兴趣。作为一个iOS开发者，我也很好奇，传说中无所不能的Python到底是怎样的一种语言，使用Python是">
+<meta property="og:description" content="学习一门新语言，一切从变量与基本类型说起。Python中的变量使用与其他常见语言有所不同，最大的特点就是Python的变量不需要声明。 一、Python中变量使用特点 每个变量在使用前都必须赋值，变量赋值后才会被创建。 Python中的变量就是变量，它没有类型，我们所说的&quot;类型&quot;是变量所指的内存中对象的类型。 等号(&#x3D;)用来给变量赋值。 等号(&#x3D;)运算符左边是一个变量名，等号(">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2018-10-01T15:39:33.000Z">
-<meta property="article:modified_time" content="2022-08-26T01:24:16.557Z">
+<meta property="og:image" content="http://182.92.228.41/wp-content/uploads/python_variable_type.png">
+<meta property="og:image" content="http://182.92.228.41/wp-content/uploads/python_variable_print.png">
+<meta property="og:image" content="http://182.92.228.41/wp-content/uploads/python_variable_mutable_immutable.png">
+<meta property="og:image" content="http://182.92.228.41/wp-content/uploads/python_variable_and_reference.png">
+<meta property="article:published_time" content="2018-10-04T15:40:57.000Z">
+<meta property="article:modified_time" content="2022-08-26T01:24:16.558Z">
 <meta property="article:author" content="Zhou Shuai">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://182.92.228.41/wp-content/uploads/python_variable_type.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://wuyubeichen.github.io/2018/10/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/index.html">
+  <link rel="canonical" href="https://wuyubeichen.github.io/2018/10/04/Python%E5%AD%A6%E4%B9%A004-%E5%8F%98%E9%87%8F%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/index.html">
   
     <link rel="alternate" href="/atom.xml" title="梧雨北辰的博客" type="application/atom+xml">
   
@@ -251,21 +256,21 @@
   <div class="slimContent">
     <nav id="toc" class="article-toc">
       <h3 class="toc-title">文章目录</h3>
-      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BA%86%E8%A7%A3Python"><span class="toc-number">1.</span> <span class="toc-text">一、了解Python</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Python%E8%83%BD%E5%81%9A%E4%BA%9B%E4%BB%80%E4%B9%88"><span class="toc-number">2.</span> <span class="toc-text">二、Python能做些什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81Pthon%E7%89%B9%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">三、Pthon特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Python%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="toc-number">4.</span> <span class="toc-text">四、Python的缺点</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E8%BF%90%E8%A1%8C%E6%95%88%E7%8E%87%E4%BD%8E"><span class="toc-number">4.1.</span> <span class="toc-text">1.运行效率低</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E4%B8%8D%E8%83%BD%E5%8A%A0%E5%AF%86"><span class="toc-number">4.2.</span> <span class="toc-text">2.不能加密</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%94%E3%80%81Python%E4%B9%8B%E7%A6%85"><span class="toc-number">5.</span> <span class="toc-text">五、Python之禅</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%AD%E3%80%81Python%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99"><span class="toc-number">6.</span> <span class="toc-text">六、Python学习的相关资料</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81Python%E4%B8%AD%E5%8F%98%E9%87%8F%E4%BD%BF%E7%94%A8%E7%89%B9%E7%82%B9"><span class="toc-number">1.</span> <span class="toc-text">一、Python中变量使用特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Python%E5%8F%98%E9%87%8F%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">2.</span> <span class="toc-text">二、Python变量的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%8D%95%E4%B8%AA%E5%8F%98%E9%87%8F%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">2.1.</span> <span class="toc-text">1. 单个变量的定义</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%A4%9A%E4%B8%AA%E5%8F%98%E9%87%8F%E7%9A%84%E5%AE%9A%E4%B9%89%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="toc-number">2.2.</span> <span class="toc-text">2. 多个变量的定义如下：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.</span> <span class="toc-text">三、基本数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E6%89%93%E5%8D%B0%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.1.</span> <span class="toc-text">1.打印类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E6%B5%8B%E8%AF%95%E5%8F%AF%E5%8F%98%E4%B8%8E%E4%B8%8D%E5%8F%AF%E5%8F%98"><span class="toc-number">3.2.</span> <span class="toc-text">2.测试可变与不可变</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.3.</span> <span class="toc-text">四、值类型与引用类型</span></a></li></ol></li></ol>
     </nav>
   </div>
 </aside>
 
 <main class="main" role="main">
   <div class="content">
-  <article id="post-Python学习01-入门与导学" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-Python学习04-变量与数据类型" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      Python学习(1)：入门与导学
+      Python学习04-变量与数据类型
     </h1>
   
 
@@ -273,8 +278,8 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2018/10/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/" class="article-date">
-	  <time datetime="2018-10-01T15:39:33.000Z" itemprop="datePublished">2018-10-01</time>
+	<a href="/2018/10/04/Python%E5%AD%A6%E4%B9%A004-%E5%8F%98%E9%87%8F%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="article-date">
+	  <time datetime="2018-10-04T15:40:57.000Z" itemprop="datePublished">2018-10-04</time>
 	</a>
 </span>
         
@@ -299,57 +304,38 @@
 	</span>
 
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/10/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/10/04/Python%E5%AD%A6%E4%B9%A004-%E5%8F%98%E9%87%8F%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.1k(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 405(字)</span>
 	
 	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 4(分)</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
 	
 
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <p><strong>Life is simple ,I use Python.</strong></p>
-<p>代码：代码是现实世界事物在计算机世界中的映射<br>编程：将现实世界中事物用计算机语言来描述</p>
-<p>最近在网上找了一些资料在学习<code>Python</code>，就想把每次的学习内容记录下来，这也是为了避免新学的东西容易遗忘。自己选择<code>Python</code>只有一个原因，那就是兴趣。作为一个<code>iOS</code>开发者，我也很好奇，传说中无所不能的<code>Python</code>到底是怎样的一种语言，使用<code>Python</code>是否也能做出一些有意思的事情，比如爬虫、机器学习等。下面的系列文章就是我的<code>Python</code>学习之旅。</p>
-<h4 id="一、了解Python"><a href="#一、了解Python" class="headerlink" title="一、了解Python"></a>一、了解Python</h4><p><code>Python</code>并不是一门新兴的语言，反而是诞生于上世纪90年代初的语言。 随着大数据与人工智能的流行，<code>Python</code>逐步的流行起来。<code>Python</code>就像一个技术的润滑剂，大多数互联网公司或多或少都会用到，可以在开发中解决大大小小的很多问题。根据<code>TIOBE</code>语言排行，<code>Python</code>的语言排行为第四位，热度上升很快，其流行程度可见一斑。</p>
-<p>说明：本系列文章是本人的<code>Python</code>学习记录，在<code>1-9</code>篇都是在<code>Python</code>自带的解释器<code>IDLE</code>中编写和运行代码。在实际开发中专业的开发工具使用<code>Pycharm</code>，而做一些轻量化的开发使用的是<code>Sublime text3</code>或者<code>Visual Studio Code</code></p>
-<h4 id="二、Python能做些什么"><a href="#二、Python能做些什么" class="headerlink" title="二、Python能做些什么"></a>二、Python能做些什么</h4><p><code>Pyhotn</code>几乎是万能的，相对于其他语言可以做的事情很多:</p>
-<ol>
-<li>爬虫 </li>
-<li>大数据与数据分析(<code>Spark</code>)</li>
-<li>自动化运维与自动化测试</li>
-<li><code>Web</code>开发：<code>Flask</code>，<code>Diango</code></li>
-<li>机器学习：Tensor<code> </code>Flow</li>
-<li>胶水语言：混合其他如<code>C++</code>、<code>Java</code>等来编程。能够把用其他语言制作的各种模块(尤其是<code>C/C++</code>)很轻松的结合在一起。</li>
+        <p>学习一门新语言，一切从变量与基本类型说起。<code>Python</code>中的变量使用与其他常见语言有所不同，最大的特点就是<code>Python</code>的变量不需要声明。</p>
+<h4 id="一、Python中变量使用特点"><a href="#一、Python中变量使用特点" class="headerlink" title="一、Python中变量使用特点"></a>一、Python中变量使用特点</h4><ol>
+<li>每个变量在使用前都必须赋值，变量赋值后才会被创建。</li>
+<li><code>Python</code>中的变量就是变量，它没有类型，我们所说的<code>&quot;类型&quot;</code>是变量所指的内存中对象的类型。</li>
+<li>等号(<code>=</code>)用来给变量赋值。</li>
+<li>等号(<code>=</code>)运算符左边是一个变量名，等号(<code>=</code>)运算符右边是存储在变量中的值。</li>
+<li>变量名的首字母不能是数字，而是字母、数字、下划线的组合;</li>
 </ol>
-<h4 id="三、Pthon特点"><a href="#三、Pthon特点" class="headerlink" title="三、Pthon特点"></a>三、Pthon特点</h4><ol>
-<li><code>Python</code>语法简洁，灵活，优雅，哲学，编写程序容易阅读;</li>
-<li><code>Python</code>支持跨平台，可以运行在<code>Windows</code>、<code>Linux</code>以及<code>MacOS</code>;</li>
-<li><code>Python</code>是面向对象的动态语言，既有动态脚本的特性，又有面向对象的特性，非常具有自己的特点;</li>
-<li><code>Python</code>拥有极为强大而丰富的标准库与第三方库，比如电子邮件，比如图形<code>GUI</code>界面;</li>
-<li><code>Python</code>易于上手，难于精通;</li>
-<li><code>Python</code>的语言靠缩进区分代码块，不强制每句代码添加分号；也不需要花括号确定作用域;</li>
-<li><code>Python</code>依靠缩进区分作用域，因此不支持代码压缩，常常以源代码形式的存在，开源性较好;</li>
-</ol>
-<h4 id="四、Python的缺点"><a href="#四、Python的缺点" class="headerlink" title="四、Python的缺点"></a>四、Python的缺点</h4><h5 id="1-运行效率低"><a href="#1-运行效率低" class="headerlink" title="1.运行效率低"></a>1.运行效率低</h5><p><code>Python</code>主要缺点就是一个字：慢，其相对于<code>C</code>、<code>C++</code>、<code>Java</code>运行效率较慢。</p>
-<p>这主要是因为<code>Pyhton</code>是一种解释性语言，对于当前主流的编程语言大致可分为两类：编译型语言(<code>C</code>、<code>C++</code>)和解释型语言(<code>Javascript</code>、<code>Python</code>)。</p>
-<p><strong>编译型语言</strong>：<br>程序在执行之前需要一个专门的编译过程，把程序编译成为机器语言的文件，运行时不需要重新翻译，直接使用编译的结果就行了。程序执行效率高，依赖编译器，跨平台性差些。如<code>C</code>、<code>C++</code>、<code>Delphi</code>等. [1] </p>
-<p><strong>解释型语言</strong>：<br>解释性语言编写的程序不进行预先编译，以文本方式存储程序代码。在发布程序时，看起来省了道编译工序。但是，在运行程序的时候，解释性语言必须先解释再运行</p>
-<p> 运行效率与开发效率，鱼与熊掌不可兼得。类似汇编和C的运行效率很高，但是却不适合做web开发。对于语言的选择，适合的才是最好的。</p>
-<h5 id="2-不能加密"><a href="#2-不能加密" class="headerlink" title="2.不能加密"></a>2.不能加密</h5><p><code>python</code>依靠缩进来编写代码，代码不能被压缩和混淆，所以这也注定了<code>Python</code>代码不能被加密的特性。</p>
-<h4 id="五、Python之禅"><a href="#五、Python之禅" class="headerlink" title="五、Python之禅"></a>五、Python之禅</h4><p><code>Python</code>的交互式编译器内嵌了几句话(输入<code>import this</code>)，被开发者称之为<code>Pyhon</code>之禅，包含了<code>Python</code>编程的一种大致思想和规范。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>Simple <span class="keyword">is</span> better than <span class="built_in">complex</span></span><br><span class="line">简洁胜于复杂</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>Now <span class="keyword">is</span> better than never ，Although never <span class="keyword">is</span> often  better than right now</span><br><span class="line">做也许好过不做，但不加思索就动手还不如不做</span><br></pre></td></tr></table></figure>
+<h4 id="二、Python变量的定义"><a href="#二、Python变量的定义" class="headerlink" title="二、Python变量的定义"></a>二、Python变量的定义</h4><h5 id="1-单个变量的定义"><a href="#1-单个变量的定义" class="headerlink" title="1. 单个变量的定义"></a>1. 单个变量的定义</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">name = <span class="string">&quot;fengzi&quot;</span></span><br><span class="line">age  = <span class="number">18</span></span><br></pre></td></tr></table></figure>
+<h5 id="2-多个变量的定义如下："><a href="#2-多个变量的定义如下：" class="headerlink" title="2. 多个变量的定义如下："></a>2. 多个变量的定义如下：</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = b = c = <span class="number">1</span></span><br><span class="line">a,b,c = <span class="number">1</span>,<span class="number">2</span>, <span class="string">&quot;fengzi&quot;</span></span><br></pre></td></tr></table></figure>
+<h4 id="三、基本数据类型"><a href="#三、基本数据类型" class="headerlink" title="三、基本数据类型"></a>三、基本数据类型</h4><p>在内存中存储的数据可以有多种类型。例如，一个人的年龄可以用数字来存储，他的名字可以用字符来存储。<code>Python</code>也定义了一些基本的数据类型，用于存储各种类型的数据，大致可以被归纳为以下几种：<br><img src="http://182.92.228.41/wp-content/uploads/python_variable_type.png"></p>
+<h5 id="1-打印类型"><a href="#1-打印类型" class="headerlink" title="1.打印类型"></a>1.打印类型</h5><p>在<code>Python</code>的解释器中可以使用<code>type</code>函数来打印各种数据类型的值。尤其在学习初期，可以很方便的帮助我们理解各种类型的使用，操作如下：<br><img src="http://182.92.228.41/wp-content/uploads/python_variable_print.png"></p>
+<h5 id="2-测试可变与不可变"><a href="#2-测试可变与不可变" class="headerlink" title="2.测试可变与不可变"></a>2.测试可变与不可变</h5><img src="http://182.92.228.41/wp-content/uploads/python_variable_mutable_immutable.png">
 
-
-<h4 id="六、Python学习的相关资料"><a href="#六、Python学习的相关资料" class="headerlink" title="六、Python学习的相关资料"></a>六、Python学习的相关资料</h4><ol>
-<li><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000">廖雪峰Python3的官方网站</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.runoob.com/python/python-tutorial.html">Python基本教程</a></li>
-</ol>
-
+<h5 id="四、值类型与引用类型"><a href="#四、值类型与引用类型" class="headerlink" title="四、值类型与引用类型"></a>四、值类型与引用类型</h5><ul>
+<li><code>Number</code>、<code>str</code>、<code>tuple</code>是值类型</li>
+<li><code>list</code> 、<code>set</code>、 <code>dict</code> 是引用类型</li>
+</ul>
+<img src="http://182.92.228.41/wp-content/uploads/python_variable_and_reference.png">
       
     </div>
     <div class="article-footer">
@@ -358,7 +344,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://wuyubeichen.github.io/2018/10/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/" title="Python学习(1)：入门与导学" target="_blank" rel="external">https://wuyubeichen.github.io/2018/10/01/Python学习01-入门与导学/</a>
+      <a href="https://wuyubeichen.github.io/2018/10/04/Python%E5%AD%A6%E4%B9%A004-%E5%8F%98%E9%87%8F%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Python学习04-变量与数据类型" target="_blank" rel="external">https://wuyubeichen.github.io/2018/10/04/Python学习04-变量与数据类型/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -405,12 +391,12 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/2018/10/02/Python%E5%AD%A6%E4%B9%A002-%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E4%B8%8E%E8%BF%90%E8%A1%8C/" title="Python学习(2)：环境安装与运行"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+      <a href="/2019/02/15/iOS%E5%B1%8F%E5%B9%95%E6%97%8B%E8%BD%AC%E9%80%82%E9%85%8D/" title="iOS屏幕旋转适配"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
     </li>
     
     
     <li class="next">
-      <a href="/2018/08/10/Swift%E5%AD%A6%E4%B9%A010-%E5%8D%8F%E8%AE%AE/" title="Swift学习10-协议"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2018/10/03/Python%E5%AD%A6%E4%B9%A003-%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A0%81/" title="Python学习03-理解计算机中的编码"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
