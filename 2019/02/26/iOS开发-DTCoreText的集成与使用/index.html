@@ -1,25 +1,23 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang=zh>
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/header.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/header.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/header.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"wuyubeichen.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
-  </script>
-
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>iOS开发-DTCoreText的集成与使用 | Hexo</title>
   <meta name="description" content="主要内容：  DTCoreText简介 DTCoreText的集成 DTCoreText的使用 DTAttributedLabel DTAttributedTextView DTAttributedTextCell 可能遇到的错误  一、DTCoreText简介DTCoreText是可以将HTML字符串转化为富文本使用的工具，既保证原生实现又能适应灵活的样式修改，而且相比于使用WebView显示内">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS开发-DTCoreText的集成与使用">
@@ -44,194 +42,287 @@
 <meta property="article:tag" content="UI问题">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://182.92.228.41/wp-content/uploads/dtcoretext_targets_deployment_Info.png">
-
-<link rel="canonical" href="https://wuyubeichen.github.io/2019/02/26/iOS%E5%BC%80%E5%8F%91-DTCoreText%E7%9A%84%E9%9B%86%E6%88%90%E4%B8%8E%E4%BD%BF%E7%94%A8/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>iOS开发-DTCoreText的集成与使用 | 梧雨北辰的博客</title>
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wuyubeichen.github.io/2019/02/26/iOS%E5%BC%80%E5%8F%91-DTCoreText%E7%9A%84%E9%9B%86%E6%88%90%E4%B8%8E%E4%BD%BF%E7%94%A8/index.html">
   
+    <link rel="alternate" href="/atom.xml" title="梧雨北辰的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-<link rel="alternate" href="/atom.xml" title="梧雨北辰的博客" type="application/atom+xml">
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">梧雨北辰的博客</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">天行健，君子以自强不息！</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
+ <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142"
+     crossorigin="anonymous"></script>
+     
+<meta name="generator" content="Hexo 6.2.0"></head>
 
 
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
+<body class="main-center theme-purple" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wuyubeichen" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">梧雨北辰</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">iOS Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Beijing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
 
-          <div class="content post posts-expand">
-            
-
-    
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wuyubeichen.github.io/2019/02/26/iOS%E5%BC%80%E5%8F%91-DTCoreText%E7%9A%84%E9%9B%86%E6%88%90%E4%B8%8E%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Author">
-      <meta itemprop="description" content="iOS Developer, Beijing China">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="梧雨北辰的博客">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          iOS开发-DTCoreText的集成与使用
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-02-26 16:16:49" itemprop="dateCreated datePublished" datetime="2019-02-26T16:16:49+08:00">2019-02-26</time>
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-29 09:39:32" itemprop="dateModified" datetime="2022-08-29T09:39:32+08:00">2022-08-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">iOS开发</span></a>
-                </span>
-            </span>
-
-          
-
         </div>
-      </header>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BA%95%E5%B1%82/">iOS底层</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BC%80%E5%8F%91/">iOS开发</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86/">网络原理</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
 
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Block/" style="font-size: 13.25px;">Block</a> <a href="/tags/CPU%E6%9E%B6%E6%9E%84/" style="font-size: 13px;">CPU架构</a> <a href="/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/tags/Mach-O/" style="font-size: 13.5px;">Mach-O</a> <a href="/tags/Python/" style="font-size: 13.75px;">Python</a> <a href="/tags/Runtime/" style="font-size: 13.25px;">Runtime</a> <a href="/tags/Swift/" style="font-size: 14px;">Swift</a> <a href="/tags/UI%E9%97%AE%E9%A2%98/" style="font-size: 13.25px;">UI问题</a> <a href="/tags/Xcode/" style="font-size: 13.5px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 14px;">iOS</a> <a href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" style="font-size: 13.25px;">内存管理</a> <a href="/tags/%E5%8A%A8%E6%80%81%E5%BA%93/" style="font-size: 13px;">动态库</a> <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 13.25px;">响应式编程</a> <a href="/tags/%E6%8A%93%E5%8C%85/" style="font-size: 13px;">抓包</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.5px;">环境配置</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13px;">编译原理</a> <a href="/tags/%E9%9D%99%E6%80%81%E5%BA%93/" style="font-size: 13px;">静态库</a>
+    </div>
+  </div>
+
+    
+      <div class="widget">
+    <div class="widget-body">
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142" crossorigin="anonymous"></script>
+         <!-- widget_ad1 -->
+         <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1012757114750142"
+             data-ad-slot="4233351648"
+             data-full-width-responsive="true"></ins>
+         <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+    </div>
+</div>
+
+    
+  </div>
+</aside>
+
+  
+  
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81DTCoreText%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">一、DTCoreText简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81DTCoreText%E7%9A%84%E9%9B%86%E6%88%90"><span class="toc-number">2.</span> <span class="toc-text">二、DTCoreText的集成</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E4%B8%8B%E8%BD%BD%E6%BA%90%E7%A0%81"><span class="toc-number">2.1.</span> <span class="toc-text">1.下载源码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E8%AE%BE%E7%BD%AE%E7%BC%96%E8%AF%91%E9%85%8D%E7%BD%AE"><span class="toc-number">2.2.</span> <span class="toc-text">2.设置编译配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E8%AE%BE%E7%BD%AEScheme"><span class="toc-number">2.3.</span> <span class="toc-text">3.设置Scheme</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%92%8C%E7%9C%9F%E6%9C%BA%E5%88%86%E5%88%AB%E7%BC%96%E8%AF%91"><span class="toc-number">2.4.</span> <span class="toc-text">4.模拟器和真机分别编译</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-%E6%89%93%E5%BC%80%E7%BC%96%E8%AF%91%E7%BC%93%E5%AD%98%EF%BC%8C%E8%8E%B7%E5%8F%96%E9%9D%99%E6%80%81%E5%BA%93"><span class="toc-number">2.5.</span> <span class="toc-text">5.打开编译缓存，获取静态库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-%E5%90%88%E5%B9%B6%E9%9D%99%E6%80%81%E5%BA%93"><span class="toc-number">2.6.</span> <span class="toc-text">6.合并静态库</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81DTCoreText%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">三、DTCoreText的使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E4%BD%BF%E7%94%A8DTAttributedLabel"><span class="toc-number">4.</span> <span class="toc-text">四、使用DTAttributedLabel</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E6%98%BE%E7%A4%BA%E5%9F%BA%E6%9C%AC%E6%96%87%E6%9C%AC"><span class="toc-number">4.1.</span> <span class="toc-text">1.显示基本文本</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87"><span class="toc-number">4.2.</span> <span class="toc-text">2.显示图片</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E5%93%8D%E5%BA%94%E4%BA%8B%E4%BB%B6"><span class="toc-number">4.3.</span> <span class="toc-text">3.响应事件</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%94%E3%80%81DTAttributedTextView"><span class="toc-number">5.</span> <span class="toc-text">五、DTAttributedTextView</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%AD%E3%80%81DTAttributedTextCell"><span class="toc-number">6.</span> <span class="toc-text">六、DTAttributedTextCell</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%A3%B0%E6%98%8E%E6%8E%A7%E5%88%B6%E5%99%A8%E5%86%85%E5%B1%9E%E6%80%A7"><span class="toc-number">6.1.</span> <span class="toc-text">1. 声明控制器内属性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E8%A1%A8%E8%A7%86%E5%9B%BE%E4%BB%A3%E7%90%86%E6%96%B9%E6%B3%95%E8%BF%94%E5%9B%9E%E5%8D%95%E5%85%83%E6%A0%BC%E5%8F%8A%E5%85%B6%E9%AB%98%E5%BA%A6"><span class="toc-number">6.2.</span> <span class="toc-text">2.表视图代理方法返回单元格及其高度</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E6%87%92%E5%8A%A0%E8%BD%BD%E5%A4%84%E7%90%86%E6%97%A0%E5%AE%BD%E9%AB%98%E5%B1%9E%E6%80%A7%E7%9A%84%E5%9B%BE%E7%89%87"><span class="toc-number">6.3.</span> <span class="toc-text">3.懒加载处理无宽高属性的图片</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E5%88%9B%E5%BB%BA%E5%AF%8C%E6%96%87%E6%9C%AC%E5%8D%95%E5%85%83%E6%A0%BC%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">6.4.</span> <span class="toc-text">4.创建富文本单元格的方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-%E5%A4%84%E7%90%86%E8%A1%A8%E8%A7%86%E5%9B%BE%E7%9A%84%E5%88%B7%E6%96%B0"><span class="toc-number">6.5.</span> <span class="toc-text">5.处理表视图的刷新</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-set%E6%96%B9%E6%B3%95%E5%88%9B%E5%BB%BA%E8%A1%A8%E8%A7%86%E5%9B%BE%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%BA%90"><span class="toc-number">6.6.</span> <span class="toc-text">6.set方法创建表视图与数据源</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E7%9A%84%E9%94%99%E8%AF%AF"><span class="toc-number">7.</span> <span class="toc-text">七、可能遇到的错误</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-iOS开发-DTCoreText的集成与使用" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS开发-DTCoreText的集成与使用
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/02/26/iOS%E5%BC%80%E5%8F%91-DTCoreText%E7%9A%84%E9%9B%86%E6%88%90%E4%B8%8E%E4%BD%BF%E7%94%A8/" class="article-date">
+	  <time datetime="2019-02-26T08:16:49.000Z" itemprop="datePublished">2019-02-26</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/iOS%E5%BC%80%E5%8F%91/">iOS开发</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/UI%E9%97%AE%E9%A2%98/" rel="tag">UI问题</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/02/26/iOS%E5%BC%80%E5%8F%91-DTCoreText%E7%9A%84%E9%9B%86%E6%88%90%E4%B8%8E%E4%BD%BF%E7%94%A8/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 3.5k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 15(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
       
         <p>主要内容：</p>
 <ol>
@@ -302,218 +393,194 @@
 <p>然而，我在编译工程却会遇到这样一个错误：<code>&quot;image not found&quot;</code></p>
 <p>解决方法如下图：<br><img src="http://182.92.228.41/wp-content/uploads/dtcoretext_image_not_found.png" width="600" align=center/></p>
 
+      
     </div>
-
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
     
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wuyubeichen.github.io/2019/02/26/iOS%E5%BC%80%E5%8F%91-DTCoreText%E7%9A%84%E9%9B%86%E6%88%90%E4%B8%8E%E4%BD%BF%E7%94%A8/" title="iOS开发-DTCoreText的集成与使用" target="_blank" rel="external">https://wuyubeichen.github.io/2019/02/26/iOS开发-DTCoreText的集成与使用/</a>
+    </li>
     
-    
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/UI%E9%97%AE%E9%A2%98/" rel="tag"># UI问题</a>
-          </div>
-
-        
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
 
 
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2019/02/24/iOS%E5%BC%80%E5%8F%91-%E5%B1%8F%E5%B9%95%E6%97%8B%E8%BD%AC%E9%80%82%E9%85%8D/" rel="prev" title="iOS开发-屏幕旋转适配">
-      <i class="fa fa-chevron-left"></i> iOS开发-屏幕旋转适配
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2019/03/02/iOS%E5%BC%80%E5%8F%91-ReactiveCocoa%E5%BA%94%E7%94%A8%E7%AF%87/" rel="next" title="iOS开发-ReactiveCocoa应用篇">
-      iOS开发-ReactiveCocoa应用篇 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-    <div class="comments" id="gitalk-container"></div>
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E3%80%81DTCoreText%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">一、DTCoreText简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E3%80%81DTCoreText%E7%9A%84%E9%9B%86%E6%88%90"><span class="nav-number">2.</span> <span class="nav-text">二、DTCoreText的集成</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E4%B8%8B%E8%BD%BD%E6%BA%90%E7%A0%81"><span class="nav-number">2.1.</span> <span class="nav-text">1.下载源码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E8%AE%BE%E7%BD%AE%E7%BC%96%E8%AF%91%E9%85%8D%E7%BD%AE"><span class="nav-number">2.2.</span> <span class="nav-text">2.设置编译配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E8%AE%BE%E7%BD%AEScheme"><span class="nav-number">2.3.</span> <span class="nav-text">3.设置Scheme</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%92%8C%E7%9C%9F%E6%9C%BA%E5%88%86%E5%88%AB%E7%BC%96%E8%AF%91"><span class="nav-number">2.4.</span> <span class="nav-text">4.模拟器和真机分别编译</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-%E6%89%93%E5%BC%80%E7%BC%96%E8%AF%91%E7%BC%93%E5%AD%98%EF%BC%8C%E8%8E%B7%E5%8F%96%E9%9D%99%E6%80%81%E5%BA%93"><span class="nav-number">2.5.</span> <span class="nav-text">5.打开编译缓存，获取静态库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-%E5%90%88%E5%B9%B6%E9%9D%99%E6%80%81%E5%BA%93"><span class="nav-number">2.6.</span> <span class="nav-text">6.合并静态库</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E3%80%81DTCoreText%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">三、DTCoreText的使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E4%BD%BF%E7%94%A8DTAttributedLabel"><span class="nav-number">4.</span> <span class="nav-text">四、使用DTAttributedLabel</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E6%98%BE%E7%A4%BA%E5%9F%BA%E6%9C%AC%E6%96%87%E6%9C%AC"><span class="nav-number">4.1.</span> <span class="nav-text">1.显示基本文本</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87"><span class="nav-number">4.2.</span> <span class="nav-text">2.显示图片</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E5%93%8D%E5%BA%94%E4%BA%8B%E4%BB%B6"><span class="nav-number">4.3.</span> <span class="nav-text">3.响应事件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%94%E3%80%81DTAttributedTextView"><span class="nav-number">5.</span> <span class="nav-text">五、DTAttributedTextView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%AD%E3%80%81DTAttributedTextCell"><span class="nav-number">6.</span> <span class="nav-text">六、DTAttributedTextCell</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E5%A3%B0%E6%98%8E%E6%8E%A7%E5%88%B6%E5%99%A8%E5%86%85%E5%B1%9E%E6%80%A7"><span class="nav-number">6.1.</span> <span class="nav-text">1. 声明控制器内属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E8%A1%A8%E8%A7%86%E5%9B%BE%E4%BB%A3%E7%90%86%E6%96%B9%E6%B3%95%E8%BF%94%E5%9B%9E%E5%8D%95%E5%85%83%E6%A0%BC%E5%8F%8A%E5%85%B6%E9%AB%98%E5%BA%A6"><span class="nav-number">6.2.</span> <span class="nav-text">2.表视图代理方法返回单元格及其高度</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E6%87%92%E5%8A%A0%E8%BD%BD%E5%A4%84%E7%90%86%E6%97%A0%E5%AE%BD%E9%AB%98%E5%B1%9E%E6%80%A7%E7%9A%84%E5%9B%BE%E7%89%87"><span class="nav-number">6.3.</span> <span class="nav-text">3.懒加载处理无宽高属性的图片</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-%E5%88%9B%E5%BB%BA%E5%AF%8C%E6%96%87%E6%9C%AC%E5%8D%95%E5%85%83%E6%A0%BC%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">6.4.</span> <span class="nav-text">4.创建富文本单元格的方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-%E5%A4%84%E7%90%86%E8%A1%A8%E8%A7%86%E5%9B%BE%E7%9A%84%E5%88%B7%E6%96%B0"><span class="nav-number">6.5.</span> <span class="nav-text">5.处理表视图的刷新</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-set%E6%96%B9%E6%B3%95%E5%88%9B%E5%BB%BA%E8%A1%A8%E8%A7%86%E5%9B%BE%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%BA%90"><span class="nav-number">6.6.</span> <span class="nav-text">6.set方法创建表视图与数据源</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E7%9A%84%E9%94%99%E8%AF%AF"><span class="nav-number">7.</span> <span class="nav-text">七、可能遇到的错误</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">Author</p>
-  <div class="site-description" itemprop="description">iOS Developer, Beijing China</div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">38</span>
-          <span class="site-state-item-name">日志</span>
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wuyubeichen" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
         </a>
       </div>
-      <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">7</span>
-        <span class="site-state-item-name">分类</span>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wuyubeichen" target="_blank"><span class="text-dark">梧雨北辰</span><small class="ml-1x">iOS Developer</small></a></h3>
+        <div>天行健，君子以自强不息</div>
       </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">17</span>
-        <span class="site-state-item-name">标签</span>
-      </div>
-  </nav>
+    </figure>
+  </div>
 </div>
 
-
-
-      </div>
 
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
+  </article>
   
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Author</span>
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
-  </div>
 
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/03/02/iOS%E5%BC%80%E5%8F%91-ReactiveCocoa%E5%BA%94%E7%94%A8%E7%AF%87/" title="iOS开发-ReactiveCocoa应用篇"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/02/24/iOS%E5%BC%80%E5%8F%91-%E5%B1%8F%E5%B9%95%E6%97%8B%E8%BD%AC%E9%80%82%E9%85%8D/" title="iOS开发-屏幕旋转适配"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn " data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">    <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
 
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
-
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 <script>
-NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
-    var gitalk = new Gitalk({
-      clientID    : '2e6fa2ad89748dbf4116',
-      clientSecret: 'f9c89ddcbf94ec2d51bf77a2741a883278b6c9e9',
-      repo        : 'wuyubeichen.github.io',
-      owner       : 'wuyubeichen',
-      admin       : ['wuyubeichen'],
-      id          : '11f7494a63b1e4ca7dd67dcad66d883a',
-        language: 'zh-CN',
-      distractionFreeMode: true
-    });
-    gitalk.render('gitalk-container');
-  }, window.Gitalk);
-});
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 </script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '2e6fa2ad89748dbf4116',
+    clientSecret: 'f9c89ddcbf94ec2d51bf77a2741a883278b6c9e9',
+    repo: 'wuyubeichen.github.io',
+    owner: 'wuyubeichen',
+    admin: ['wuyubeichen'],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    language: 'zh-CN',
+    enableHotKey: 'true'
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-260209674-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
 
 </body>
 </html>
