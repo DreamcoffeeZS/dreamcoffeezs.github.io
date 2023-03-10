@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Python学习03-理解计算机中的编码 | Hexo</title>
+  <meta name="description" content="我们学习Python编程，经常对字符串这样的数据进行处理。我们也都知道计算机内部信息是采用二进制编码的，那么这其中的处理原理是什么呢？本篇就计算机中关于编码的知识进行总结。 一、为什么计算机内部信息采用二进制编码计算机是由逻辑电路组成的，而逻辑电路只有接通与断开两个状态，正好可以对映二进制的“1”与“0”。这样的计算机设计在技术上会简单许多。 二、计算机编码的由来计算机内部信息采用二进制编码，这决">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python学习03-理解计算机中的编码">
+<meta property="og:url" content="https://wuyubeichen.github.io/2018/08/03/Python%E5%AD%A6%E4%B9%A003-%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A0%81/index.html">
+<meta property="og:site_name" content="梧雨北辰的博客">
+<meta property="og:description" content="我们学习Python编程，经常对字符串这样的数据进行处理。我们也都知道计算机内部信息是采用二进制编码的，那么这其中的处理原理是什么呢？本篇就计算机中关于编码的知识进行总结。 一、为什么计算机内部信息采用二进制编码计算机是由逻辑电路组成的，而逻辑电路只有接通与断开两个状态，正好可以对映二进制的“1”与“0”。这样的计算机设计在技术上会简单许多。 二、计算机编码的由来计算机内部信息采用二进制编码，这决">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://182.92.228.41/wp-content/uploads/python_coding_ascall.png">
+<meta property="article:published_time" content="2018-08-03T15:40:57.000Z">
+<meta property="article:modified_time" content="2022-08-29T01:39:31.994Z">
+<meta property="article:author" content="Zhou Shuai">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://182.92.228.41/wp-content/uploads/python_coding_ascall.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wuyubeichen.github.io/2018/08/03/Python%E5%AD%A6%E4%B9%A003-%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A0%81/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="梧雨北辰的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+    
+ <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142"
+     crossorigin="anonymous"></script>
+     
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body class="main-center theme-purple" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wuyubeichen" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">梧雨北辰</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">iOS Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Beijing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BA%95%E5%B1%82/">iOS底层</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BC%80%E5%8F%91/">iOS开发</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86/">网络原理</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Block/" style="font-size: 13.25px;">Block</a> <a href="/tags/CPU%E6%9E%B6%E6%9E%84/" style="font-size: 13px;">CPU架构</a> <a href="/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/tags/Mach-O/" style="font-size: 13.5px;">Mach-O</a> <a href="/tags/Python/" style="font-size: 13.75px;">Python</a> <a href="/tags/Runtime/" style="font-size: 13.25px;">Runtime</a> <a href="/tags/Swift/" style="font-size: 14px;">Swift</a> <a href="/tags/UI%E9%97%AE%E9%A2%98/" style="font-size: 13.25px;">UI问题</a> <a href="/tags/Xcode/" style="font-size: 13.5px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 14px;">iOS</a> <a href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" style="font-size: 13.25px;">内存管理</a> <a href="/tags/%E5%8A%A8%E6%80%81%E5%BA%93/" style="font-size: 13px;">动态库</a> <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 13.25px;">响应式编程</a> <a href="/tags/%E6%8A%93%E5%8C%85/" style="font-size: 13px;">抓包</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.5px;">环境配置</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13px;">编译原理</a> <a href="/tags/%E9%9D%99%E6%80%81%E5%BA%93/" style="font-size: 13px;">静态库</a>
+    </div>
+  </div>
+
+    
+      <div class="widget">
+    <div class="widget-body">
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142" crossorigin="anonymous"></script>
+         <!-- widget_ad1 -->
+         <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1012757114750142"
+             data-ad-slot="4233351648"
+             data-full-width-responsive="true"></ins>
+         <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+    </div>
+</div>
+
+    
+  </div>
+</aside>
+
+  
+  
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%86%85%E9%83%A8%E4%BF%A1%E6%81%AF%E9%87%87%E7%94%A8%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">一、为什么计算机内部信息采用二进制编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BC%96%E7%A0%81%E7%9A%84%E7%94%B1%E6%9D%A5"><span class="toc-number">2.</span> <span class="toc-text">二、计算机编码的由来</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E8%AE%A4%E8%AF%86%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BC%96%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">三、认识常见的计算机编码</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-ASCll%E7%BC%96%E7%A0%81"><span class="toc-number">3.1.</span> <span class="toc-text">1.ASCll编码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-ISO-8859-1-x2F-Windows-1252"><span class="toc-number">3.2.</span> <span class="toc-text">2.ISO-8859-1&#x2F;Windows-1252</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-GB2312%E7%BC%96%E7%A0%81-%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-%E4%B8%8EGBK%E7%BC%96%E7%A0%81"><span class="toc-number">3.3.</span> <span class="toc-text">3.GB2312编码(简体中文)与GBK编码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-GBK%E4%B8%8EGB18030"><span class="toc-number">3.4.</span> <span class="toc-text">4.GBK与GB18030</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-Unicode%E7%BC%96%E7%A0%81"><span class="toc-number">3.5.</span> <span class="toc-text">5.Unicode编码</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">4.</span> <span class="toc-text">四、参考文章</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Python学习03-理解计算机中的编码" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python学习03-理解计算机中的编码
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/08/03/Python%E5%AD%A6%E4%B9%A003-%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A0%81/" class="article-date">
+	  <time datetime="2018-08-03T15:40:57.000Z" itemprop="datePublished">2018-08-03</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Python/" rel="tag">Python</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/08/03/Python%E5%AD%A6%E4%B9%A003-%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A0%81/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.4k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 5(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>我们学习<code>Python</code>编程，经常对字符串这样的数据进行处理。我们也都知道计算机内部信息是采用二进制编码的，那么这其中的处理原理是什么呢？本篇就计算机中关于编码的知识进行总结。</p>
+<h4 id="一、为什么计算机内部信息采用二进制编码"><a href="#一、为什么计算机内部信息采用二进制编码" class="headerlink" title="一、为什么计算机内部信息采用二进制编码"></a>一、为什么计算机内部信息采用二进制编码</h4><p>计算机是由逻辑电路组成的，而逻辑电路只有<code>接通</code>与<code>断开</code>两个状态，正好可以对映二进制的<code>“1”</code>与<code>“0”</code>。这样的计算机设计在技术上会简单许多。</p>
+<h4 id="二、计算机编码的由来"><a href="#二、计算机编码的由来" class="headerlink" title="二、计算机编码的由来"></a>二、计算机编码的由来</h4><p>计算机内部信息采用二进制编码，这决定了它只能直接识别<code>0</code>和<code>1</code>。我们所有各类型数据也都需要被转换为二进制<code>0</code>和<code>1</code>的序列存放在计算机中的。但是这样就产生了问题，对于一个很长的二进制序列，我们很难理解它的含义。</p>
+<p>因此，我们可以规定每个字符的二进制序列，并把它存在计算机内，当需要将二进制位转换成我们能看懂的字符数据时，让计算机去截取二进制位查找对应的表，翻译成我们看的懂的数据。这种规定字符的二进制序列的做法就是一种<code>编码</code>行为，让计算机翻译就是一种<code>解码</code>行为。 </p>
+<p>这样，也就产生了各种我们常见的计算机编码，如：<code>ASCll</code>编码、<code>UTF-8</code>编码、<code>Unicode</code>编码等。</p>
+<h4 id="三、认识常见的计算机编码"><a href="#三、认识常见的计算机编码" class="headerlink" title="三、认识常见的计算机编码"></a>三、认识常见的计算机编码</h4><h5 id="1-ASCll编码"><a href="#1-ASCll编码" class="headerlink" title="1.ASCll编码"></a>1.ASCll编码</h5><p>计算机是由美国人发明的，他们设计的<code>ASCll</code>编码是基于罗马字母表的一套电脑编码系统，主要用于显示现代英语和其他西欧语言。英语只有<code>26</code>个英文字母，所以<code>ASCll</code>编码只用<code>8</code>位二进制就表示了所有他们需要的字符。<code>ASCll</code>编码也是现今最通用的单字节编码系统。但是我们的汉字有几万个之多，<code>ASCll</code>编码并不能完全适用，所以后来我们也创造了适合中文的编码方式。</p>
+<img src="http://182.92.228.41/wp-content/uploads/python_coding_ascall.png" >
+
+<p>在计算机的存储中，一个<code>ASCII</code>码值占一个字节(<code>8</code>个二进制位)，其最高位(<code>b7</code>)用作奇偶校验位。所谓奇偶校验，是指在代码传送过程中用来检验是否出现错误的一种方法，一般分奇校验和偶校验两种。</p>
+<ul>
+<li>奇校验规定：正确的代码一个字节中<code>1</code>的个数必须是奇数，若非奇数，则在最高位<code>b7</code>添<code>1</code>；</li>
+<li>偶校验规定：正确的代码一个字节中<code>1</code>的个数必须是偶数，若非偶数，则在最高位<code>b7</code>添<code>1</code>。</li>
+</ul>
+<h5 id="2-ISO-8859-1-x2F-Windows-1252"><a href="#2-ISO-8859-1-x2F-Windows-1252" class="headerlink" title="2.ISO-8859-1&#x2F;Windows-1252"></a>2.ISO-8859-1&#x2F;Windows-1252</h5><p><code>ISO-8859-1</code>编码:<br><code>ASCll</code>编码的一个字节并未用完，后来的欧洲国家为了增加它们经常使用的字符，就在原<code>ASCll</code>编码的基础上扩充进而创造了<code>ISO-8859-1</code>编码，又称西欧语言。</p>
+<p><code>Windows-1252</code>编码:<br><code>Windows-1252</code>编码是<code>ISO-8859-1</code>编码的超集，现在的<code>HTML5</code>规范中就要求<code>ISO-8859-1</code> 的文档实际上用 <code>Windows-1252</code> 编码进行分析。</p>
+<h5 id="3-GB2312编码-简体中文-与GBK编码"><a href="#3-GB2312编码-简体中文-与GBK编码" class="headerlink" title="3.GB2312编码(简体中文)与GBK编码"></a>3.GB2312编码(简体中文)与GBK编码</h5><p>汉字众多，一个字节长度的编码显然不适合，所以我国在<code>1981</code>年<code>5</code>月<code>1</code>日开始实施的一套国家标准<code>GB2312</code>，适用于汉字处理、汉字通信等系统之间的信息交换。</p>
+<p><code>GB2312</code>使用两个字节来表示汉字。小于<code>127</code>的依然表示原来的字符（也就是该字节最高位为<code>0</code>），当计算机遇到两个大于<code>127</code>的字节时候（也就是两个字节的最高位都是<code>1</code>），就一次性读取两个字节，将它解码成一个汉字。</p>
+<p><code>GB2312</code>标准共收录<code>6763</code>个汉字，其中一级汉字<code>3755</code>个，二级汉字<code>3008</code>个；同时，<code>GB2312</code>收录了包括拉丁字母、希腊字母、日文平假名及片假名字母、俄语西里尔字母在内的<code>682</code>个全角字符。</p>
+<h5 id="4-GBK与GB18030"><a href="#4-GBK与GB18030" class="headerlink" title="4.GBK与GB18030"></a>4.GBK与GB18030</h5><p><code>GB2312</code>的出现，基本满足了汉字的计算机处理需要，它所收录的汉字已经覆盖中国大陆<code>99.75%</code>的使用频率。但是对于人名、古汉语等方面出现的罕用字，<code>GB2312</code>不能处理，这导致了后来<code>GBK</code>及<code>GB18030</code>汉字字符集的出现。</p>
+<ul>
+<li><code>GBK</code>：向下兼容<code>GB2312</code>，增加新的汉字，共收录了<code>21003</code>个汉字。</li>
+<li><code>GB18030</code>：再次对<code>GBK</code>的扩充，增加了日韩和少数民族的字符编码。</li>
+</ul>
+<h5 id="5-Unicode编码"><a href="#5-Unicode编码" class="headerlink" title="5.Unicode编码"></a>5.Unicode编码</h5><p>如果每个国家都按照自己的标准编码字符集，就会对编码不同的两个国家的交流造成很困难。为了统一所有文字的编码，<code>Unicode</code>应运而生。</p>
+<p>但是，<code>UNicode</code>仅仅只是一个字符集，就是为每个字符规定一个用来表示该字符的二进制数字，至于这个二进制代码如何存储则没有任何规定。试想，如果按照汉字所需的<code>2</code>到<code>4</code>个字节来编码，那么英文文档的大小也就大出了<code>1</code>到<code>3</code>倍。</p>
+<p>为了解决<code>Unicode</code>编码的问题，<code>UTT-8</code>和<code>UTF-16</code>以及<code>UTF-32</code>出现了。</p>
+<ul>
+<li><code>UTF-8</code>是目前互联网上使用最广泛的一种 <code>Unicode</code> 编码方式，它的最大特点就是可变长。它可以使用 <code>1 - 4 </code>个字节表示一个字符，根据字符的不同变换长度；<br>*<code> UTF-16</code>编码介于 <code>UTF-32</code> 与 <code>UTF-8 </code>之间，同时结合了定长和变长两种编码方法的特点；</li>
+</ul>
+<h4 id="四、参考文章"><a href="#四、参考文章" class="headerlink" title="四、参考文章"></a>四、参考文章</h4><ol>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/ISO-8859-1/7878872">ISO-8859-1编码</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Windows-1252">Windows-1252编码</a></li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wuyubeichen.github.io/2018/08/03/Python%E5%AD%A6%E4%B9%A003-%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A0%81/" title="Python学习03-理解计算机中的编码" target="_blank" rel="external">https://wuyubeichen.github.io/2018/08/03/Python学习03-理解计算机中的编码/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wuyubeichen" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wuyubeichen" target="_blank"><span class="text-dark">梧雨北辰</span><small class="ml-1x">iOS Developer</small></a></h3>
+        <div>天行健，君子以自强不息</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/08/04/Python%E5%AD%A6%E4%B9%A004-%E5%8F%98%E9%87%8F%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Python学习04-变量与数据类型"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/08/02/Python%E5%AD%A6%E4%B9%A002-%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E4%B8%8E%E8%BF%90%E8%A1%8C/" title="Python学习(2)：环境安装与运行"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn " data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">    <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '2e6fa2ad89748dbf4116',
+    clientSecret: 'f9c89ddcbf94ec2d51bf77a2741a883278b6c9e9',
+    repo: 'wuyubeichen.github.io',
+    owner: 'wuyubeichen',
+    admin: ['wuyubeichen'],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    language: 'zh-CN',
+    enableHotKey: 'true'
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'G-CFFB9VW1Q7', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>

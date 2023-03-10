@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Python学习(1)：入门与导学 | Hexo</title>
+  <meta name="description" content="Life is simple ,I use Python. 代码：代码是现实世界事物在计算机世界中的映射编程：将现实世界中事物用计算机语言来描述 最近在网上找了一些资料在学习Python，就想把每次的学习内容记录下来，这也是为了避免新学的东西容易遗忘。自己选择Python只有一个原因，那就是兴趣。作为一个iOS开发者，我也很好奇，传说中无所不能的Python到底是怎样的一种语言，使用Python是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python学习(1)：入门与导学">
+<meta property="og:url" content="https://wuyubeichen.github.io/2018/08/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/index.html">
+<meta property="og:site_name" content="梧雨北辰的博客">
+<meta property="og:description" content="Life is simple ,I use Python. 代码：代码是现实世界事物在计算机世界中的映射编程：将现实世界中事物用计算机语言来描述 最近在网上找了一些资料在学习Python，就想把每次的学习内容记录下来，这也是为了避免新学的东西容易遗忘。自己选择Python只有一个原因，那就是兴趣。作为一个iOS开发者，我也很好奇，传说中无所不能的Python到底是怎样的一种语言，使用Python是">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-08-01T15:39:33.000Z">
+<meta property="article:modified_time" content="2022-08-29T01:39:31.993Z">
+<meta property="article:author" content="Zhou Shuai">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wuyubeichen.github.io/2018/08/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="梧雨北辰的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+    
+ <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142"
+     crossorigin="anonymous"></script>
+     
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body class="main-center theme-purple" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wuyubeichen" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">梧雨北辰</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">iOS Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Beijing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BA%95%E5%B1%82/">iOS底层</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BC%80%E5%8F%91/">iOS开发</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86/">网络原理</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Block/" style="font-size: 13.25px;">Block</a> <a href="/tags/CPU%E6%9E%B6%E6%9E%84/" style="font-size: 13px;">CPU架构</a> <a href="/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/tags/Mach-O/" style="font-size: 13.5px;">Mach-O</a> <a href="/tags/Python/" style="font-size: 13.75px;">Python</a> <a href="/tags/Runtime/" style="font-size: 13.25px;">Runtime</a> <a href="/tags/Swift/" style="font-size: 14px;">Swift</a> <a href="/tags/UI%E9%97%AE%E9%A2%98/" style="font-size: 13.25px;">UI问题</a> <a href="/tags/Xcode/" style="font-size: 13.5px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 14px;">iOS</a> <a href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" style="font-size: 13.25px;">内存管理</a> <a href="/tags/%E5%8A%A8%E6%80%81%E5%BA%93/" style="font-size: 13px;">动态库</a> <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 13.25px;">响应式编程</a> <a href="/tags/%E6%8A%93%E5%8C%85/" style="font-size: 13px;">抓包</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.5px;">环境配置</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13px;">编译原理</a> <a href="/tags/%E9%9D%99%E6%80%81%E5%BA%93/" style="font-size: 13px;">静态库</a>
+    </div>
+  </div>
+
+    
+      <div class="widget">
+    <div class="widget-body">
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142" crossorigin="anonymous"></script>
+         <!-- widget_ad1 -->
+         <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1012757114750142"
+             data-ad-slot="4233351648"
+             data-full-width-responsive="true"></ins>
+         <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+    </div>
+</div>
+
+    
+  </div>
+</aside>
+
+  
+  
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BA%86%E8%A7%A3Python"><span class="toc-number">1.</span> <span class="toc-text">一、了解Python</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Python%E8%83%BD%E5%81%9A%E4%BA%9B%E4%BB%80%E4%B9%88"><span class="toc-number">2.</span> <span class="toc-text">二、Python能做些什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81Pthon%E7%89%B9%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">三、Pthon特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Python%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="toc-number">4.</span> <span class="toc-text">四、Python的缺点</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E8%BF%90%E8%A1%8C%E6%95%88%E7%8E%87%E4%BD%8E"><span class="toc-number">4.1.</span> <span class="toc-text">1.运行效率低</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E4%B8%8D%E8%83%BD%E5%8A%A0%E5%AF%86"><span class="toc-number">4.2.</span> <span class="toc-text">2.不能加密</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%94%E3%80%81Python%E4%B9%8B%E7%A6%85"><span class="toc-number">5.</span> <span class="toc-text">五、Python之禅</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%AD%E3%80%81Python%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99"><span class="toc-number">6.</span> <span class="toc-text">六、Python学习的相关资料</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Python学习01-入门与导学" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python学习(1)：入门与导学
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/08/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/" class="article-date">
+	  <time datetime="2018-08-01T15:39:33.000Z" itemprop="datePublished">2018-08-01</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Python/" rel="tag">Python</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/08/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.1k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 4(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><strong>Life is simple ,I use Python.</strong></p>
+<p>代码：代码是现实世界事物在计算机世界中的映射<br>编程：将现实世界中事物用计算机语言来描述</p>
+<p>最近在网上找了一些资料在学习<code>Python</code>，就想把每次的学习内容记录下来，这也是为了避免新学的东西容易遗忘。自己选择<code>Python</code>只有一个原因，那就是兴趣。作为一个<code>iOS</code>开发者，我也很好奇，传说中无所不能的<code>Python</code>到底是怎样的一种语言，使用<code>Python</code>是否也能做出一些有意思的事情，比如爬虫、机器学习等。下面的系列文章就是我的<code>Python</code>学习之旅。</p>
+<h4 id="一、了解Python"><a href="#一、了解Python" class="headerlink" title="一、了解Python"></a>一、了解Python</h4><p><code>Python</code>并不是一门新兴的语言，反而是诞生于上世纪90年代初的语言。 随着大数据与人工智能的流行，<code>Python</code>逐步的流行起来。<code>Python</code>就像一个技术的润滑剂，大多数互联网公司或多或少都会用到，可以在开发中解决大大小小的很多问题。根据<code>TIOBE</code>语言排行，<code>Python</code>的语言排行为第四位，热度上升很快，其流行程度可见一斑。</p>
+<p>说明：本系列文章是本人的<code>Python</code>学习记录，在<code>1-9</code>篇都是在<code>Python</code>自带的解释器<code>IDLE</code>中编写和运行代码。在实际开发中专业的开发工具使用<code>Pycharm</code>，而做一些轻量化的开发使用的是<code>Sublime text3</code>或者<code>Visual Studio Code</code></p>
+<h4 id="二、Python能做些什么"><a href="#二、Python能做些什么" class="headerlink" title="二、Python能做些什么"></a>二、Python能做些什么</h4><p><code>Pyhotn</code>几乎是万能的，相对于其他语言可以做的事情很多:</p>
+<ol>
+<li>爬虫 </li>
+<li>大数据与数据分析(<code>Spark</code>)</li>
+<li>自动化运维与自动化测试</li>
+<li><code>Web</code>开发：<code>Flask</code>，<code>Diango</code></li>
+<li>机器学习：Tensor<code> </code>Flow</li>
+<li>胶水语言：混合其他如<code>C++</code>、<code>Java</code>等来编程。能够把用其他语言制作的各种模块(尤其是<code>C/C++</code>)很轻松的结合在一起。</li>
+</ol>
+<h4 id="三、Pthon特点"><a href="#三、Pthon特点" class="headerlink" title="三、Pthon特点"></a>三、Pthon特点</h4><ol>
+<li><code>Python</code>语法简洁，灵活，优雅，哲学，编写程序容易阅读;</li>
+<li><code>Python</code>支持跨平台，可以运行在<code>Windows</code>、<code>Linux</code>以及<code>MacOS</code>;</li>
+<li><code>Python</code>是面向对象的动态语言，既有动态脚本的特性，又有面向对象的特性，非常具有自己的特点;</li>
+<li><code>Python</code>拥有极为强大而丰富的标准库与第三方库，比如电子邮件，比如图形<code>GUI</code>界面;</li>
+<li><code>Python</code>易于上手，难于精通;</li>
+<li><code>Python</code>的语言靠缩进区分代码块，不强制每句代码添加分号；也不需要花括号确定作用域;</li>
+<li><code>Python</code>依靠缩进区分作用域，因此不支持代码压缩，常常以源代码形式的存在，开源性较好;</li>
+</ol>
+<h4 id="四、Python的缺点"><a href="#四、Python的缺点" class="headerlink" title="四、Python的缺点"></a>四、Python的缺点</h4><h5 id="1-运行效率低"><a href="#1-运行效率低" class="headerlink" title="1.运行效率低"></a>1.运行效率低</h5><p><code>Python</code>主要缺点就是一个字：慢，其相对于<code>C</code>、<code>C++</code>、<code>Java</code>运行效率较慢。</p>
+<p>这主要是因为<code>Pyhton</code>是一种解释性语言，对于当前主流的编程语言大致可分为两类：编译型语言(<code>C</code>、<code>C++</code>)和解释型语言(<code>Javascript</code>、<code>Python</code>)。</p>
+<p><strong>编译型语言</strong>：<br>程序在执行之前需要一个专门的编译过程，把程序编译成为机器语言的文件，运行时不需要重新翻译，直接使用编译的结果就行了。程序执行效率高，依赖编译器，跨平台性差些。如<code>C</code>、<code>C++</code>、<code>Delphi</code>等. [1] </p>
+<p><strong>解释型语言</strong>：<br>解释性语言编写的程序不进行预先编译，以文本方式存储程序代码。在发布程序时，看起来省了道编译工序。但是，在运行程序的时候，解释性语言必须先解释再运行</p>
+<p> 运行效率与开发效率，鱼与熊掌不可兼得。类似汇编和C的运行效率很高，但是却不适合做web开发。对于语言的选择，适合的才是最好的。</p>
+<h5 id="2-不能加密"><a href="#2-不能加密" class="headerlink" title="2.不能加密"></a>2.不能加密</h5><p><code>python</code>依靠缩进来编写代码，代码不能被压缩和混淆，所以这也注定了<code>Python</code>代码不能被加密的特性。</p>
+<h4 id="五、Python之禅"><a href="#五、Python之禅" class="headerlink" title="五、Python之禅"></a>五、Python之禅</h4><p><code>Python</code>的交互式编译器内嵌了几句话(输入<code>import this</code>)，被开发者称之为<code>Pyhon</code>之禅，包含了<code>Python</code>编程的一种大致思想和规范。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>Simple <span class="keyword">is</span> better than <span class="built_in">complex</span></span><br><span class="line">简洁胜于复杂</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>Now <span class="keyword">is</span> better than never ，Although never <span class="keyword">is</span> often  better than right now</span><br><span class="line">做也许好过不做，但不加思索就动手还不如不做</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="六、Python学习的相关资料"><a href="#六、Python学习的相关资料" class="headerlink" title="六、Python学习的相关资料"></a>六、Python学习的相关资料</h4><ol>
+<li><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000">廖雪峰Python3的官方网站</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.runoob.com/python/python-tutorial.html">Python基本教程</a></li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wuyubeichen.github.io/2018/08/01/Python%E5%AD%A6%E4%B9%A001-%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AF%BC%E5%AD%A6/" title="Python学习(1)：入门与导学" target="_blank" rel="external">https://wuyubeichen.github.io/2018/08/01/Python学习01-入门与导学/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wuyubeichen" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wuyubeichen" target="_blank"><span class="text-dark">梧雨北辰</span><small class="ml-1x">iOS Developer</small></a></h3>
+        <div>天行健，君子以自强不息</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/08/02/Python%E5%AD%A6%E4%B9%A002-%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E4%B8%8E%E8%BF%90%E8%A1%8C/" title="Python学习(2)：环境安装与运行"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/02/13/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99Github%E3%80%81Hexo%E4%B8%8ENext/" title="搭建个人博客网站Github、Hexo与Next"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn " data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">    <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '2e6fa2ad89748dbf4116',
+    clientSecret: 'f9c89ddcbf94ec2d51bf77a2741a883278b6c9e9',
+    repo: 'wuyubeichen.github.io',
+    owner: 'wuyubeichen',
+    admin: ['wuyubeichen'],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    language: 'zh-CN',
+    enableHotKey: 'true'
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'G-CFFB9VW1Q7', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>

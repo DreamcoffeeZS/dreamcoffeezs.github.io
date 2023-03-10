@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>iOS底层-Block本质及存储域问题 | Hexo</title>
+  <meta name="description" content="主要内容：  分析Block的源码 验证Block的本质是对象 理解Block的存储域分类 验证Block的不同存储域 分析Block的Copy原理  一、分析Block的源码为了分析Block的源码，从一个最简单的Block使用示例说起，测试代码如下： 12345678&#x2F;&#x2F;main.m文件：#import &lt;Foundation&#x2F;Foundation.h&gt;int main(int a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS底层-Block本质及存储域问题">
+<meta property="og:url" content="https://wuyubeichen.github.io/2019/04/12/iOS%E5%BA%95%E5%B1%82-Block%E6%9C%AC%E8%B4%A8%E5%8F%8A%E5%AD%98%E5%82%A8%E5%9F%9F%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="梧雨北辰的博客">
+<meta property="og:description" content="主要内容：  分析Block的源码 验证Block的本质是对象 理解Block的存储域分类 验证Block的不同存储域 分析Block的Copy原理  一、分析Block的源码为了分析Block的源码，从一个最简单的Block使用示例说起，测试代码如下： 12345678&#x2F;&#x2F;main.m文件：#import &lt;Foundation&#x2F;Foundation.h&gt;int main(int a">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-04-12T08:16:49.000Z">
+<meta property="article:modified_time" content="2022-08-29T01:39:32.010Z">
+<meta property="article:author" content="Zhou Shuai">
+<meta property="article:tag" content="Block">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wuyubeichen.github.io/2019/04/12/iOS%E5%BA%95%E5%B1%82-Block%E6%9C%AC%E8%B4%A8%E5%8F%8A%E5%AD%98%E5%82%A8%E5%9F%9F%E9%97%AE%E9%A2%98/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="梧雨北辰的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+    
+ <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142"
+     crossorigin="anonymous"></script>
+     
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body class="main-center theme-purple" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wuyubeichen" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">梧雨北辰</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">iOS Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Beijing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BA%95%E5%B1%82/">iOS底层</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BC%80%E5%8F%91/">iOS开发</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86/">网络原理</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Block/" style="font-size: 13.25px;">Block</a> <a href="/tags/CPU%E6%9E%B6%E6%9E%84/" style="font-size: 13px;">CPU架构</a> <a href="/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/tags/Mach-O/" style="font-size: 13.5px;">Mach-O</a> <a href="/tags/Python/" style="font-size: 13.75px;">Python</a> <a href="/tags/Runtime/" style="font-size: 13.25px;">Runtime</a> <a href="/tags/Swift/" style="font-size: 14px;">Swift</a> <a href="/tags/UI%E9%97%AE%E9%A2%98/" style="font-size: 13.25px;">UI问题</a> <a href="/tags/Xcode/" style="font-size: 13.5px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 14px;">iOS</a> <a href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" style="font-size: 13.25px;">内存管理</a> <a href="/tags/%E5%8A%A8%E6%80%81%E5%BA%93/" style="font-size: 13px;">动态库</a> <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 13.25px;">响应式编程</a> <a href="/tags/%E6%8A%93%E5%8C%85/" style="font-size: 13px;">抓包</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.5px;">环境配置</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13px;">编译原理</a> <a href="/tags/%E9%9D%99%E6%80%81%E5%BA%93/" style="font-size: 13px;">静态库</a>
+    </div>
+  </div>
+
+    
+      <div class="widget">
+    <div class="widget-body">
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142" crossorigin="anonymous"></script>
+         <!-- widget_ad1 -->
+         <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1012757114750142"
+             data-ad-slot="4233351648"
+             data-full-width-responsive="true"></ins>
+         <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+    </div>
+</div>
+
+    
+  </div>
+</aside>
+
+  
+  
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%88%86%E6%9E%90Block%E7%9A%84%E6%BA%90%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">一、分析Block的源码</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-main-block-imp-0%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number">1.1.</span> <span class="toc-text">1.__main_block_imp_0结构体</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-block-impl%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number">1.2.</span> <span class="toc-text">2.__block_impl结构体</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-main-block-desc-0%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number">1.3.</span> <span class="toc-text">3.__main_block_desc_0结构体</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-main-block-func-0%E5%87%BD%E6%95%B0"><span class="toc-number">1.4.</span> <span class="toc-text">4.__main_block_func_0函数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-%E6%80%BB%E7%BB%93Block%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">1.5.</span> <span class="toc-text">5.总结Block的特点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E9%AA%8C%E8%AF%81Block%E7%9A%84%E6%9C%AC%E8%B4%A8%E6%98%AF%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.</span> <span class="toc-text">二、验证Block的本质是对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%90%86%E8%A7%A3Block%E7%9A%84%E5%AD%98%E5%82%A8%E5%9F%9F%E5%88%86%E7%B1%BB"><span class="toc-number">3.</span> <span class="toc-text">三、理解Block的存储域分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E9%AA%8C%E8%AF%81Block%E7%9A%84%E4%B8%8D%E5%90%8C%E5%AD%98%E5%82%A8%E5%9F%9F"><span class="toc-number">4.</span> <span class="toc-text">四、验证Block的不同存储域</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-NSGlobalBlock-%E9%9D%99%E6%80%81%E5%8C%BA"><span class="toc-number">4.1.</span> <span class="toc-text">1.NSGlobalBlock(静态区)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-NSStackBlock-%E6%A0%88%E5%8C%BA"><span class="toc-number">4.2.</span> <span class="toc-text">2.NSStackBlock(栈区)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-NSMallocBlock-%E5%A0%86%E5%8C%BA"><span class="toc-number">4.3.</span> <span class="toc-text">3.NSMallocBlock(堆区)</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E5%88%86%E6%9E%90Block%E7%9A%84Copy%E5%8E%9F%E7%90%86"><span class="toc-number">5.</span> <span class="toc-text">五、分析Block的Copy原理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-MRC%E4%B8%8B%E7%9A%84Block%E6%8B%B7%E8%B4%9D"><span class="toc-number">5.1.</span> <span class="toc-text">1.MRC下的Block拷贝</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-ARC%E4%B8%8B%E7%9A%84Block%E6%8B%B7%E8%B4%9D"><span class="toc-number">5.2.</span> <span class="toc-text">2.ARC下的Block拷贝</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E5%85%B6%E4%BB%96%E5%AD%98%E5%82%A8%E5%9F%9FBlock%E7%9A%84%E6%8B%B7%E8%B4%9D"><span class="toc-number">5.3.</span> <span class="toc-text">3.其他存储域Block的拷贝</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E6%80%BB%E7%BB%93Block%E9%9C%80%E8%A6%81%E6%8B%B7%E8%B4%9D%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-number">5.4.</span> <span class="toc-text">4. 总结Block需要拷贝的原理</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">6.</span> <span class="toc-text">参考链接</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-iOS底层-Block本质及存储域问题" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS底层-Block本质及存储域问题
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/04/12/iOS%E5%BA%95%E5%B1%82-Block%E6%9C%AC%E8%B4%A8%E5%8F%8A%E5%AD%98%E5%82%A8%E5%9F%9F%E9%97%AE%E9%A2%98/" class="article-date">
+	  <time datetime="2019-04-12T08:16:49.000Z" itemprop="datePublished">2019-04-12</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/iOS%E5%BA%95%E5%B1%82/">iOS底层</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Block/" rel="tag">Block</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/04/12/iOS%E5%BA%95%E5%B1%82-Block%E6%9C%AC%E8%B4%A8%E5%8F%8A%E5%AD%98%E5%82%A8%E5%9F%9F%E9%97%AE%E9%A2%98/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 3.1k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 12(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><strong>主要内容：</strong></p>
+<ol>
+<li>分析<code>Block</code>的源码</li>
+<li>验证<code>Block</code>的本质是对象</li>
+<li>理解<code>Block</code>的存储域分类</li>
+<li>验证<code>Block</code>的不同存储域</li>
+<li>分析<code>Block</code>的<code>Copy</code>原理</li>
+</ol>
+<h4 id="一、分析Block的源码"><a href="#一、分析Block的源码" class="headerlink" title="一、分析Block的源码"></a>一、分析Block的源码</h4><p>为了分析<code>Block</code>的源码，从一个最简单的<code>Block</code>使用示例说起，测试代码如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//main.m文件：</span></span><br><span class="line">#<span class="keyword">import</span> &lt;Foundation/Foundation.h&gt;</span><br><span class="line">int main(int argc, char <span class="operator">*</span> argv[]) &#123;</span><br><span class="line">    int num <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">    void (<span class="operator">^</span>block)(void) <span class="operator">=^</span>&#123;<span class="type">NSLog</span>(@<span class="string">&quot;num = %d&quot;</span>,num);&#125;;</span><br><span class="line">    block();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Objective-C</code>语言是基于<code>C</code>、<code>C++</code>的，为了深入理解<code>Block</code>的底层结构，我们可以通过如下的编译器命令将上述代码转换成<code>C++</code>源码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clang <span class="operator">-</span>rewrite<span class="operator">-</span>objc 源代码文件名(如此例中的main.m)</span><br></pre></td></tr></table></figure>
+<p>转化后的<code>C++</code>源码如下:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">__block_impl</span> &#123;</span><br><span class="line">  void <span class="operator">*</span>isa;</span><br><span class="line">  int <span class="type">Flags</span>;</span><br><span class="line">  int <span class="type">Reserved</span>;</span><br><span class="line">  void <span class="operator">*</span><span class="type">FuncPtr</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">__main_block_impl_0</span> &#123;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">__block_impl</span> <span class="title class_">impl</span>;</span><br><span class="line">  <span class="title class_">struct</span> <span class="title class_">__main_block_desc_0</span>* <span class="title class_">Desc</span>;</span><br><span class="line">  <span class="title class_">int</span> <span class="title class_">num</span>;</span><br><span class="line">  <span class="title class_">__main_block_impl_0</span>(<span class="title class_">void</span> *<span class="title class_">fp</span>, <span class="title class_">struct</span> <span class="title class_">__main_block_desc_0</span> *<span class="title class_">desc</span>, <span class="title class_">int</span> <span class="title class_">_num</span>, <span class="title class_">int</span> <span class="title class_">flags</span>=0) : <span class="title class_">num</span>(<span class="title class_">_num</span>) &#123;</span><br><span class="line">    impl.isa <span class="operator">=</span> <span class="operator">&amp;</span>_NSConcreteStackBlock;</span><br><span class="line">    impl.<span class="type">Flags</span> <span class="operator">=</span> flags;</span><br><span class="line">    impl.<span class="type">FuncPtr</span> <span class="operator">=</span> fp;</span><br><span class="line">    <span class="type">Desc</span> <span class="operator">=</span> desc;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> void __main_block_func_0(<span class="keyword">struct</span> __main_block_impl_0 <span class="operator">*</span>__cself) &#123;</span><br><span class="line">  int num <span class="operator">=</span> __cself-&gt;num; <span class="comment">// bound by copy</span></span><br><span class="line"><span class="type">NSLog</span>((<span class="type">NSString</span> <span class="operator">*</span>)<span class="operator">&amp;</span>__NSConstantStringImpl__var_folders_wd_fhcn9bn91v56nlzv9mt5z8ym0000gn_T_main_9e3646_mi_0,num);&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">struct</span> <span class="title class_">__main_block_desc_0</span> &#123;</span><br><span class="line">  size_t reserved;</span><br><span class="line">  size_t <span class="type">Block_size</span>;</span><br><span class="line">&#125;</span><br><span class="line"> __main_block_desc_0_DATA <span class="operator">=</span> &#123; <span class="number">0</span>, sizeof(<span class="keyword">struct</span> __main_block_impl_0)&#125;;</span><br><span class="line"></span><br><span class="line">int main(int argc, char <span class="operator">*</span> argv[]) &#123;</span><br><span class="line">    int num <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">    void (<span class="operator">*</span>myBlock)(void) <span class="operator">=</span>((void (<span class="operator">*</span>)())<span class="operator">&amp;</span>__main_block_impl_0((void <span class="operator">*</span>)__main_block_func_0, <span class="operator">&amp;</span>__main_block_desc_0_DATA, num));</span><br><span class="line">    ((void (<span class="operator">*</span>)(__block_impl <span class="operator">*</span>))((__block_impl <span class="operator">*</span>)myBlock)-&gt;<span class="type">FuncPtr</span>)((__block_impl <span class="operator">*</span>)myBlock);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对比<code>OC</code>代码与<code>C++</code>源码中的<code>main</code>函数，我们发现：</p>
+<ol>
+<li>创建<code>Block</code>其实是调用了<code>__main_block_impl_0</code>结构体的构造函数；</li>
+<li><code>Block</code>中待执行代码也都被封装到了<code>__main_block_func_0</code>函数中；</li>
+</ol>
+<p>另外值得注意的是，这些<code>C++</code>的结构体和函数的命名，是根据<code>Block</code>语法所属的函数名(此处为<code>main</code>)和<code>Block</code>语法在该函数出现的顺序值(此处为<code>0</code>)来设定的；</p>
+<p>根据这些对应关系，我们<code>对C++</code>源码中的内容一一分析：</p>
+<h5 id="1-main-block-imp-0结构体"><a href="#1-main-block-imp-0结构体" class="headerlink" title="1.__main_block_imp_0结构体"></a>1.__main_block_imp_0结构体</h5><p><code>__main_block_impl_0</code>结构体对应了<code>Block</code>的定义，结构体内部包含了三个成员变量<code>impl</code>、<code>Desc</code>、<code>num</code>。</p>
+<p><code>num</code>其实就是被捕获的变量(后续再讲)，另外还有一个同名的构造函数<code>__main_block_impl_0</code>。可以看到相关的代码如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">__main_block_impl_0</span> &#123;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">__block_impl</span> <span class="title class_">impl</span>;</span><br><span class="line">  <span class="title class_">struct</span> <span class="title class_">__main_block_desc_0</span>* <span class="title class_">Desc</span>;</span><br><span class="line">  <span class="title class_">int</span> <span class="title class_">num</span>;</span><br><span class="line">  <span class="title class_">__main_block_impl_0</span>(<span class="title class_">void</span> *<span class="title class_">fp</span>, <span class="title class_">struct</span> <span class="title class_">__main_block_desc_0</span> *<span class="title class_">desc</span>, <span class="title class_">int</span> <span class="title class_">_num</span>, <span class="title class_">int</span> <span class="title class_">flags</span>=0) : <span class="title class_">num</span>(<span class="title class_">_num</span>) &#123;</span><br><span class="line">    impl.isa <span class="operator">=</span> <span class="operator">&amp;</span>_NSConcreteStackBlock;</span><br><span class="line">    impl.<span class="type">Flags</span> <span class="operator">=</span> flags;</span><br><span class="line">    impl.<span class="type">FuncPtr</span> <span class="operator">=</span> fp;</span><br><span class="line">    <span class="type">Desc</span> <span class="operator">=</span> desc;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>Block</code>通过调用这里的构造函数得以创建，调用时需传入了四个参数：<code>(void *fp, struct __main_block_desc_0 *desc, int _num, int flags=0)</code>，前三个参数对应成员变量的初始化，而最后一个参数<code>flags</code>携带默认值可暂不考虑；</p>
+<h5 id="2-block-impl结构体"><a href="#2-block-impl结构体" class="headerlink" title="2.__block_impl结构体"></a>2.__block_impl结构体</h5><p><code>__main_block_imp_0</code>结构体的第一个成员变量<code>impl</code>，就是<code>__block_impl</code>结构体类型；</p>
+<p>尤其注意：</p>
+<ol>
+<li>该结构体中包含有<code>isa</code>指针，从这一点就可以说明<code>Block</code>本质上还是一个<code>OC</code>对象，因为<code>OC</code>中只有对象才会具有<code>isa</code>指针的概念；</li>
+<li><code>FuncPtr</code>是一个函数指针，在<code>__main_block_imp_0</code>构造函数调用时被赋值；</li>
+</ol>
+<h5 id="3-main-block-desc-0结构体"><a href="#3-main-block-desc-0结构体" class="headerlink" title="3.__main_block_desc_0结构体"></a>3.__main_block_desc_0结构体</h5><p><code>__main_block_imp_0</code>结构体构造函数中传入参数<code>desc</code>，其实就是<code>__main_block_desc_0</code>对象。该结构体包含两个成员变量：</p>
+<ol>
+<li><code>reserved</code>：系统保留值；</li>
+<li><code>Block_size</code>：代表<code>Block</code>的大小；</li>
+</ol>
+<h5 id="4-main-block-func-0函数"><a href="#4-main-block-func-0函数" class="headerlink" title="4.__main_block_func_0函数"></a>4.__main_block_func_0函数</h5><p><code>__main_block_imp_0</code>结构体构造函数中传入函数指针<code>fp</code>，其实就是<code>__main_block_func_0</code>函数的地址；</p>
+<p>该函数是将<code>Block</code>中所有的代码封装为函数，以待被调用；</p>
+<h5 id="5-总结Block的特点"><a href="#5-总结Block的特点" class="headerlink" title="5.总结Block的特点"></a>5.总结Block的特点</h5><ol>
+<li><code>Block</code>本质上一个<code>OC</code>对象：比如这里的<code>Block</code>，其底层对应了<code>__main_block_impl_0</code>结构体，而且内部包含有<code>isa</code>指针；</li>
+<li><code>Block</code>中携带了函数执行的环境：此处<code>Block</code>里待执行的代码，在底层被封装为<code>__main_block_func_0</code>函数，以实现调用；</li>
+<li><code>Block</code>相当于其他语言中的闭包或者匿名函数：它与函数区别在于，<code>Block</code>相当于<code>函数+函数执行的上下文环境</code>(捕获外部变量下面会讲到)；</li>
+</ol>
+<h4 id="二、验证Block的本质是对象"><a href="#二、验证Block的本质是对象" class="headerlink" title="二、验证Block的本质是对象"></a>二、验证Block的本质是对象</h4><p>下面通过打印的方式验证<code>Block</code>对象本质，测试代码如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">-</span> (void)testBlock5 &#123;</span><br><span class="line">    void(<span class="operator">^</span>block)(int a) <span class="operator">=</span> <span class="operator">^</span>(int a) &#123;</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">&quot;This is a block&quot;</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="type">NSLog</span>(@<span class="string">&quot;%@&quot;</span>,[block <span class="keyword">class</span>]);</span><br><span class="line">    <span class="type">NSLog</span>(@<span class="string">&quot;%@&quot;</span>,[[block <span class="keyword">class</span>] superclass]);</span><br><span class="line">    <span class="type">NSLog</span>(@<span class="string">&quot;%@&quot;</span>,[[[block <span class="keyword">class</span>] superclass] superclass]);</span><br><span class="line">    <span class="type">NSLog</span>(@<span class="string">&quot;%@&quot;</span>,[[[[block <span class="keyword">class</span>] superclass] superclass] superclass]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//打印结果：</span></span><br><span class="line"><span class="comment">//__NSGlobalBlock__</span></span><br><span class="line"><span class="comment">//__NSGlobalBlock</span></span><br><span class="line"><span class="comment">//NSBlock</span></span><br><span class="line"><span class="comment">//NSObject</span></span><br></pre></td></tr></table></figure>
+<p>观察打印结果：</p>
+<ol>
+<li>我们看到<code>Block</code>最终继承于<code>NSObject</code>类型，这里再一次验证了<code>Block</code>本质就是<code>OC</code>对象的结论；</li>
+<li>而打印结果中出现的<code>__NSGlobalBlock__</code>，说明此处的<code>Block</code>的存储域为静态区；</li>
+</ol>
+<h4 id="三、理解Block的存储域分类"><a href="#三、理解Block的存储域分类" class="headerlink" title="三、理解Block的存储域分类"></a>三、理解Block的存储域分类</h4><p>在之前<code>Block</code>结构体构造函数中，我们很容易能找到这样一句代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">impl.isa <span class="operator">=</span> <span class="operator">&amp;</span>_NSConcreteStackBlock;</span><br></pre></td></tr></table></figure>
+<p>我们已经知道<code>Block</code>也是一个<code>OC</code>对象，而每个<code>OC</code>对象都有一个<code>isa</code>指针指向其类对象，这里的情况也是类似的；</p>
+<p>这里<code>Block</code>的<code>isa</code>指针指向了<code>_NSConcreteStackBlock</code>类对象，即此时的<code>Block</code>是以<code>_NSConcreteStackBlock</code>类为模板创建的实例；</p>
+<p>除此之外，其实还有两个与之类似的类<code>_NSConcreteGlobalBlock</code>和<code>_NSConcreteMallocBlock</code>，不同的<code>Block</code>类创建的对象用于不同的存储域，也对应了对应不同的<code>OC</code>类型，具体整理如下：</p>
+<table>
+<thead>
+<tr>
+<th>clang类</th>
+<th>OC类</th>
+<th>内存区域</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>_NSConcreteStackBlock</code></td>
+<td><code>__NSStackBlock__</code></td>
+<td>栈区</td>
+</tr>
+<tr>
+<td><code>_NSConcreteMallocBlock</code></td>
+<td><code>__NSMallocBlock__</code></td>
+<td>堆区</td>
+</tr>
+<tr>
+<td><code>_NSConcreteGlobalBlock</code></td>
+<td><code>__NSGlobalBlock__</code></td>
+<td>静态区</td>
+</tr>
+</tbody></table>
+<h4 id="四、验证Block的不同存储域"><a href="#四、验证Block的不同存储域" class="headerlink" title="四、验证Block的不同存储域"></a>四、验证Block的不同存储域</h4><p>不同存储域的<code>Block</code>使用方式有很大差别，而正确区分<code>Block</code>类型的关键在于：**Block中是否引用了自动变量(需要MRC下测试)**，总结起来如下：</p>
+<table>
+<thead>
+<tr>
+<th>Block类型</th>
+<th>环境</th>
+<th>内存区域</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>_NSConcreteGlobalBlock(__NSGlobalBlock__)</code></td>
+<td>没有访问自动变量；<br>或者只用到静态区变量</td>
+<td>静态区</td>
+</tr>
+<tr>
+<td><code>_NSConcreteStackBlock( __NSStackBlock__)</code></td>
+<td>访问了自动变量</td>
+<td>栈区</td>
+</tr>
+<tr>
+<td><code>_NSConcreteMallocBlock(__NSMallocBlock__)</code></td>
+<td><code>__NSStackBlock__</code>调用了<code>copy</code></td>
+<td>堆区</td>
+</tr>
+</tbody></table>
+<p>为了验证上述情况，我们需要切换到<code>MRC</code>环境下，因为在<code>ARC</code>环境下的编译器为我们做了很多优化的工作，比如自动将栈区的<code>Block</code>拷贝到堆区，这样我们也就不容易捕获到<code>Block</code>初始状态的位置了。</p>
+<p>所以，这里暂时将开发环境切换至<code>MRC</code>下来测试，相关的测试代码如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">-</span> (void)testBlock7 &#123;</span><br><span class="line">    <span class="comment">//1.Block内部没有调用外部自动变量</span></span><br><span class="line">    void (<span class="operator">^</span>block1)(void) <span class="operator">=</span> <span class="operator">^</span>&#123;</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">&quot;Block&quot;</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//2.Block内部调用外部自动变量</span></span><br><span class="line">    int a <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">    void (<span class="operator">^</span>block2)(void) <span class="operator">=</span> <span class="operator">^</span>&#123;</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">&quot;Block-%d&quot;</span>,a);</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//3.拷贝栈上的block</span></span><br><span class="line">    void (<span class="operator">^</span>block3)(void) <span class="operator">=</span> <span class="operator">^</span>&#123;</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">&quot;Block-%d&quot;</span>,a);</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//打印Block类型</span></span><br><span class="line">    <span class="type">NSLog</span>(@<span class="string">&quot;%@ %@ %@&quot;</span>, [block1 <span class="keyword">class</span>], [block2 <span class="keyword">class</span>], [[block3 copy] <span class="keyword">class</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//打印结果：</span></span><br><span class="line"><span class="comment">//__NSGlobalBlock__ __NSStackBlock__ __NSMallocBlock__</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="1-NSGlobalBlock-静态区"><a href="#1-NSGlobalBlock-静态区" class="headerlink" title="1.NSGlobalBlock(静态区)"></a>1.<strong>NSGlobalBlock</strong>(静态区)</h5><ol>
+<li>判断依据：<code>Block</code>中没有引用自动变量或者只用到静态区变量；</li>
+<li>此类型的<code>Block</code>与全局变量一样设置在程序的静态区，直到程序结束才会被回收；</li>
+<li>此类型的<code>Block</code>不依赖执行时的状态，所以整个程序只需一个实例，用的也较少；</li>
+</ol>
+<h5 id="2-NSStackBlock-栈区"><a href="#2-NSStackBlock-栈区" class="headerlink" title="2.NSStackBlock(栈区)"></a>2.<strong>NSStackBlock</strong>(栈区)</h5><ol>
+<li>判断依据：<code>Block</code>中访问自动变量，并且存放在栈中；</li>
+<li>栈中的内存由系统自动分配和释放，作用域执行完毕之后就会被立即释放；</li>
+<li>所以我们有可能遇到<code>Block</code>内存销毁之后才使用它的情况，开发中遇到的很多问题也都是因此而起；</li>
+</ol>
+<h5 id="3-NSMallocBlock-堆区"><a href="#3-NSMallocBlock-堆区" class="headerlink" title="3.NSMallocBlock(堆区)"></a>3.<strong>NSMallocBlock</strong>(堆区)</h5><ol>
+<li><code>_NSStackBlock__</code>执行<code>copy</code>操作会生成<code>__NSMallocBlock__</code>；</li>
+<li>栈<code>Block</code>被拷贝后存放在堆中后，需要我们自己进行内存管理，否则还可能造成一些循环引用的问题；</li>
+</ol>
+<h4 id="五、分析Block的Copy原理"><a href="#五、分析Block的Copy原理" class="headerlink" title="五、分析Block的Copy原理"></a>五、分析Block的Copy原理</h4><p><code>Block</code>有着不同的存储域类型，尤其是配置在栈上的<code>Block</code>(即<code>__NSStackBlock__</code>类型的<code>Block</code>)，如果其所属的作用域结束，该<code>Block</code>就会被释放，此时若继续使用<code>Block</code>，就会造成野指针问题；</p>
+<p>所以，我们通常的做法就是执行<code>copy</code>操作，将其由栈区拷贝到堆区得到<code>__NSMallocBlock__</code>，而<code>__NSMallocBlock__</code>也会在其引用计数为<code>0</code>的时候被释放；</p>
+<p>进一步分析<code>Block</code>的拷贝，需要分为<code>MRC</code>和<code>ARC</code>两种环境来考虑。</p>
+<h5 id="1-MRC下的Block拷贝"><a href="#1-MRC下的Block拷贝" class="headerlink" title="1.MRC下的Block拷贝"></a>1.MRC下的Block拷贝</h5><p>在<code>MRC</code>环境下，我们只能显式的通过<code>copy</code>来实现<code>Block</code>的拷贝；通常为了避免<code>Block</code>的释放，我们定义<code>Block</code>属性的时候必须使用<code>copy修饰符</code>也正是基于这个原因。</p>
+<p>下面是在<code>MRC</code>环境下测试栈<code>Block</code>的使用，具体代码如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">typedef void(<span class="operator">^</span><span class="type">PrintBlock</span>)(void);</span><br><span class="line"></span><br><span class="line"><span class="meta">@interface</span> <span class="type">ViewController</span> ()</span><br><span class="line"><span class="meta">@property</span> (nonatomic ,copy)<span class="type">PrintBlock</span> block1;</span><br><span class="line"><span class="meta">@property</span> (nonatomic ,copy)<span class="type">PrintBlock</span> block2;</span><br><span class="line"><span class="meta">@end</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@implementation</span> <span class="type">ViewController</span></span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (void)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    [<span class="keyword">self</span> createBlock];</span><br><span class="line">    <span class="keyword">self</span>.block1();</span><br><span class="line">    <span class="keyword">self</span>.block2();</span><br><span class="line">    <span class="type">NSLog</span>(@<span class="string">&quot;block1:%@&quot;</span>, [<span class="keyword">self</span>.block1 <span class="keyword">class</span>]); <span class="comment">//报错Thread 1: EXC_BAD_ACCESS (code=1, address=0x7ffeeb90b8c0)</span></span><br><span class="line">    <span class="type">NSLog</span>(@<span class="string">&quot;block2:%@&quot;</span>, [<span class="keyword">self</span>.block2 <span class="keyword">class</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (void)createBlock &#123;</span><br><span class="line">    int a <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">    <span class="comment">//此处采用直接赋值的方式，不会触发setter方法</span></span><br><span class="line">    _block1 <span class="operator">=</span> <span class="operator">^</span>&#123;</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">&quot;This is block1-%d&quot;</span>,a);</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span>.block2 <span class="operator">=</span> <span class="operator">^</span>&#123;</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">&quot;This is block2-%d&quot;</span>,a);</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">//离开此作用域，block1就会被释放</span></span><br><span class="line">    <span class="type">NSLog</span>(@<span class="string">&quot;block1:%@、block2:%@&quot;</span>, [<span class="keyword">self</span>.block1 <span class="keyword">class</span>],[<span class="keyword">self</span>.block2 <span class="keyword">class</span>]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@end</span></span><br></pre></td></tr></table></figure>
+<p>打印结果及分析如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">block1:__NSStackBlock__<span class="operator">、</span>block2:__NSMallocBlock__</span><br><span class="line"><span class="type">This</span> <span class="keyword">is</span> block1<span class="operator">-</span><span class="number">10</span></span><br><span class="line"><span class="type">This</span> <span class="keyword">is</span> block2<span class="operator">-</span><span class="number">10</span></span><br></pre></td></tr></table></figure>
+<p>由于<code>block1</code>采用的是直接赋值的方式，没有调用<code>setter</code>方法，所以<code>block1</code>并没有被拷贝到堆上，是一个栈上的<code>Block</code>，这样也就直接导致了第二次打印<code>block1</code>时所发生的野指针崩溃；</p>
+<h5 id="2-ARC下的Block拷贝"><a href="#2-ARC下的Block拷贝" class="headerlink" title="2.ARC下的Block拷贝"></a>2.ARC下的Block拷贝</h5><p>在<code>ARC</code>环境下，编译器会根据情况自动将栈上的<code>Block</code>复制到堆上，总结有以下几种情况:</p>
+<ul>
+<li><code>Block</code>作为函数返回值时；这就类似于<code>MRC</code>中对返回值<code>Block</code>执行了<code>[[returnedBlock copy] autorelease]</code>;</li>
+<li><code>Block</code>被强引用，如<code>Block</code>被赋值给<code>__strong</code>或者<code>id</code>类型；</li>
+<li><code>Block</code>作为<code>GCD API</code>的方法参数时；</li>
+<li><code>Block</code>作为系统方法名含有<code>usingBlock</code>的方法参数时;</li>
+</ul>
+<p>下面的代码演示了这些情况：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">typedef void(<span class="operator">^</span><span class="type">Block</span>)(void);</span><br><span class="line"><span class="operator">-</span>(<span class="type">Block</span>)getBlock&#123;</span><br><span class="line">    <span class="comment">//ARC下的Block中访问了auto变量，此时block类型应为__NSStackBlock__</span></span><br><span class="line">   int a <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">   <span class="keyword">return</span>  <span class="operator">^</span>&#123;</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">&quot;---------%d&quot;</span>, a);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (void)testBlock9 &#123;</span><br><span class="line">    <span class="comment">//1.测试block作为函数返回值时</span></span><br><span class="line">    <span class="type">NSLog</span>(@<span class="string">&quot;bock1-：%@&quot;</span>,[[<span class="keyword">self</span> getBlock] <span class="keyword">class</span>]);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//2.测试将block赋值给__strong指针时</span></span><br><span class="line">    int a <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//2.1.block内没有访问auto变量</span></span><br><span class="line">    <span class="type">Block</span> block21 <span class="operator">=</span> <span class="operator">^</span>&#123;</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">&quot;block21&quot;</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="type">NSLog</span>(@<span class="string">&quot;block21-%@&quot;</span>,[block21 <span class="keyword">class</span>]);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//2.2.block内访问了auto变量，但没有赋值给__strong指针</span></span><br><span class="line">    <span class="type">NSLog</span>(@<span class="string">&quot;block22-%@&quot;</span>,[<span class="operator">^</span>&#123;</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">&quot;block22-%d&quot;</span>, a);</span><br><span class="line">    &#125; <span class="keyword">class</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//2.3.block赋值给__strong指针</span></span><br><span class="line">    <span class="type">Block</span> block23 <span class="operator">=</span> <span class="operator">^</span>&#123;</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">&quot;block23&quot;</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="type">NSLog</span>(@<span class="string">&quot;block23-%@&quot;</span>,[block23 <span class="keyword">class</span>]);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//3.block作为Cocoa API中方法名含有usingBlock的方法参数时</span></span><br><span class="line">    <span class="type">NSArray</span> <span class="operator">*</span>array <span class="operator">=</span> @[@<span class="string">&quot;1&quot;</span>,@<span class="string">&quot;2&quot;</span>,@<span class="string">&quot;3&quot;</span>];</span><br><span class="line">    [array enumerateObjectsUsingBlock:<span class="operator">^</span>(id  _Nonnull obj, <span class="type">NSUInteger</span> idx, <span class="type">BOOL</span> <span class="operator">*</span> _Nonnull stop) &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//4.block作为GCD API的方法参数时</span></span><br><span class="line">    <span class="comment">//Block中的延时操作完成时，系统将会对Block进行释放</span></span><br><span class="line">    dispatch_after(dispatch_time(<span class="type">DISPATCH_TIME_NOW</span>, (int64_t)(<span class="number">2.0</span> <span class="operator">*</span> <span class="type">NSEC_PER_SEC</span>)), dispatch_get_main_queue(), <span class="operator">^</span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//打印结果如下:</span></span><br><span class="line"><span class="comment">//bock1-：__NSMallocBlock__</span></span><br><span class="line"><span class="comment">//block21-__NSGlobalBlock__</span></span><br><span class="line"><span class="comment">//block22-__NSStackBlock__</span></span><br><span class="line"><span class="comment">//block23-__NSGlobalBlock__</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="3-其他存储域Block的拷贝"><a href="#3-其他存储域Block的拷贝" class="headerlink" title="3.其他存储域Block的拷贝"></a>3.其他存储域Block的拷贝</h5><p>上面讲述的重点都于对栈<code>Blok</code>的拷贝，若是对于已经配置在堆上或者配置在静态区的上的<code>Block</code>调用<code>copy</code>方法又将如何呢？下面是不同存储域的<code>Block</code>执行<code>copy</code>进行的总结：</p>
+<table>
+<thead>
+<tr>
+<th><code>Block</code>类型</th>
+<th>副本源的配置存储域</th>
+<th>复制效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>_NSConcreteStackBlock</code></td>
+<td>栈区</td>
+<td>从栈复制到堆</td>
+</tr>
+<tr>
+<td><code>_NSConcreteGlobalBlock</code></td>
+<td>静态区</td>
+<td>什么也不做</td>
+</tr>
+<tr>
+<td><code>_NSConcreteMallocBlock</code></td>
+<td>堆区</td>
+<td>引用增加</td>
+</tr>
+</tbody></table>
+<h5 id="4-总结Block需要拷贝的原理"><a href="#4-总结Block需要拷贝的原理" class="headerlink" title="4. 总结Block需要拷贝的原理"></a>4. 总结Block需要拷贝的原理</h5><p><code>Block</code>默认创建于其所在函数的函数栈上，所以当函数作用域结束时就会随之销毁；</p>
+<p>在<code>MRC</code>环境下，没有编译器的优化，所以我们非常强调要使用<code>copy</code>将<code>Block</code>拷贝到堆上，从而避免<code>Block</code>在其作用域结束时被直接释放;</p>
+<p>在<code>ARC</code>环境下，编译器会根据情况自动将栈上的<code>Block</code>复制到堆上，对于<code>Block</code>使用<code>copy</code>还是<code>strong</code>效果是一样的，所以写不写<code>copy</code>都行。在<code>ARC</code>环境下对于<code>Block</code>依然使用<code>copy</code>，更像是从<code>MRC</code>遗留下来的“传统”，时刻提醒我们：编译器自动对<code>Block</code>进行了拷贝操作。如果不写<code>copy</code> ，该类的调用者有可能会忘记或者根本不知道“编译器会自动对<code>Block</code>进行了拷贝操作”，他们有可能会在调用之前自行拷贝属性值，这种操作多余而低效。</p>
+<p>最后，总结<code>Block</code>修饰符的使用：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//MRC下block属性的建议写法：</span></span><br><span class="line"><span class="meta">@property</span> (copy, nonatomic) void (<span class="operator">^</span>block)(void);</span><br><span class="line"></span><br><span class="line"><span class="comment">//ARC下block属性的建议写法：</span></span><br><span class="line"><span class="meta">@property</span> (strong, nonatomic) void (<span class="operator">^</span>block)(void);</span><br><span class="line"><span class="meta">@property</span> (copy, nonatomic) void (<span class="operator">^</span>block)(void);</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h4><ol>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Blocks/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40007502-CH1-SW1">苹果官方Block文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://halfrost.com/ios_block/#blockcopydispose">深入研究 Block 捕获外部变量和 __block 实现原理</a></li>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000009470922">Block 到底啥时候会崩溃</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.aopod.com/2016/11/16/block-empty-checking/">为何调用block应先判空</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5b0181e15188254270643e88#heading-27">iOS底层原理总结 - 探寻block的本质(一)</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/entry/5a73d832f265da4e9311502d">在block内如何修改block外部变量引发的思考</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/majianfei1023/article/details/46629065">二级指针的作用详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/da96ec752aee">iOS Block底层探索</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/1f22891f2e8f">iOS底层-Block底层原理</a></li>
+<li><a target="_blank" rel="noopener" href="https://opensource.apple.com/source/libclosure/">苹果开源代码-libClosure</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/11c90d6d9f02">漫谈Block(理解Block_layout)</a></li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wuyubeichen.github.io/2019/04/12/iOS%E5%BA%95%E5%B1%82-Block%E6%9C%AC%E8%B4%A8%E5%8F%8A%E5%AD%98%E5%82%A8%E5%9F%9F%E9%97%AE%E9%A2%98/" title="iOS底层-Block本质及存储域问题" target="_blank" rel="external">https://wuyubeichen.github.io/2019/04/12/iOS底层-Block本质及存储域问题/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wuyubeichen" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wuyubeichen" target="_blank"><span class="text-dark">梧雨北辰</span><small class="ml-1x">iOS Developer</small></a></h3>
+        <div>天行健，君子以自强不息</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/04/13/iOS%E5%BA%95%E5%B1%82-Block%E6%8D%95%E8%8E%B7%E5%8F%98%E9%87%8F%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/" title="iOS底层-Block捕获变量原理分析"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/03/03/iOS%E5%BC%80%E5%8F%91-ReactiveCocoa%E5%9F%BA%E7%A1%80%E7%AF%87/" title="iOS开发-ReactiveCocoa基础篇"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn " data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">    <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '2e6fa2ad89748dbf4116',
+    clientSecret: 'f9c89ddcbf94ec2d51bf77a2741a883278b6c9e9',
+    repo: 'wuyubeichen.github.io',
+    owner: 'wuyubeichen',
+    admin: ['wuyubeichen'],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    language: 'zh-CN',
+    enableHotKey: 'true'
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'G-CFFB9VW1Q7', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>

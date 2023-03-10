@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>iOS开发-ReactiveCocoa基础篇 | Hexo</title>
+  <meta name="description" content="ReactiveCocoa(简称RAC)，Reactive表示响应式，Cocoa是苹果整个框架的简称，许多苹果框架都以Cocoa结尾。所以RAC是Github上为我们提供函数响应式编程方法的iOS开发框架。 主要内容：  了解函数响应式编程 ReactiveCocoa简介 ReactiveCocoa集成 理解什么是信号 从源码理解RAC的信号机制 本篇总结  一、了解函数响应式编程 函数式编程(F">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发-ReactiveCocoa基础篇">
+<meta property="og:url" content="https://wuyubeichen.github.io/2019/03/03/iOS%E5%BC%80%E5%8F%91-ReactiveCocoa%E5%9F%BA%E7%A1%80%E7%AF%87/index.html">
+<meta property="og:site_name" content="梧雨北辰的博客">
+<meta property="og:description" content="ReactiveCocoa(简称RAC)，Reactive表示响应式，Cocoa是苹果整个框架的简称，许多苹果框架都以Cocoa结尾。所以RAC是Github上为我们提供函数响应式编程方法的iOS开发框架。 主要内容：  了解函数响应式编程 ReactiveCocoa简介 ReactiveCocoa集成 理解什么是信号 从源码理解RAC的信号机制 本篇总结  一、了解函数响应式编程 函数式编程(F">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1244124-613e9c9d4106f91b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2019-03-03T06:58:39.000Z">
+<meta property="article:modified_time" content="2022-08-29T01:39:32.014Z">
+<meta property="article:author" content="Zhou Shuai">
+<meta property="article:tag" content="响应式编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1244124-613e9c9d4106f91b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wuyubeichen.github.io/2019/03/03/iOS%E5%BC%80%E5%8F%91-ReactiveCocoa%E5%9F%BA%E7%A1%80%E7%AF%87/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="梧雨北辰的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+    
+ <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142"
+     crossorigin="anonymous"></script>
+     
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body class="main-center theme-purple" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wuyubeichen" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">梧雨北辰</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">iOS Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Beijing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BA%95%E5%B1%82/">iOS底层</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BC%80%E5%8F%91/">iOS开发</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86/">网络原理</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Block/" style="font-size: 13.25px;">Block</a> <a href="/tags/CPU%E6%9E%B6%E6%9E%84/" style="font-size: 13px;">CPU架构</a> <a href="/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/tags/Mach-O/" style="font-size: 13.5px;">Mach-O</a> <a href="/tags/Python/" style="font-size: 13.75px;">Python</a> <a href="/tags/Runtime/" style="font-size: 13.25px;">Runtime</a> <a href="/tags/Swift/" style="font-size: 14px;">Swift</a> <a href="/tags/UI%E9%97%AE%E9%A2%98/" style="font-size: 13.25px;">UI问题</a> <a href="/tags/Xcode/" style="font-size: 13.5px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 14px;">iOS</a> <a href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" style="font-size: 13.25px;">内存管理</a> <a href="/tags/%E5%8A%A8%E6%80%81%E5%BA%93/" style="font-size: 13px;">动态库</a> <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 13.25px;">响应式编程</a> <a href="/tags/%E6%8A%93%E5%8C%85/" style="font-size: 13px;">抓包</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.5px;">环境配置</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13px;">编译原理</a> <a href="/tags/%E9%9D%99%E6%80%81%E5%BA%93/" style="font-size: 13px;">静态库</a>
+    </div>
+  </div>
+
+    
+      <div class="widget">
+    <div class="widget-body">
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142" crossorigin="anonymous"></script>
+         <!-- widget_ad1 -->
+         <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1012757114750142"
+             data-ad-slot="4233351648"
+             data-full-width-responsive="true"></ins>
+         <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+    </div>
+</div>
+
+    
+  </div>
+</aside>
+
+  
+  
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BA%86%E8%A7%A3%E5%87%BD%E6%95%B0%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">一、了解函数响应式编程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81ReactiveCocoa%E7%AE%80%E4%BB%8B"><span class="toc-number">2.</span> <span class="toc-text">二、ReactiveCocoa简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81ReactiveCocoa%E9%9B%86%E6%88%90"><span class="toc-number">3.</span> <span class="toc-text">三、ReactiveCocoa集成</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%BA%AFOC%E5%B7%A5%E7%A8%8B"><span class="toc-number">3.1.</span> <span class="toc-text">1.纯OC工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%BA%AFSwift%E5%B7%A5%E7%A8%8B"><span class="toc-number">3.2.</span> <span class="toc-text">2.纯Swift工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-OC%E4%B8%8ESwift%E6%B7%B7%E7%BC%96%E5%B7%A5%E7%A8%8B"><span class="toc-number">3.3.</span> <span class="toc-text">3.OC与Swift混编工程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81ReactiveCocoa%E4%BF%A1%E5%8F%B7%E7%90%86%E8%A7%A3"><span class="toc-number">4.</span> <span class="toc-text">四、ReactiveCocoa信号理解</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81ReactiveCocoa%E4%BF%A1%E5%8F%B7%E6%9C%BA%E5%88%B6"><span class="toc-number">5.</span> <span class="toc-text">五、ReactiveCocoa信号机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%88%9B%E5%BB%BA%E4%BF%A1%E5%8F%B7"><span class="toc-number">5.1.</span> <span class="toc-text">1.创建信号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%AE%A2%E9%98%85%E4%BF%A1%E5%8F%B7"><span class="toc-number">5.2.</span> <span class="toc-text">2.订阅信号</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%9C%AC%E7%AF%87%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">六、本篇总结</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-iOS开发-ReactiveCocoa基础篇" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS开发-ReactiveCocoa基础篇
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/03/03/iOS%E5%BC%80%E5%8F%91-ReactiveCocoa%E5%9F%BA%E7%A1%80%E7%AF%87/" class="article-date">
+	  <time datetime="2019-03-03T06:58:39.000Z" itemprop="datePublished">2019-03-03</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/iOS%E5%BC%80%E5%8F%91/">iOS开发</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/" rel="tag">响应式编程</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/03/03/iOS%E5%BC%80%E5%8F%91-ReactiveCocoa%E5%9F%BA%E7%A1%80%E7%AF%87/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2.6k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 10(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><code>ReactiveCocoa</code>(简称<code>RAC</code>)，<code>Reactive</code>表示响应式，<code>Cocoa</code>是苹果整个框架的简称，许多苹果框架都以<code>Cocoa</code>结尾。所以<code>RAC</code>是<code>Github</code>上为我们提供函数响应式编程方法的<code>iOS</code>开发框架。</p>
+<p><strong>主要内容：</strong></p>
+<ol>
+<li>了解函数响应式编程</li>
+<li>ReactiveCocoa简介</li>
+<li>ReactiveCocoa集成</li>
+<li>理解什么是信号</li>
+<li>从源码理解RAC的信号机制</li>
+<li>本篇总结</li>
+</ol>
+<h1 id="一、了解函数响应式编程"><a href="#一、了解函数响应式编程" class="headerlink" title="一、了解函数响应式编程"></a>一、了解函数响应式编程</h1><p><img src="https://upload-images.jianshu.io/upload_images/1244124-613e9c9d4106f91b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p><strong>函数式编程(Funcational Programming)</strong><br>使用高阶函数编程，即函数可采用多种函数作为它们的参数和返回值。</p>
+<p><strong>响应式编程(Reactive Programming)</strong><br>一种面向数据流和变化传播的编程范式</p>
+<p><strong>函数响应式编程(Funcational Reacitve Programming)</strong><br>简称FRP，ReactiveCocoa就是一个典型的FRP框架，响应式的编程思想，函数式的代码形式。</p>
+<h1 id="二、ReactiveCocoa简介"><a href="#二、ReactiveCocoa简介" class="headerlink" title="二、ReactiveCocoa简介"></a>二、ReactiveCocoa简介</h1><p>iOS开发中，我们需要使用按钮点击、代理、通知等这些方法来处理响应事件。而RAC框架使用Category为很多基本的UIKit控件添加信号Signal，这样我们可以通过信号来监听数据流与变化传播，把将监听的代码与处理代码放在一起，从而方便我们管理。利用此特点结合MVVM架构，RAC也有十分显著的作用。</p>
+<h1 id="三、ReactiveCocoa集成"><a href="#三、ReactiveCocoa集成" class="headerlink" title="三、ReactiveCocoa集成"></a>三、ReactiveCocoa集成</h1><p>RAC.5.0相对于之前版本对于自身项目结构进行了较大调整，被拆分ReactiveCocoa、ReactiveSwift、ReactiveObjC、ReactiveObjCBridge四个库，我们需要根据不同的情况来集成。<br><a target="_blank" rel="noopener" href="https://github.com/ReactiveCocoa/ReactiveCocoa">GitHub地址：https://github.com/ReactiveCocoa/ReactiveCocoa</a><br>通常，我们都使用Cocoapods集成RAC，**需要注意的是Podfile文件中必须使用user_framework!**，然后，针对于不同的代码环境，有三种集成情况：</p>
+<h2 id="1-纯OC工程"><a href="#1-纯OC工程" class="headerlink" title="1.纯OC工程"></a>1.纯OC工程</h2><p>ReactiveObjc库包含原RAC2的全部代码，在纯OC工程中使用</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">platform :ios, <span class="string">&#x27;8.0&#x27;</span></span><br><span class="line">use_frameworks!     #必须添加</span><br><span class="line">target <span class="string">&#x27;ZSTest&#x27;</span> <span class="keyword">do</span>  #工程名</span><br><span class="line"><span class="meta">#pod &#x27;ReactiveObjC&#x27; #默认导入最新的RAC版本         </span></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-纯Swift工程"><a href="#2-纯Swift工程" class="headerlink" title="2.纯Swift工程"></a>2.纯Swift工程</h2><p>纯Swfit工程继续使用ReactiveCocoa，但RAC依赖ReactiveSwift，所以相当于引入两个库。<br>集成方法同上，只不过将ReactiveObjc换成ReactiveCocoa。</p>
+<h2 id="3-OC与Swift混编工程"><a href="#3-OC与Swift混编工程" class="headerlink" title="3.OC与Swift混编工程"></a>3.OC与Swift混编工程</h2><p>混编工程需要同时引入ReactiveCocoa与ReactiveObjCBridge，但是ReactiveObjCBridge库依赖于ReactiveObjc库，所以相当于同时引入四个库了。示例如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">platform :ios, <span class="string">&#x27;8.0&#x27;</span></span><br><span class="line">use_frameworks!     #必须添加</span><br><span class="line">target <span class="string">&#x27;ZSTest&#x27;</span> <span class="keyword">do</span>  #工程名</span><br><span class="line">pod <span class="string">&#x27;ReactiveCocoa&#x27;</span></span><br><span class="line">pod <span class="string">&#x27;ReactiveObjC&#x27;</span>  </span><br><span class="line">pod <span class="string">&#x27;ReactiveObjCBridge&#x27;</span></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<h1 id="四、ReactiveCocoa信号理解"><a href="#四、ReactiveCocoa信号理解" class="headerlink" title="四、ReactiveCocoa信号理解"></a>四、ReactiveCocoa信号理解</h1><p>我觉得学习RAC的第一个关口就是理解信号RACSignal了，什么是信号也许是困惑我们的第一个问题。</p>
+<p>作为RAC中最为核心的一个类，<strong>信号可以理解为传递数据变化信息的工具</strong>，信号会在数据发生变化时发送事件流给它的订阅者，然后订阅者执行响应方法。信号本身不具备发送信号的能力，而是交给一个订阅者去发出。</p>
+<p>首先上一段代码，演示信号的一个基本使用。<br>测试场景：我们要对一个用于输入用户名的UITextFiled进行检测，每次输入内容变化的时候都打出输入框的内容，使用RAC来实现此操作的关键代码如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">self</span>.userNameTxtField.rac_textSignal subscribeNext:^(<span class="built_in">NSString</span> * _Nullable x) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;测试：%@&quot;</span>,x);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">控制台打印：</span><br><span class="line"><span class="number">2018</span><span class="number">-03</span><span class="number">-23</span> <span class="number">17</span>:<span class="number">57</span>:<span class="number">00.497956</span>+<span class="number">0800</span> ZSTest[<span class="number">4351</span>:<span class="number">263810</span>] 测试：<span class="number">1</span></span><br><span class="line"><span class="number">2018</span><span class="number">-03</span><span class="number">-23</span> <span class="number">17</span>:<span class="number">57</span>:<span class="number">00.498237</span>+<span class="number">0800</span> ZSTest[<span class="number">4351</span>:<span class="number">263810</span>] 测试：<span class="number">12</span></span><br><span class="line"><span class="number">2018</span><span class="number">-03</span><span class="number">-23</span> <span class="number">17</span>:<span class="number">57</span>:<span class="number">00.498375</span>+<span class="number">0800</span> ZSTest[<span class="number">4351</span>:<span class="number">263810</span>] 测试：<span class="number">123</span></span><br></pre></td></tr></table></figure>
+
+<p>没错的，不使用代理方法，也没有action的响应处理，我们仅仅使用了一行方法就实现了对文本框输入内容的实时打印。由此，RAC的实用性可见一斑。</p>
+<h1 id="五、ReactiveCocoa信号机制"><a href="#五、ReactiveCocoa信号机制" class="headerlink" title="五、ReactiveCocoa信号机制"></a>五、ReactiveCocoa信号机制</h1><p>我们会对上面的代码产生疑问，RAC是怎么做到上述代码功能的呢？而且我们常说的订阅者又在哪里呢？</p>
+<p>其实RAC已经使用Category的形式为我们基本的UI控件创建了信号(<strong>如上例中的rac_textSignal</strong>)，所以这里我们才可以很方便的实现信号订阅，而且订阅者在整个过程中也是对于我们隐藏的。 现在我们使用自定义信号的方法，从创建信号到订阅信号细致的了解一下这个过程。首先上一段创建信号的测试代码如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建信号</span></span><br><span class="line">RACSignal *testSignal = [RACSignal createSignal:^RACDisposable * _Nullable(<span class="type">id</span>&lt;RACSubscriber&gt;  _Nonnull subscriber) &#123;</span><br><span class="line">    <span class="comment">//1.订阅者发送信号内容</span></span><br><span class="line">    [subscriber sendNext:<span class="string">@&quot;发送信号内容&quot;</span>];</span><br><span class="line">    <span class="comment">//2.订阅者发送信号完成的信息，不需要再发送数据时，最好发送信号完成，可以内部调起清理信号的操作。</span></span><br><span class="line">    [subscriber sendCompleted];</span><br><span class="line">    <span class="comment">//3.创建信号的Block参数，需要返回一个RACDisposable对象 ，可以返回nil。</span></span><br><span class="line">    <span class="comment">//RACDisposable对象用于取消订阅信号，此block在信号完成或者错误时调用。</span></span><br><span class="line">    RACDisposable *racDisposable = [RACDisposable disposableWithBlock:^&#123;</span><br><span class="line">       <span class="built_in">NSLog</span>(<span class="string">@&quot;信号Error或者Complete时销毁&quot;</span>);</span><br><span class="line">    &#125;];</span><br><span class="line">    <span class="keyword">return</span> racDisposable;</span><br><span class="line">&#125;];</span><br><span class="line">    </span><br><span class="line"><span class="comment">//订阅信号</span></span><br><span class="line">[testSignal subscribeNext:^(<span class="type">id</span>  _Nullable x) &#123;</span><br><span class="line">    <span class="comment">//新变化的值</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;订阅信号：subscribeNext:%@&quot;</span>,x);</span><br><span class="line">&#125; error:^(<span class="built_in">NSError</span> * _Nullable error) &#123;</span><br><span class="line">    <span class="comment">//信号错误，被取消订阅,被移除观察</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;订阅信号：Error:%@&quot;</span>,error.description);</span><br><span class="line">&#125; completed:^&#123;</span><br><span class="line">    <span class="comment">//信号已经完成，被取消订阅，被移除观察</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;订阅信号：subscribeComplete&quot;</span>);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">控制台打印:</span><br><span class="line"><span class="number">2018</span><span class="number">-03</span><span class="number">-23</span> <span class="number">17</span>:<span class="number">57</span>:<span class="number">00.497956</span>+<span class="number">0800</span> ZSTest[<span class="number">4351</span>:<span class="number">263810</span>] 订阅信号：subscribeNext:发送信号内容</span><br><span class="line"><span class="number">2018</span><span class="number">-03</span><span class="number">-23</span> <span class="number">17</span>:<span class="number">57</span>:<span class="number">00.498237</span>+<span class="number">0800</span> ZSTest[<span class="number">4351</span>:<span class="number">263810</span>] 订阅信号：subscribeComplete</span><br><span class="line"><span class="number">2018</span><span class="number">-03</span><span class="number">-23</span> <span class="number">17</span>:<span class="number">57</span>:<span class="number">00.498375</span>+<span class="number">0800</span> ZSTest[<span class="number">4351</span>:<span class="number">263810</span>] 信号Error或者Complete时销毁</span><br></pre></td></tr></table></figure>
+
+<p>我们通过观察源码来理解整个过程:</p>
+<h2 id="1-创建信号"><a href="#1-创建信号" class="headerlink" title="1.创建信号"></a>1.创建信号</h2><p>创建信号，我们需要使用RACSignal的类方法createSignal。该方法需要一个Block作为参数。查看源码，我们就会发现RACSignal最终是通过调用自己子类RACDynamicSignal的createSignal方法，将这个Block设置给了自己的didSubscribe属性的。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//RACSignal.m文件</span></span><br><span class="line">+ (RACSignal *)createSignal:(RACDisposable * (^)(<span class="type">id</span>&lt;RACSubscriber&gt; subscriber))didSubscribe &#123;</span><br><span class="line"> 	<span class="keyword">return</span> [RACDynamicSignal createSignal:didSubscribe];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//RACDynamicSignal.h文件</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">RACDynamicSignal</span> ()</span></span><br><span class="line"><span class="comment">// The block to invoke for each subscriber.</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>, <span class="keyword">readonly</span>) RACDisposable * (^didSubscribe)(<span class="type">id</span>&lt;RACSubscriber&gt; subscriber);</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//RACDynamicSignal.m文件</span></span><br><span class="line">+ (RACSignal *)createSignal:(RACDisposable * (^)(<span class="type">id</span>&lt;RACSubscriber&gt; subscriber))didSubscribe &#123;</span><br><span class="line"> 	RACDynamicSignal *signal = [[<span class="keyword">self</span> alloc] init];</span><br><span class="line"> 	signal-&gt;_didSubscribe = [didSubscribe <span class="keyword">copy</span>];</span><br><span class="line"> 	<span class="keyword">return</span> [signal setNameWithFormat:<span class="string">@&quot;+createSignal:&quot;</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>didSubscribe</strong>：这是创建信号时候需要传入的一个block，它的传入参数是订阅者subscriber，而返回值是需要是一个RACDisposable对象。创建信号后的didSubscrib是一个等待执行的block。</p>
+<p><strong>RACSubscriber</strong>：表示订阅者，创建信号时订阅者发送信号，这里的订阅者是一个协议而非一个类。信号需要订阅者帮助其发送数据。查看RACSubscriber的协议，我可以看到以下几个方法：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//发送信息</span></span><br><span class="line">- (<span class="type">void</span>)sendNext:(<span class="keyword">nullable</span> <span class="type">id</span>)value;</span><br><span class="line"><span class="comment">//发送错误消息</span></span><br><span class="line">- (<span class="type">void</span>)sendError:(<span class="keyword">nullable</span> <span class="built_in">NSError</span> *)error;</span><br><span class="line"><span class="comment">//发送完成信息</span></span><br><span class="line">- (<span class="type">void</span>)sendCompleted;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line">- (<span class="type">void</span>)didSubscribeWithDisposable:(RACCompoundDisposable *)disposable;</span><br></pre></td></tr></table></figure>
+
+<p>在创建一个信号的时候，订阅者使用sendNext发送信息。而且如果我们不再发送数据，最好在这里执行一次sendCompleted方法，这样的话，信号内部会自动调用对应的方法取消信号订阅。</p>
+<p><strong>RACDisposable</strong>：这个类用于取消订阅信号和清理资源，在信号出现错误或者信号完成的时候，信号会自动调起RACDisposable对象的block方法。在代码中我们也可以看到，创建RACDisposable对象是使用disposableWithBlock方法设置了一个block操作，执行block操作之后，信号就不再被订阅了。</p>
+<p><strong>总结：创建信号就是使用createSignal方法，创建一个信号，并为信号设置了一个didSubscribe属性(也就是一系列订阅者需要做的操作)。</strong></p>
+<h2 id="2-订阅信号"><a href="#2-订阅信号" class="headerlink" title="2.订阅信号"></a>2.订阅信号</h2><p>进入订阅信号的源码我们看到如下代码：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (RACDisposable *)subscribeNext:(<span class="type">void</span> (^)(<span class="type">id</span> x))nextBlock error:(<span class="type">void</span> (^)(<span class="built_in">NSError</span> *error))errorBlock completed:(<span class="type">void</span> (^)(<span class="type">void</span>))completedBlock &#123;</span><br><span class="line"> 	<span class="built_in">NSCParameterAssert</span>(nextBlock != <span class="literal">NULL</span>);</span><br><span class="line"> 	<span class="built_in">NSCParameterAssert</span>(errorBlock != <span class="literal">NULL</span>);</span><br><span class="line"> 	<span class="built_in">NSCParameterAssert</span>(completedBlock != <span class="literal">NULL</span>);</span><br><span class="line"> 	</span><br><span class="line"> 	RACSubscriber *o = [RACSubscriber subscriberWithNext:nextBlock error:errorBlock completed:completedBlock];</span><br><span class="line"> 	<span class="keyword">return</span> [<span class="keyword">self</span> subscribe:o];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在此方法中，我们可以看到订阅信号有两个过程：<br><strong>过程1：使用subscribeNext的方法参数，创建出一个订阅者subscriber。</strong><br><strong>过程2：信号对象执行了订阅操作subscribe，方法中传入参数是刚创建的订阅者。</strong></p>
+<p><strong>注：这也就解释了我们常提起却看不见的订阅者存在哪里的问题。真实开发中我们只关心订阅者需要发送的值就行了，而不需要关心其内部订阅的过程。</strong></p>
+<p>继续打开信号的subscribe方法，看到源码如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (RACDisposable *)subscribe:(<span class="type">id</span>&lt;RACSubscriber&gt;)subscriber &#123;</span><br><span class="line"> 	<span class="built_in">NSCParameterAssert</span>(subscriber != <span class="literal">nil</span>);</span><br><span class="line"> 	RACCompoundDisposable *disposable = [RACCompoundDisposable compoundDisposable];</span><br><span class="line"> 	subscriber = [[RACPassthroughSubscriber alloc] initWithSubscriber:subscriber signal:<span class="keyword">self</span> disposable:disposable];</span><br><span class="line"> 	<span class="keyword">if</span> (<span class="keyword">self</span>.didSubscribe != <span class="literal">NULL</span>) &#123;</span><br><span class="line"> 		RACDisposable *schedulingDisposable = [RACScheduler.subscriptionScheduler schedule:^&#123;</span><br><span class="line"> 			RACDisposable *innerDisposable = <span class="keyword">self</span>.didSubscribe(subscriber);</span><br><span class="line"> 			[disposable addDisposable:innerDisposable];</span><br><span class="line"> 		&#125;];</span><br><span class="line"> 		[disposable addDisposable:schedulingDisposable];</span><br><span class="line"> 	&#125;</span><br><span class="line"> 	<span class="keyword">return</span> disposable;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码中我们不难看出：<strong>除了对于订阅者和清理对象的再次封装外，最重要的就是创建信号时为信号设置Block(didSubscribe)被调用了，而且Block参数使用了我们创建的订阅者。</strong></p>
+<h1 id="六、本篇总结"><a href="#六、本篇总结" class="headerlink" title="六、本篇总结"></a>六、本篇总结</h1><p>1.自创建信号会传入一个Block(didSubscribe)，Block中遵循协议的订阅者会调用sendNext方法发送消息。而在订阅信号subscribeNext时，会在内部创建一个订阅者，并将其传递给原先赋值的didSubscribe，并执行这个Block。</p>
+<p>2.<strong>但是我们应该注意</strong>：上述的分析只是其中信号机制的一种情况罢了。RAC对于UI组件信号的封装可能有所不同，比如之前我们看到的输入框信号，执行订阅信号subscribeNext时并不立即执行打印，而是监听到输入时打印。这其实是该信号使用了concat又做了一系列的操作。<strong>对于不同的信号我们只需要理解上述分析中提到几个关键属性，就可以结合源码很好的理解信号机制的使用了。</strong></p>
+<p>本篇的重点在于对RAC的基本介绍，是为了更好的理解信号机制，这仅相当于打开一个切入口来认识RAC。关于RAC的详细用法可以参考下一篇：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/16b4b9d74b7c">ReactiveCocoa函数响应式编程-应用篇</a>，这里将总结RAC关于信号的各种用法。</p>
+<p>其他参考链接：<br>1.<a target="_blank" rel="noopener" href="http://www.cocoachina.com/ios/20150123/10994.html">ReactiveCocoa入门教程：第一部分</a><br>2.<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/87ef6720a096">最快让你上手ReactiveCocoa之基础篇</a><br>3.<a target="_blank" rel="noopener" href="http://ios.jobbole.com/82356/">这样好用的ReactiveCocoa,根本停不下来</a><br>4.<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhenw/p/6160931.html">函数式编程与面向对象的比较</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wuyubeichen.github.io/2019/03/03/iOS%E5%BC%80%E5%8F%91-ReactiveCocoa%E5%9F%BA%E7%A1%80%E7%AF%87/" title="iOS开发-ReactiveCocoa基础篇" target="_blank" rel="external">https://wuyubeichen.github.io/2019/03/03/iOS开发-ReactiveCocoa基础篇/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wuyubeichen" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wuyubeichen" target="_blank"><span class="text-dark">梧雨北辰</span><small class="ml-1x">iOS Developer</small></a></h3>
+        <div>天行健，君子以自强不息</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/04/12/iOS%E5%BA%95%E5%B1%82-Block%E6%9C%AC%E8%B4%A8%E5%8F%8A%E5%AD%98%E5%82%A8%E5%9F%9F%E9%97%AE%E9%A2%98/" title="iOS底层-Block本质及存储域问题"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/03/02/iOS%E5%BC%80%E5%8F%91-ReactiveCocoa%E5%BA%94%E7%94%A8%E7%AF%87/" title="iOS开发-ReactiveCocoa应用篇"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn " data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">    <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '2e6fa2ad89748dbf4116',
+    clientSecret: 'f9c89ddcbf94ec2d51bf77a2741a883278b6c9e9',
+    repo: 'wuyubeichen.github.io',
+    owner: 'wuyubeichen',
+    admin: ['wuyubeichen'],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    language: 'zh-CN',
+    enableHotKey: 'true'
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'G-CFFB9VW1Q7', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>

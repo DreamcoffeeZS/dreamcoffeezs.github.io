@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>iOS高级-Xcode多环境配置 | Hexo</title>
+  <meta name="description" content="主要内容：  区分Project、Target、Scheme 多Target 配置 Scheme配置 xcconfig文件配置  一、区分Project、Target、Scheme Project：是一个项目的整体，相当于一个仓库，包括了所有的代码和资源文件； Target：相当于一个具体的产品，包含了对于代码，资源文件的具体使用规则和配置； Scheme: 对指定Target的环境进行配置；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS高级-Xcode多环境配置">
+<meta property="og:url" content="https://wuyubeichen.github.io/2021/11/01/iOS%E9%AB%98%E7%BA%A7-Xcode%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="梧雨北辰的博客">
+<meta property="og:description" content="主要内容：  区分Project、Target、Scheme 多Target 配置 Scheme配置 xcconfig文件配置  一、区分Project、Target、Scheme Project：是一个项目的整体，相当于一个仓库，包括了所有的代码和资源文件； Target：相当于一个具体的产品，包含了对于代码，资源文件的具体使用规则和配置； Scheme: 对指定Target的环境进行配置；">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c065c372995d416693dc6ccef0508622~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/928bf7525e524884a4ede350865c0536~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/89f60813eda548c6932e74d1b22a6083~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/21ec401d7c3a4fd7a806e38d861bf8da~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2fde31bff98e443fa485c6b368ff4842~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6aa48beefddf4ad9bd70c985a600f608~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0ef3d7a5ee5c48cf95c878f3b53e8451~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8579731f6eeb4f979f042ec456bec16f~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fdffb0e428024bf793cdc242ff491d41~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/81de9bcb9a1241d9b280a363d5683c2e~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5e6c883e12ae461788fa93e177c45c19~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1717a5a897ba4feeb8c4da0550330622~tplv-k3u1fbpfcp-watermark.image">
+<meta property="article:published_time" content="2021-11-01T14:54:10.000Z">
+<meta property="article:modified_time" content="2022-08-29T01:39:32.018Z">
+<meta property="article:author" content="Zhou Shuai">
+<meta property="article:tag" content="Xcode">
+<meta property="article:tag" content="环境配置">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c065c372995d416693dc6ccef0508622~tplv-k3u1fbpfcp-watermark.image">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wuyubeichen.github.io/2021/11/01/iOS%E9%AB%98%E7%BA%A7-Xcode%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="梧雨北辰的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+    
+ <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142"
+     crossorigin="anonymous"></script>
+     
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body class="main-center theme-purple" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wuyubeichen" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">梧雨北辰</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">iOS Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Beijing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BA%95%E5%B1%82/">iOS底层</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BC%80%E5%8F%91/">iOS开发</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86/">网络原理</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Block/" style="font-size: 13.25px;">Block</a> <a href="/tags/CPU%E6%9E%B6%E6%9E%84/" style="font-size: 13px;">CPU架构</a> <a href="/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/tags/Mach-O/" style="font-size: 13.5px;">Mach-O</a> <a href="/tags/Python/" style="font-size: 13.75px;">Python</a> <a href="/tags/Runtime/" style="font-size: 13.25px;">Runtime</a> <a href="/tags/Swift/" style="font-size: 14px;">Swift</a> <a href="/tags/UI%E9%97%AE%E9%A2%98/" style="font-size: 13.25px;">UI问题</a> <a href="/tags/Xcode/" style="font-size: 13.5px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 14px;">iOS</a> <a href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" style="font-size: 13.25px;">内存管理</a> <a href="/tags/%E5%8A%A8%E6%80%81%E5%BA%93/" style="font-size: 13px;">动态库</a> <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 13.25px;">响应式编程</a> <a href="/tags/%E6%8A%93%E5%8C%85/" style="font-size: 13px;">抓包</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.5px;">环境配置</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13px;">编译原理</a> <a href="/tags/%E9%9D%99%E6%80%81%E5%BA%93/" style="font-size: 13px;">静态库</a>
+    </div>
+  </div>
+
+    
+      <div class="widget">
+    <div class="widget-body">
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142" crossorigin="anonymous"></script>
+         <!-- widget_ad1 -->
+         <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1012757114750142"
+             data-ad-slot="4233351648"
+             data-full-width-responsive="true"></ins>
+         <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+    </div>
+</div>
+
+    
+  </div>
+</aside>
+
+  
+  
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%8C%BA%E5%88%86Project%E3%80%81Target%E3%80%81Scheme"><span class="toc-number">1.</span> <span class="toc-text">一、区分Project、Target、Scheme</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%A4%9ATarget-%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">二、多Target 配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E6%80%BB%E7%BB%93%E7%89%B9%E7%82%B9"><span class="toc-number">2.1.</span> <span class="toc-text">1.总结特点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4"><span class="toc-number">2.2.</span> <span class="toc-text">2.基本步骤</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81Scheme%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">三、Scheme配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%A2%9E%E5%8A%A0%E6%96%B0configration"><span class="toc-number">3.1.</span> <span class="toc-text">1.增加新configration</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%88%87%E6%8D%A2%E5%A4%9A%E7%8E%AF%E5%A2%83"><span class="toc-number">3.2.</span> <span class="toc-text">2.切换多环境</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E5%A4%9AScheme"><span class="toc-number">3.3.</span> <span class="toc-text">3.多Scheme</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E6%B5%8B%E8%AF%95Scheme%E5%A4%9A%E7%8E%AF%E5%A2%83"><span class="toc-number">3.4.</span> <span class="toc-text">4.测试Scheme多环境</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E3%80%81xcconfig%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">四、xcconfig配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E6%9F%A5%E7%9C%8B%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">4.1.</span> <span class="toc-text">1.查看配置文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">4.2.</span> <span class="toc-text">2.自定义配置文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7%E9%97%AE%E9%A2%98"><span class="toc-number">4.3.</span> <span class="toc-text">3.特殊符号问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E5%A2%9E%E5%8A%A0%E7%BA%A6%E6%9D%9F%E6%9D%A1%E4%BB%B6"><span class="toc-number">4.4.</span> <span class="toc-text">4.增加约束条件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-xcconfig%E6%96%87%E4%BB%B6%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98"><span class="toc-number">4.5.</span> <span class="toc-text">5.xcconfig文件冲突问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-xcconfig%E5%85%B3%E9%94%AE%E5%AD%97%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98"><span class="toc-number">4.6.</span> <span class="toc-text">6.xcconfig关键字冲突问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-%E6%B5%8B%E8%AF%95-xcconfig%E5%A4%9A%E7%8E%AF%E5%A2%83"><span class="toc-number">4.7.</span> <span class="toc-text">7.测试.xcconfig多环境</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">5.</span> <span class="toc-text">参考链接</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-iOS高级-Xcode多环境配置" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS高级-Xcode多环境配置
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/11/01/iOS%E9%AB%98%E7%BA%A7-Xcode%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="article-date">
+	  <time datetime="2021-11-01T14:54:10.000Z" itemprop="datePublished">2021-11-01</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Xcode/" rel="tag">Xcode</a>, <a class="article-tag-link-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/11/01/iOS%E9%AB%98%E7%BA%A7-Xcode%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.5k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 5(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><strong>主要内容：</strong></p>
+<ol>
+<li>区分<code>Project</code>、<code>Target</code>、<code>Scheme</code></li>
+<li>多<code>Target</code> 配置</li>
+<li><code>Scheme</code>配置</li>
+<li><code>xcconfig</code>文件配置</li>
+</ol>
+<h4 id="一、区分Project、Target、Scheme"><a href="#一、区分Project、Target、Scheme" class="headerlink" title="一、区分Project、Target、Scheme"></a>一、区分Project、Target、Scheme</h4><ul>
+<li><code>Project</code>：是一个项目的整体，相当于一个仓库，包括了所有的代码和资源文件；</li>
+<li><code>Target</code>：相当于一个具体的产品，包含了对于代码，资源文件的具体使用规则和配置；</li>
+<li><code>Scheme</code>: 对指定<code>Target</code>的环境进行配置；</li>
+</ul>
+<p>总结：一个<code>Project</code>可以包含多个<code>Target</code>，也就是说通过不同<code>Target</code>我们可以生成不同的<code>APP</code>；</p>
+<p>多环境配置的三种方法：</p>
+<ol>
+<li>多<code>target</code>配置;</li>
+<li><code>Scheme</code>配置;</li>
+<li><code>xcconfig</code>文件配置;</li>
+</ol>
+<h4 id="二、多Target-配置"><a href="#二、多Target-配置" class="headerlink" title="二、多Target 配置"></a>二、多Target 配置</h4><h5 id="1-总结特点"><a href="#1-总结特点" class="headerlink" title="1.总结特点"></a>1.总结特点</h5><ul>
+<li>优点：方便管理代码，资源文件，比如在<code>Compile Sources</code>、<code>Copy Bundle Resources</code>里根据需要增加或者删除需要编译的代码和资源；</li>
+<li>缺点：配置繁琐，涉及多个<code>info.plist</code>文件、宏定义等，大量的修改人容易错乱；</li>
+</ul>
+<h5 id="2-基本步骤"><a href="#2-基本步骤" class="headerlink" title="2.基本步骤"></a>2.基本步骤</h5><p>1.创建新<code>target</code></p>
+<p>选中已有<code>target</code>，右键选择<code>Duplicate</code>，会拷贝创建出与原<code>Target</code>相同配置的新<code>Target</code>；</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c065c372995d416693dc6ccef0508622~tplv-k3u1fbpfcp-watermark.image" alt="Target配置-Duplicate.png"></p>
+<p>2.修改新<code>target</code>的配置</p>
+<p>由于拷贝得到的<code>target</code>仍使用旧的配置，为了使用新<code>target</code>，所以我们还需要一些额外设置：</p>
+<ol>
+<li><p>修改新<code>Target</code>名字；</p>
+</li>
+<li><p>修改新<code>info.plist</code>名字；</p>
+</li>
+<li><p>修改<code>Build Settings</code> -&gt; <code>Packaging</code> -&gt; <code>info.plist File</code> 与 <code>Product Bundle identifier</code>；</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/928bf7525e524884a4ede350865c0536~tplv-k3u1fbpfcp-watermark.image" alt="Target配置-修改名字.png"></p>
+</li>
+</ol>
+<p>3.修改<code>Scheme</code>名字</p>
+<p>进入<code>Scheme Manager</code>，修改<code>Scheme</code>的名字，这里并非必须，修改是为了更加方便识别;</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/89f60813eda548c6932e74d1b22a6083~tplv-k3u1fbpfcp-watermark.image" alt="Target配置-Scheme.png"></p>
+<p>4.为了区别不同的<code>Target</code>，增加预定义宏</p>
+<p>配置<code>OC</code>工程：<code>Build Settings</code> -&gt; <code>Preprocessor Macros</code></p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/21ec401d7c3a4fd7a806e38d861bf8da~tplv-k3u1fbpfcp-watermark.image" alt="Target配置-OC添加宏.png"></p>
+<p>配置<code>Swift</code>工程：<code>Build Settings</code> -&gt; <code>Other Swift Flags</code></p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2fde31bff98e443fa485c6b368ff4842~tplv-k3u1fbpfcp-watermark.image" alt="Target配置-Swift添加宏.png"></p>
+<p>理解<code>-D</code>用法：</p>
+<ol>
+<li><code>swiftc</code>编译器中，需要添加一个<code>-D</code>的<code>option</code>，代表将条件编译标志标记为<code>true</code>；</li>
+<li>至于<code>-D</code>的说明，也可以使用控制台命令查看：<code>swiftc --help grep &#39;-D&#39;</code></li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">-</span><span class="type">D</span> <span class="operator">&lt;</span>value<span class="operator">&gt;</span>  <span class="type">Marks</span> a conditional compilation flag <span class="keyword">as</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>5.测试<code>target</code>多环境</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">#if</span> <span class="type">DEV</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Project DEV&quot;</span>)</span><br><span class="line"><span class="keyword">#else</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Project Normal&quot;</span>)</span><br><span class="line"><span class="keyword">#endif</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="三、Scheme配置"><a href="#三、Scheme配置" class="headerlink" title="三、Scheme配置"></a>三、Scheme配置</h4><p>配置<code>Scheme</code>实现多环境，其实是通过设置多种<code>configurations</code>的方式，具体步骤如下:</p>
+<h5 id="1-增加新configration"><a href="#1-增加新configration" class="headerlink" title="1.增加新configration"></a>1.增加新configration</h5><p>进入<code>Project</code> -&gt; <code>Info</code> -&gt; <code>Configurations</code>，在这里可以看到已经存在的<code>Debug</code>、<code>Release</code>等配置。点击<code>“+”</code>，可以在这里增加新的<code>configuration</code>(以<code>Dev</code>为例);</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6aa48beefddf4ad9bd70c985a600f608~tplv-k3u1fbpfcp-watermark.image" alt="Scheme配置-增加configration.png"></p>
+<h5 id="2-切换多环境"><a href="#2-切换多环境" class="headerlink" title="2.切换多环境"></a>2.切换多环境</h5><p>增加<code>configuration</code>后，在<code>Edit Scheme</code>时，也会多出一种<code>configration</code>。我们在<code>run</code>的时候，就可以手动切换<code>configration</code>使用不同的环境；</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0ef3d7a5ee5c48cf95c878f3b53e8451~tplv-k3u1fbpfcp-watermark.image" alt="Scheme配置-切换configration.png"></p>
+<h5 id="3-多Scheme"><a href="#3-多Scheme" class="headerlink" title="3.多Scheme"></a>3.多Scheme</h5><p>每次手动切换<code>configration</code>较为繁琐，我们还可以使用不同的<code>Scheme</code>直接对应不同的配置；</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8579731f6eeb4f979f042ec456bec16f~tplv-k3u1fbpfcp-watermark.image" alt="Scheme配置-New-Scheme.png"></p>
+<h5 id="4-测试Scheme多环境"><a href="#4-测试Scheme多环境" class="headerlink" title="4.测试Scheme多环境"></a>4.测试Scheme多环境</h5><p>1.<code>Build Setting</code> -&gt; <code>User-Defined</code>里自定义<code>Host_URL</code>，再对不同的<code>configration</code>配置不同的值；</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fdffb0e428024bf793cdc242ff491d41~tplv-k3u1fbpfcp-watermark.image" alt="Scheme配置-User-HOST_URL.png"></p>
+<p>2.将<code>Host_URL</code>以变量的方式配置<code>到info.plist</code>文件中；</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/81de9bcb9a1241d9b280a363d5683c2e~tplv-k3u1fbpfcp-watermark.image" alt="Scheme配置-Info-HOST_URL.png"></p>
+<p>3.读取<code>info.plist</code>，手动切换<code>configration</code>或者使用不同的<code>Scheme</code>运行，将得到不同的信息；</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">guard</span> <span class="keyword">let</span> path <span class="operator">=</span> <span class="type">Bundle</span>.main.path(forResource: <span class="string">&quot;Info&quot;</span>, ofType: <span class="string">&quot;plist&quot;</span>) <span class="keyword">else</span> &#123; <span class="keyword">return</span>&#125;</span><br><span class="line"><span class="keyword">guard</span> <span class="keyword">let</span> infoDic <span class="operator">=</span> <span class="type">NSDictionary</span>(contentsOfFile: path) <span class="keyword">else</span> &#123;<span class="keyword">return</span>&#125;</span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> host_url <span class="operator">=</span> infoDic[<span class="string">&quot;HOST_URL&quot;</span>] &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;HOST_URL:<span class="subst">\(host_url)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="四、xcconfig配置文件"><a href="#四、xcconfig配置文件" class="headerlink" title="四、xcconfig配置文件"></a>四、xcconfig配置文件</h4><p><code>xcconfig</code>配置文件：</p>
+<ol>
+<li><code>.xcconfig</code>配置文件，可以帮助我们以文件的形式配置<code>build settings</code>里的内容；</li>
+<li><code>.xcconfig</code>的文件的内容，是以<code>key-value</code>形式构成的；</li>
+<li>增加<code>.xcconfig</code>文件后，依然可以继续在<code>build settings</code>里增加配置项目，并不会覆盖；</li>
+</ol>
+<h5 id="1-查看配置文件"><a href="#1-查看配置文件" class="headerlink" title="1.查看配置文件"></a>1.查看配置文件</h5><p>其实，若使用<code>Cocoapods</code>管理第三方库，就已经自动生成了<code>Debug</code>和<code>Release</code>配置文件。</p>
+<p>查看配置：<code>Xcode</code> -&gt; <code>PROJECT</code> -&gt; <code>info</code> -&gt; <code>Configurations</code></p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5e6c883e12ae461788fa93e177c45c19~tplv-k3u1fbpfcp-watermark.image" alt="xxconfig-pods配置.png"></p>
+<h5 id="2-自定义配置文件"><a href="#2-自定义配置文件" class="headerlink" title="2.自定义配置文件"></a>2.自定义配置文件</h5><ol>
+<li><code>Commd +N</code> -&gt; 搜索<code>Configuration Setting File</code>，保存名称以”<code>目录名-App名.环境</code>“为格式， 如”<code>Config-TestProject.debug</code>“；</li>
+<li>在<code>.xcconfig</code>文件里写入配置，而这里用到的<code>key</code>其实都是<code>build settings</code>配置选项的缩写，具体可查看网站<a target="_blank" rel="noopener" href="https://xcodebuildsettings.com/">Xcode Build Settings</a>；</li>
+</ol>
+<p>举例：在配置文件中写入以下配置：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">SLASH</span> <span class="operator">=</span> <span class="operator">/</span></span><br><span class="line"><span class="type">HOST_URL</span> <span class="operator">=</span> http:$&#123;<span class="type">SLASH</span>&#125;<span class="operator">/</span><span class="number">1234</span></span><br><span class="line"><span class="type">OTHER_LDFLAGS</span> <span class="operator">=</span>  <span class="operator">-</span>framework <span class="string">&quot;AFNetworking&quot;</span></span><br><span class="line"><span class="type">HEADER_SEARCH_PATHS</span> <span class="operator">=</span> <span class="operator">/</span>abcd<span class="operator">/</span>efg</span><br></pre></td></tr></table></figure>
+
+<p>此时执行编译后，在<code>build settings</code>里搜索查看<code>Other Linker Flags</code>、<code>Header Search Paths</code>，这些配置都已经被成功修改；</p>
+<h5 id="3-特殊符号问题"><a href="#3-特殊符号问题" class="headerlink" title="3.特殊符号问题"></a>3.特殊符号问题</h5><p>在写入配置信息时，其中<code>url</code>的<code>//</code>会被认为是注释。此时，我们可以先定义一个变量<code>SLASH = /</code>， 如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">SLASH</span> <span class="operator">=</span> <span class="operator">/</span></span><br><span class="line"><span class="type">HOST_URL</span> <span class="operator">=</span> http:$&#123;<span class="type">SLASH</span>&#125;<span class="operator">/</span><span class="number">5678</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="4-增加约束条件"><a href="#4-增加约束条件" class="headerlink" title="4.增加约束条件"></a>4.增加约束条件</h5><p>某些情况下，我们需要为配置增加约束条件，如只在<code>Debug</code>环境下、<code>SDK</code>是模拟器，且架构是<code>x86_64</code>的情况下才会<code>link</code>这个<code>frameworkName</code>，则需要如下配置：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">OTHER_LDFLAGS</span>[config<span class="operator">=</span><span class="type">Debug</span>][sdk<span class="operator">=</span>iphonesimulator<span class="operator">*</span>][arch<span class="operator">=</span>x86_64] <span class="operator">=</span> <span class="operator">-</span>framework <span class="string">&quot;frameworkName&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="5-xcconfig文件冲突问题"><a href="#5-xcconfig文件冲突问题" class="headerlink" title="5.xcconfig文件冲突问题"></a>5.xcconfig文件冲突问题</h5><p>我们习惯于使用<code>cocoapods</code>管理第三方，由其生成的配置文件和我们自定义的配置文件就会冲突，因为一个环境只能配置一个<code>.xcconfig</code>文件：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1717a5a897ba4feeb8c4da0550330622~tplv-k3u1fbpfcp-watermark.image" alt="xxconfig-pods冲突.png"></p>
+<p>而且，此时更新<code>Pods</code>也会警告：已经存在其他的配置文件，<code>Pods</code>设置的.<code>xcconfig</code>文件不会生效；</p>
+<p>解决方案：在自定义配置文件中使用关键<code>include</code>命令，引入<code>pods</code>的配置文件，使其生效：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//注意：这里需要根据debug、release等不同的环境，分别设置</span></span><br><span class="line">#include <span class="string">&quot;Pods/Target Support Files/Pods-TestProject/Pods-TestProject.debug.xcconfig&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="6-xcconfig关键字冲突问题"><a href="#6-xcconfig关键字冲突问题" class="headerlink" title="6.xcconfig关键字冲突问题"></a>6.xcconfig关键字冲突问题</h5><p>将<code>Pods</code>生成的<code>.xcconfig</code>文件通过<code>include</code>导入自定义的配置文件中后，如果两者都对同一个<code>key</code>进行过配置，就会导致前者无效的问题。</p>
+<p>比如，两者都对相同的<code>Other Link Flags</code>进行配置，查看<code>Build Setting</code>后，会发现<code>Pods</code>生成的<code>.xcconfig</code>没有生效；</p>
+<p>解决方案：使用<code>inherited</code>进行继承，在自定义配置文件中配置如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">OTHER_LDFLAGS</span> <span class="operator">=</span> $(inherited) <span class="operator">-</span>framework <span class="string">&quot;AFNetworking&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="7-测试-xcconfig多环境"><a href="#7-测试-xcconfig多环境" class="headerlink" title="7.测试.xcconfig多环境"></a>7.测试.xcconfig多环境</h5><ol>
+<li>在不同的<code>.xcconfig</code>定义不同的<code>HOST_URL</code>，并以类似上文的步骤在<code>info.plist</code>中增加配置；</li>
+<li>切换到不同的<code>configration</code>下运行项目，将会得到不同的<code>HOST_URL</code>；</li>
+</ol>
+<h4 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h4><ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/DreamcoffeeZS/TestProjects/tree/main/01.MachO%E4%B8%8E%E7%AC%A6%E5%8F%B7">本文测试Demo地址</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/3508e9fff7cc">iOS多Target开发相似App</a></li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wuyubeichen.github.io/2021/11/01/iOS%E9%AB%98%E7%BA%A7-Xcode%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" title="iOS高级-Xcode多环境配置" target="_blank" rel="external">https://wuyubeichen.github.io/2021/11/01/iOS高级-Xcode多环境配置/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wuyubeichen" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wuyubeichen" target="_blank"><span class="text-dark">梧雨北辰</span><small class="ml-1x">iOS Developer</small></a></h3>
+        <div>天行健，君子以自强不息</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2021/11/02/iOS%E9%AB%98%E7%BA%A7-%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" title="iOS高级-编译原理"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/04/18/iOS%E5%BA%95%E5%B1%82-%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%8E%9F%E7%90%86/" title="iOS底层-自动释放池原理"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn " data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">    <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '2e6fa2ad89748dbf4116',
+    clientSecret: 'f9c89ddcbf94ec2d51bf77a2741a883278b6c9e9',
+    repo: 'wuyubeichen.github.io',
+    owner: 'wuyubeichen',
+    admin: ['wuyubeichen'],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    language: 'zh-CN',
+    enableHotKey: 'true'
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'G-CFFB9VW1Q7', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>

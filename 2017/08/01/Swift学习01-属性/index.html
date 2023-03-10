@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Swift学习01-属性 | Hexo</title>
+  <meta name="description" content="属性：是与特定的Swift类、结构体、枚举相关联的值；与其他语言相比，属性不再是被类所特有； 主要内容：  存储属性与计算属性 属性观察器 类型属性 全局变量与局部变量  一、存储属性与计算属性从属性被定义的方式上看，Swift属性有存储属性和计算属性两种：  存储属性：存储在特定类或结构体实例里的一个常量(let)或变量(var)，作为实例的一部分； 计算属性：计算属性不直接存储值，而是提供一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift学习01-属性">
+<meta property="og:url" content="https://wuyubeichen.github.io/2017/08/01/Swift%E5%AD%A6%E4%B9%A001-%E5%B1%9E%E6%80%A7/index.html">
+<meta property="og:site_name" content="梧雨北辰的博客">
+<meta property="og:description" content="属性：是与特定的Swift类、结构体、枚举相关联的值；与其他语言相比，属性不再是被类所特有； 主要内容：  存储属性与计算属性 属性观察器 类型属性 全局变量与局部变量  一、存储属性与计算属性从属性被定义的方式上看，Swift属性有存储属性和计算属性两种：  存储属性：存储在特定类或结构体实例里的一个常量(let)或变量(var)，作为实例的一部分； 计算属性：计算属性不直接存储值，而是提供一个">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-08-01T10:14:43.000Z">
+<meta property="article:modified_time" content="2022-08-29T01:39:32.001Z">
+<meta property="article:author" content="Zhou Shuai">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Swift">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wuyubeichen.github.io/2017/08/01/Swift%E5%AD%A6%E4%B9%A001-%E5%B1%9E%E6%80%A7/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="梧雨北辰的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+    
+ <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142"
+     crossorigin="anonymous"></script>
+     
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body class="main-center theme-purple" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wuyubeichen" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">梧雨北辰</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">iOS Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Beijing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BA%95%E5%B1%82/">iOS底层</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BC%80%E5%8F%91/">iOS开发</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86/">网络原理</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Block/" style="font-size: 13.25px;">Block</a> <a href="/tags/CPU%E6%9E%B6%E6%9E%84/" style="font-size: 13px;">CPU架构</a> <a href="/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/tags/Mach-O/" style="font-size: 13.5px;">Mach-O</a> <a href="/tags/Python/" style="font-size: 13.75px;">Python</a> <a href="/tags/Runtime/" style="font-size: 13.25px;">Runtime</a> <a href="/tags/Swift/" style="font-size: 14px;">Swift</a> <a href="/tags/UI%E9%97%AE%E9%A2%98/" style="font-size: 13.25px;">UI问题</a> <a href="/tags/Xcode/" style="font-size: 13.5px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 14px;">iOS</a> <a href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" style="font-size: 13.25px;">内存管理</a> <a href="/tags/%E5%8A%A8%E6%80%81%E5%BA%93/" style="font-size: 13px;">动态库</a> <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 13.25px;">响应式编程</a> <a href="/tags/%E6%8A%93%E5%8C%85/" style="font-size: 13px;">抓包</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.5px;">环境配置</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13px;">编译原理</a> <a href="/tags/%E9%9D%99%E6%80%81%E5%BA%93/" style="font-size: 13px;">静态库</a>
+    </div>
+  </div>
+
+    
+      <div class="widget">
+    <div class="widget-body">
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142" crossorigin="anonymous"></script>
+         <!-- widget_ad1 -->
+         <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1012757114750142"
+             data-ad-slot="4233351648"
+             data-full-width-responsive="true"></ins>
+         <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+    </div>
+</div>
+
+    
+  </div>
+</aside>
+
+  
+  
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%AD%98%E5%82%A8%E5%B1%9E%E6%80%A7%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text">一、存储属性与计算属性</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1-%E5%B8%B8%E9%87%8F%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E5%AD%98%E5%82%A8%E5%B1%9E%E6%80%A7"><span class="toc-number">1.1.</span> <span class="toc-text">1.1.常量结构体的存储属性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-2-%E5%BB%B6%E8%BF%9F%E5%AD%98%E5%82%A8%E5%B1%9E%E6%80%A7"><span class="toc-number">1.2.</span> <span class="toc-text">1.2.延迟存储属性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-3-%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">1.3.计算属性的使用</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%B1%9E%E6%80%A7%E8%A7%82%E5%AF%9F%E5%99%A8"><span class="toc-number">2.</span> <span class="toc-text">二、属性观察器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%B1%BB%E5%9E%8B%E5%B1%9E%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">三、类型属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F"><span class="toc-number">4.</span> <span class="toc-text">四、全局变量与局部变量</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Swift学习01-属性" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Swift学习01-属性
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2017/08/01/Swift%E5%AD%A6%E4%B9%A001-%E5%B1%9E%E6%80%A7/" class="article-date">
+	  <time datetime="2017-08-01T10:14:43.000Z" itemprop="datePublished">2017-08-01</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Swift/">Swift</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Swift/" rel="tag">Swift</a>, <a class="article-tag-link-link" href="/tags/iOS/" rel="tag">iOS</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2017/08/01/Swift%E5%AD%A6%E4%B9%A001-%E5%B1%9E%E6%80%A7/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2.3k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 8(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><strong>属性</strong>：是与特定的Swift类、结构体、枚举相关联的值；与其他语言相比，属性不再是被类所特有；</p>
+<p><strong>主要内容</strong>：</p>
+<ol>
+<li>存储属性与计算属性</li>
+<li>属性观察器</li>
+<li>类型属性</li>
+<li>全局变量与局部变量</li>
+</ol>
+<h4 id="一、存储属性与计算属性"><a href="#一、存储属性与计算属性" class="headerlink" title="一、存储属性与计算属性"></a>一、存储属性与计算属性</h4><p>从属性被定义的方式上看，<code>Swift</code>属性有存储属性和计算属性两种：</p>
+<ul>
+<li>存储属性：存储在特定类或结构体实例里的一个常量(<code>let</code>)或变量(<code>var</code>)，作为实例的一部分；</li>
+<li>计算属性：计算属性不直接存储值，而是提供一个<code>getter</code>和一个可选的<code>setter</code>，来间接设置其他属性或变量值；</li>
+</ul>
+<p>下面通过一段代码演示这两种属性的区别：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Square</span>&#123;</span><br><span class="line">    <span class="comment">//存储属性</span></span><br><span class="line">    <span class="keyword">var</span> width:<span class="type">Double</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//计算属性：通过一定计算方法得到的属性</span></span><br><span class="line">    <span class="keyword">var</span> area:<span class="type">Double</span>&#123;</span><br><span class="line">        <span class="keyword">get</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> width <span class="operator">*</span> width</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> square <span class="operator">=</span> <span class="type">Square</span>(width: <span class="number">10.0</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;正方形边长：<span class="subst">\(square.width)</span>&quot;</span>)     <span class="comment">//正方形边长：10.0</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;正方形面积：<span class="subst">\(square.area)</span>&quot;</span>)      <span class="comment">//正方形面积：100.0</span></span><br></pre></td></tr></table></figure>
+
+<p>总结存储属性和计算属性的用法还有如下几种情况：</p>
+<h5 id="1-1-常量结构体的存储属性"><a href="#1-1-常量结构体的存储属性" class="headerlink" title="1.1.常量结构体的存储属性"></a>1.1.常量结构体的存储属性</h5><p>如果创建一个结构体的实例并且将其赋值给一个常量，则无法再修改该实例的任何属性(包括其中的变量属性)。这是因为结构体是值类型，值类型实例被声明为常量，其所有属性都成了常量；在这点上，类与结构体不同，这种情况下，类中的可变属性可以被修改。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> square1 <span class="operator">=</span> <span class="type">Square</span>(width: <span class="number">10.0</span>)</span><br><span class="line"><span class="comment">//square1.width = 11.0      //报错</span></span><br><span class="line"><span class="keyword">var</span> square2 <span class="operator">=</span> <span class="type">Square</span>(width:<span class="number">20.0</span>)</span><br><span class="line">square2.width <span class="operator">=</span> <span class="number">21.0</span>      <span class="comment">//可以修改</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//注：如果Squre是一个类，那么以上两种情况都可以通过</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="1-2-延迟存储属性"><a href="#1-2-延迟存储属性" class="headerlink" title="1.2.延迟存储属性"></a>1.2.延迟存储属性</h5><ul>
+<li>定义：第一次被调用的时候才会计算其初始值的属性。在属性声明前使用<code>lazy</code>来表示一个延迟存储属性；</li>
+<li>作用：当属性的值依赖于在实例的构造过程结束后才会知道影响值的外部因素时，或者当获得属性的初始值需要复杂或大量计算时，可以只在需要的时候计算它；</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Number</span>&#123;</span><br><span class="line">    <span class="comment">//存储属性</span></span><br><span class="line">    <span class="keyword">var</span> startNum: <span class="type">Int</span>!</span><br><span class="line">    <span class="keyword">var</span> endNum:<span class="type">Int</span>!</span><br><span class="line">    <span class="comment">//计算属性</span></span><br><span class="line">    <span class="keyword">var</span> length :<span class="type">Int</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> endNum <span class="operator">-</span> startNum <span class="operator">+</span> <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//延迟属性：使用闭包计算出了延迟属性的值，此过程只执行一次</span></span><br><span class="line">    <span class="keyword">lazy</span> <span class="keyword">var</span> sum: <span class="type">Int</span> <span class="operator">=</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;计算延迟属性。。。。&quot;</span>)</span><br><span class="line">        <span class="keyword">var</span> tempNum <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="keyword">self</span>.startNum<span class="operator">...</span><span class="keyword">self</span>.endNum&#123;</span><br><span class="line">            tempNum <span class="operator">+=</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> tempNum</span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    <span class="comment">//可失败的构造方法</span></span><br><span class="line">    <span class="keyword">init?</span>(<span class="params">startNum</span>: <span class="type">Int</span> , <span class="params">endNum</span>:<span class="type">Int</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(startNum <span class="operator">&gt;</span> endNum)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">self</span>.startNum <span class="operator">=</span> startNum</span><br><span class="line">        <span class="keyword">self</span>.endNum <span class="operator">=</span> endNum</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> number <span class="operator">=</span> <span class="type">Number</span>(startNum: <span class="number">1</span>, endNum: <span class="number">100</span>)</span><br><span class="line">number<span class="operator">?</span>.length  <span class="comment">//100</span></span><br><span class="line">number<span class="operator">?</span>.sum    <span class="comment">//5050</span></span><br><span class="line">number<span class="operator">?</span>.sum    <span class="comment">//5050</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：</p>
+<ol>
+<li>必须将延迟存储属性声明成变量(使用<code>var</code>关键字)，因为属性的初始值可能在实例构造完成之后才会得到。而常量属性在构造过程完成之前必须要有初始值，因此无法声明成延迟属性；</li>
+<li>如果一个被标记为 <code>lazy</code> 的属性在没有初始化时就同时被多个线程访问，则无法保证该属性只会被初始化一次；</li>
+</ol>
+<h5 id="1-3-计算属性的使用"><a href="#1-3-计算属性的使用" class="headerlink" title="1.3.计算属性的使用"></a>1.3.计算属性的使用</h5><p>计算属性不直接存储值，而是提供一个<code>getter</code>和一个可选的<code>setter</code>，来间接设置其他属性或变量值；总结它的使用特点如下：</p>
+<ol>
+<li>只有<code>getter</code>没有<code>setter</code>的计算属性就是只读计算属性。只读属性通过点运算符访问，只能返回值而不可设置新值；</li>
+<li>计算属性与其他属性相关，是变化的，所以必须使用<code>var</code>关键字进行修饰，包括只读计算属性；</li>
+<li>只读计算属性可以去掉<code>get</code>关键字和花括号；</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> x <span class="operator">=</span> <span class="number">0.0</span></span><br><span class="line">    <span class="keyword">var</span> y <span class="operator">=</span> <span class="number">0.0</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Size</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> width <span class="operator">=</span> <span class="number">0.0</span></span><br><span class="line">    <span class="keyword">var</span> height <span class="operator">=</span> <span class="number">0.0</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Rectangle</span>&#123;</span><br><span class="line">    <span class="comment">//存储型数据</span></span><br><span class="line">    <span class="keyword">var</span> originPoint  <span class="operator">=</span> <span class="type">Point</span>()</span><br><span class="line">    <span class="keyword">var</span> size <span class="operator">=</span> <span class="type">Size</span>()</span><br><span class="line"></span><br><span class="line">    <span class="comment">//计算型属性</span></span><br><span class="line">    <span class="keyword">var</span> center:<span class="type">Point</span>&#123;</span><br><span class="line">        <span class="comment">//get方法：获取计算属性值</span></span><br><span class="line">        <span class="keyword">get</span>&#123;</span><br><span class="line">            <span class="keyword">let</span> center_x <span class="operator">=</span> originPoint.x <span class="operator">+</span> size.width<span class="operator">/</span><span class="number">2</span></span><br><span class="line">            <span class="keyword">let</span> center_y <span class="operator">=</span> originPoint.y <span class="operator">+</span> size.height<span class="operator">/</span><span class="number">2</span></span><br><span class="line">            <span class="keyword">return</span> <span class="type">Point</span>(x: center_x, y: center_y)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//如果没有set方法，是只读，</span></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         set(newCenter)&#123;</span></span><br><span class="line"><span class="comment">            originPoint.x = newCenter.x - size.width/2</span></span><br><span class="line"><span class="comment">            originPoint.y = newCenter.y - size.height/2</span></span><br><span class="line"><span class="comment">         &#125;</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//set方法：设置计算属性新值</span></span><br><span class="line">        <span class="comment">//这里也可以省略括号和newCenter.使用newValue</span></span><br><span class="line">        <span class="keyword">set</span>&#123;</span><br><span class="line">            originPoint.x <span class="operator">=</span> newValue.x <span class="operator">-</span> size.width<span class="operator">/</span><span class="number">2</span></span><br><span class="line">            originPoint.y <span class="operator">=</span> newValue.y <span class="operator">-</span> size.height<span class="operator">/</span><span class="number">2</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//计算属性：area属性只有get,可以不显式的声明出get；此属性为只读属性</span></span><br><span class="line">    <span class="keyword">var</span> area:<span class="type">Double</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> size.width <span class="operator">*</span> size.height</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">origin</span>: <span class="type">Point</span>, <span class="params">size</span>: <span class="type">Size</span>)&#123;</span><br><span class="line">        <span class="keyword">self</span>.originPoint  <span class="operator">=</span> origin</span><br><span class="line">        <span class="keyword">self</span>.size  <span class="operator">=</span> size</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//创建一个长方形</span></span><br><span class="line"><span class="keyword">var</span> rect <span class="operator">=</span> <span class="type">Rectangle</span>(origin: <span class="type">Point</span>(x: <span class="number">0</span>, y: <span class="number">0</span>), size: <span class="type">Size</span>(width: <span class="number">100</span>, height: <span class="number">100</span>))</span><br><span class="line">rect.center</span><br><span class="line">rect.area  <span class="comment">//10000</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="二、属性观察器"><a href="#二、属性观察器" class="headerlink" title="二、属性观察器"></a>二、属性观察器</h4><p>属性观察器监控和响应属性值的变化，每次属性被设置值的时候都会调用属性观察器，即使新值和当前值相同的时候也不例外；</p>
+<p>属性观察器可以为延迟属性外的其他存储属性添加属性观察，也可以通过继承的方式重写父类属性，为其添加属性观察期。但是我们没有必要为非重写的计算属性添加属性观察器，因为它本身就可以通过自己的<code>setter</code>直接监控和响应值的变化；</p>
+<p>添加属性观察器方式如下：</p>
+<ul>
+<li><code>willSet</code>方法：在新的值被设置之前调用，拥有一个默认参数<code>newValue</code>(代表新的属性值)；</li>
+<li><code>didSet</code>方法：在新的值被设置之后立刻调用,拥有一个默认参数<code>oldValue</code>(代表就的属性值)；</li>
+</ul>
+<p>下面通过<code>lightBlub</code>演示用法，其中为<code>currentDianYa</code>属性添加了观察器：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">lightBlub</span> &#123;</span><br><span class="line">    <span class="comment">//最大电压和当前电压</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">let</span> maxDianYa <span class="operator">=</span> <span class="number">30</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//属性监听</span></span><br><span class="line">    <span class="comment">//注意：willSet和didSet括号中的值可以省略，直接使用系统自带的newVlaue和oldValue</span></span><br><span class="line">    <span class="keyword">var</span> currentDianYa <span class="operator">=</span> <span class="number">0</span> &#123;</span><br><span class="line">        <span class="comment">//可以使用系统默认的属性newValue和oldValue</span></span><br><span class="line">        <span class="keyword">willSet</span>(newCurrentDianya)&#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;当前电压值将要改变:  <span class="subst">\(currentDianYa)</span> -&gt; <span class="subst">\(newCurrentDianya)</span>&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//当调用此方法时，已经设置了值的时候,</span></span><br><span class="line">        <span class="keyword">didSet</span>(oldCurentDianYa)&#123;</span><br><span class="line">            <span class="keyword">if</span>(currentDianYa <span class="operator">==</span> lightBlub.maxDianYa)&#123;</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;请注意 ,当前电压达到了最大电压值&quot;</span>)</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">self</span>.currentDianYa <span class="operator">&gt;</span> lightBlub.maxDianYa)&#123;</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;当前电压过高，不能设置新的电压值&quot;</span>)</span><br><span class="line">                currentDianYa <span class="operator">=</span> oldCurentDianYa</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> light <span class="operator">=</span> lightBlub()</span><br><span class="line">light.currentDianYa <span class="operator">=</span> <span class="number">10</span></span><br><span class="line">light.currentDianYa <span class="operator">=</span> <span class="number">30</span></span><br><span class="line">light.currentDianYa <span class="operator">=</span> <span class="number">40</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 打印结果：</span></span><br><span class="line"><span class="comment"> 当前电压值将要改变:  0 -&gt; 10</span></span><br><span class="line"><span class="comment"> 当前电压值将要改变:  10 -&gt; 30</span></span><br><span class="line"><span class="comment"> 请注意 ,当前电压达到了最大电压值</span></span><br><span class="line"><span class="comment"> 当前电压值将要改变:  30 -&gt; 40</span></span><br><span class="line"><span class="comment"> 当前电压过高，不能设置新的电压值</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：willSet和didSet并不会在初始化时被调用</strong></p>
+<h4 id="三、类型属性"><a href="#三、类型属性" class="headerlink" title="三、类型属性"></a>三、类型属性</h4><p><strong>实例属性</strong>属于一个特定类型的实例，因此实例之间的属性相互独立。但其实，也可以为类型本身定义属性，这样无论创建了多少个该类型实例，这些属性只有唯一的一份，这种属性就是<strong>类型属性</strong>。</p>
+<p><code>Swift</code>的类型属性就相当于<code>OC</code>或者<code>C</code>中的类变量，但他们有着以下的不同： 在<code>OC</code>或者<code>C</code>中，与某个类型相关的静态常量和静态变量，是作为全局静态变量来定义的。但是Swift中，类型属性是作为类型定义的一部分写在类型最外层的花括号内，因此它的作用范围也就在类型支持的范围内；</p>
+<p><code>Swift</code>类型属性使用关键字<code>static</code>,下面是一个具体示例：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//测试Int的类型属性</span></span><br><span class="line"><span class="type">Int</span>.min </span><br><span class="line"><span class="type">Int</span>.max</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Player</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="comment">//对象属性：本人的得分</span></span><br><span class="line">    <span class="keyword">var</span> score: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="comment">//类型属性：本游戏的最高得分,使用类名来访问，使用关键字static声明</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> heighestScore:<span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//构造方法</span></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>)&#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//玩一句游戏得分</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">playGame</span>()&#123;</span><br><span class="line">        <span class="keyword">let</span> tempNum <span class="operator">=</span> <span class="type">Int</span>(arc4random()<span class="operator">%</span><span class="number">100</span>)<span class="operator">+</span><span class="number">1</span></span><br><span class="line">        <span class="keyword">self</span>.score <span class="operator">+=</span> tempNum</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(name)</span> 的游戏得分是：<span class="subst">\(score)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">self</span>.score <span class="operator">&gt;</span> <span class="type">Player</span>.heighestScore)&#123;</span><br><span class="line">            <span class="type">Player</span>.heighestScore <span class="operator">=</span> <span class="keyword">self</span>.score</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;当前本游戏的最高分是:<span class="subst">\(Player.heighestScore)</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> player1 <span class="operator">=</span> <span class="type">Player</span>(name: <span class="string">&quot;zs&quot;</span>)</span><br><span class="line">player1.playGame()</span><br><span class="line">player1.playGame()</span><br><span class="line"><span class="keyword">let</span> player2 <span class="operator">=</span> <span class="type">Player</span>(name: <span class="string">&quot;cf&quot;</span>)</span><br><span class="line">player2.playGame()</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 打印结果</span></span><br><span class="line"><span class="comment"> zs 的游戏得分是：11</span></span><br><span class="line"><span class="comment"> 当前本游戏的最高分是:11</span></span><br><span class="line"><span class="comment"> zs 的游戏得分是：87</span></span><br><span class="line"><span class="comment"> 当前本游戏的最高分是:87</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> cf 的游戏得分是：88</span></span><br><span class="line"><span class="comment"> 当前本游戏的最高分是:88</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="四、全局变量与局部变量"><a href="#四、全局变量与局部变量" class="headerlink" title="四、全局变量与局部变量"></a>四、全局变量与局部变量</h4><ul>
+<li><p>全局变量：在函数、方法、闭包或者任意类型之外定义的变量；</p>
+</li>
+<li><p>局部变量：在函数、方法或者闭包内部定义的变量；</p>
+<p>全局的常量或变量都是延迟计算的，跟延迟存储属性相似，不同的地方在于：全局的常量或变量不需要标记lazy修饰符。</p>
+</li>
+</ul>
+<p>局部范围的常量或变量从不延迟计算。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wuyubeichen.github.io/2017/08/01/Swift%E5%AD%A6%E4%B9%A001-%E5%B1%9E%E6%80%A7/" title="Swift学习01-属性" target="_blank" rel="external">https://wuyubeichen.github.io/2017/08/01/Swift学习01-属性/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wuyubeichen" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wuyubeichen" target="_blank"><span class="text-dark">梧雨北辰</span><small class="ml-1x">iOS Developer</small></a></h3>
+        <div>天行健，君子以自强不息</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2017/08/02/Swift%E5%AD%A6%E4%B9%A002-%E5%87%BD%E6%95%B0/" title="Swift学习02-函数"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn " data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">    <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '2e6fa2ad89748dbf4116',
+    clientSecret: 'f9c89ddcbf94ec2d51bf77a2741a883278b6c9e9',
+    repo: 'wuyubeichen.github.io',
+    owner: 'wuyubeichen',
+    admin: ['wuyubeichen'],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    language: 'zh-CN',
+    enableHotKey: 'true'
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'G-CFFB9VW1Q7', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>

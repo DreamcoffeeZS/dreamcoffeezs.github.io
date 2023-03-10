@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Python学习05-数据类型(01)-Number | Hexo</title>
+  <meta name="description" content="主要内容：  Number类型 Number的各种运算 Number数据类型之间的转换  一、Number类型 Python3的Number类型支持 int、float、bool、complex(复数)四种； Python3只有一种整数类型 int，表示为长整型，没有 python2 中的 Long； Number是不可改变的数据类型，这意味着改变数字，数据类型会分配一个新的对象；  1.整型Py">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python学习05-数据类型(01)-Number">
+<meta property="og:url" content="https://wuyubeichen.github.io/2018/08/05/Python%E5%AD%A6%E4%B9%A005-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(01)-Number/index.html">
+<meta property="og:site_name" content="梧雨北辰的博客">
+<meta property="og:description" content="主要内容：  Number类型 Number的各种运算 Number数据类型之间的转换  一、Number类型 Python3的Number类型支持 int、float、bool、complex(复数)四种； Python3只有一种整数类型 int，表示为长整型，没有 python2 中的 Long； Number是不可改变的数据类型，这意味着改变数字，数据类型会分配一个新的对象；  1.整型Py">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://182.92.228.41/wp-content/uploads/python_basic_number_operation.png">
+<meta property="article:published_time" content="2018-08-05T15:39:33.000Z">
+<meta property="article:modified_time" content="2022-08-29T01:39:31.996Z">
+<meta property="article:author" content="Zhou Shuai">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://182.92.228.41/wp-content/uploads/python_basic_number_operation.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wuyubeichen.github.io/2018/08/05/Python%E5%AD%A6%E4%B9%A005-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(01)-Number/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="梧雨北辰的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+    
+ <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142"
+     crossorigin="anonymous"></script>
+     
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body class="main-center theme-purple" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wuyubeichen" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">梧雨北辰</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">iOS Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Beijing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BA%95%E5%B1%82/">iOS底层</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BC%80%E5%8F%91/">iOS开发</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86/">网络原理</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Block/" style="font-size: 13.25px;">Block</a> <a href="/tags/CPU%E6%9E%B6%E6%9E%84/" style="font-size: 13px;">CPU架构</a> <a href="/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/tags/Mach-O/" style="font-size: 13.5px;">Mach-O</a> <a href="/tags/Python/" style="font-size: 13.75px;">Python</a> <a href="/tags/Runtime/" style="font-size: 13.25px;">Runtime</a> <a href="/tags/Swift/" style="font-size: 14px;">Swift</a> <a href="/tags/UI%E9%97%AE%E9%A2%98/" style="font-size: 13.25px;">UI问题</a> <a href="/tags/Xcode/" style="font-size: 13.5px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 14px;">iOS</a> <a href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" style="font-size: 13.25px;">内存管理</a> <a href="/tags/%E5%8A%A8%E6%80%81%E5%BA%93/" style="font-size: 13px;">动态库</a> <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 13.25px;">响应式编程</a> <a href="/tags/%E6%8A%93%E5%8C%85/" style="font-size: 13px;">抓包</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.5px;">环境配置</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13px;">编译原理</a> <a href="/tags/%E9%9D%99%E6%80%81%E5%BA%93/" style="font-size: 13px;">静态库</a>
+    </div>
+  </div>
+
+    
+      <div class="widget">
+    <div class="widget-body">
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142" crossorigin="anonymous"></script>
+         <!-- widget_ad1 -->
+         <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1012757114750142"
+             data-ad-slot="4233351648"
+             data-full-width-responsive="true"></ins>
+         <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+    </div>
+</div>
+
+    
+  </div>
+</aside>
+
+  
+  
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81Number%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">一、Number类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E6%95%B4%E5%9E%8B"><span class="toc-number">1.1.</span> <span class="toc-text">1.整型</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#2-%E6%B5%AE%E7%82%B9%E5%9E%8B"><span class="toc-number">1.1.1.</span> <span class="toc-text">2.浮点型</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E5%A4%8D%E6%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text">3.复数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E5%B8%83%E5%B0%94%E5%9E%8B"><span class="toc-number">1.3.</span> <span class="toc-text">4.布尔型</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Number%E7%9A%84%E5%90%84%E7%A7%8D%E8%BF%90%E7%AE%97"><span class="toc-number">2.</span> <span class="toc-text">二、Number的各种运算</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81Number%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">3.</span> <span class="toc-text">三、Number数据类型之间的转换</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Python学习05-数据类型(01)-Number" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python学习05-数据类型(01)-Number
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/08/05/Python%E5%AD%A6%E4%B9%A005-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(01)-Number/" class="article-date">
+	  <time datetime="2018-08-05T15:39:33.000Z" itemprop="datePublished">2018-08-05</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Python/" rel="tag">Python</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/08/05/Python%E5%AD%A6%E4%B9%A005-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(01)-Number/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 692(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 2(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>主要内容：</p>
+<ol>
+<li><code>Number</code>类型</li>
+<li><code>Number</code>的各种运算</li>
+<li><code>Number</code>数据类型之间的转换</li>
+</ol>
+<h4 id="一、Number类型"><a href="#一、Number类型" class="headerlink" title="一、Number类型"></a>一、Number类型</h4><ol>
+<li><code>Python3</code>的<code>Number</code>类型支持 <code>int</code>、<code>float</code>、<code>bool</code>、<code>complex(复数)</code>四种；</li>
+<li><code>Python3</code>只有一种整数类型 <code>int</code>，表示为长整型，没有 <code>python2</code> 中的 <code>Long</code>；</li>
+<li><code>Number</code>是不可改变的数据类型，这意味着改变数字，数据类型会分配一个新的对象；</li>
+</ol>
+<h5 id="1-整型"><a href="#1-整型" class="headerlink" title="1.整型"></a>1.整型</h5><p><code>Python3</code>中的整型包括<code>正</code>或<code>负</code>整数;</p>
+<p>区别于其他语言的是，其他语言中的整型细分为：短整型(<code>short</code>) 、整型(<code>int</code>)、长整型(<code>long</code>);</p>
+<p>不同进制数字表示：</p>
+<ul>
+<li>表示二进制：数字前加<code>&quot;ob&quot;</code>，比如表示十进制<code>2</code>：<code>&quot;0b10&quot;</code>;</li>
+<li>表示八进制：数字前加<code>&quot;0o&quot;</code>，比如表示十进制<code>8</code>：<code>&quot;0o10&quot;</code>;</li>
+<li>表示十进制：不需要特殊前缀；</li>
+<li>表示十六进制：数字前加<code>&quot;0x&quot;</code>，比如表示十进制<code>31</code>：<code>&quot;0x1F&quot;</code>;</li>
+</ul>
+<h6 id="2-浮点型"><a href="#2-浮点型" class="headerlink" title="2.浮点型"></a>2.浮点型</h6><p><code>Python</code>中的浮点型数字由<code>整数部分</code>与<code>小数部分</code>组成;</p>
+<p>区别于其他语言的是，其他语言中的浮点型细分为：单精度(<code>float</code>)、双精度(<code>double</code>);</p>
+<h5 id="3-复数"><a href="#3-复数" class="headerlink" title="3.复数"></a>3.复数</h5><p>复数由<code>实数部分</code>和<code>虚数部分</code>构成，有一下几种表示方式：</p>
+<ol>
+<li>可以用<code>a + bj</code>,或者<code>complex(a,b)</code>表示， 复数的实部<code>a</code>和虚部<code>b</code>都是浮点型;</li>
+<li>以后缀<code>“j”</code>结尾表示复数，如<code>36j</code>；</li>
+</ol>
+<h5 id="4-布尔型"><a href="#4-布尔型" class="headerlink" title="4.布尔型"></a>4.布尔型</h5><p>布尔型是<code>Number</code>类型的一种，表示真(<code>True</code>)与假(<code>False</code>)，它可以和整型相互转换。在<code>Python</code>解释器中，测试它的用法：</p>
+<ul>
+<li>语法：<code>int(True)</code>、<code>int(false)</code>，可以分别转化为数字：<code>1</code>和<code>0</code>;</li>
+<li>语法：<code>bool(1)</code>、<code>bool(0)</code>，可以分别转化为布尔型：<code>True</code>和<code>False</code>;</li>
+</ul>
+<p>注意：但是并只有数字<code>1</code>和<code>0</code>可以表示<code>True</code>和<code>False</code>；对于数字<code>0</code>、<code>空字符串</code>、<code>空数字</code>等空数据对象都可以被转化为<code>False</code>，反之为<code>True</code>;</p>
+<h4 id="二、Number的各种运算"><a href="#二、Number的各种运算" class="headerlink" title="二、Number的各种运算"></a>二、Number的各种运算</h4><img src="http://182.92.228.41/wp-content/uploads/python_basic_number_operation.png">
+
+<h4 id="三、Number数据类型之间的转换"><a href="#三、Number数据类型之间的转换" class="headerlink" title="三、Number数据类型之间的转换"></a>三、Number数据类型之间的转换</h4><table>
+<thead>
+<tr>
+<th>类型转换:</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>int(x)</td>
+<td>类型转换：将x转换为整型</td>
+</tr>
+<tr>
+<td>float()</td>
+<td>类型转换：将x转换为浮点型</td>
+</tr>
+<tr>
+<td>bool(x)</td>
+<td>类型转换：将x转换成一个布尔类型</td>
+</tr>
+<tr>
+<td>complex(x, y)</td>
+<td>类型转换：将x和y转换成一个复数，实数部分为x，虚数部分为y</td>
+</tr>
+<tr>
+<td>进制转换:</td>
+<td></td>
+</tr>
+<tr>
+<td>bin(number)</td>
+<td>进制转换：将number转换为二进制数</td>
+</tr>
+<tr>
+<td>oct(number)</td>
+<td>进制转换：将number转换为八进制数</td>
+</tr>
+<tr>
+<td>int(number)</td>
+<td>进制转换：将number转换为十进制数</td>
+</tr>
+<tr>
+<td>hex(number)</td>
+<td>进制转换：将number转换为十六进制数</td>
+</tr>
+<tr>
+<td>其他操作：</td>
+<td></td>
+</tr>
+<tr>
+<td>chr(x)</td>
+<td>将一个整数转换为字符</td>
+</tr>
+<tr>
+<td>str(x)</td>
+<td>讲一个数字转换为字符串</td>
+</tr>
+</tbody></table>
+<p>注意：在<code>Python</code>解释器中输入各进制数后直接回车，<code>Python</code>也会将其自动转换为十进制；</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wuyubeichen.github.io/2018/08/05/Python%E5%AD%A6%E4%B9%A005-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(01)-Number/" title="Python学习05-数据类型(01)-Number" target="_blank" rel="external">https://wuyubeichen.github.io/2018/08/05/Python学习05-数据类型(01)-Number/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wuyubeichen" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wuyubeichen" target="_blank"><span class="text-dark">梧雨北辰</span><small class="ml-1x">iOS Developer</small></a></h3>
+        <div>天行健，君子以自强不息</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/08/06/Python%E5%AD%A6%E4%B9%A005-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(02)-str/" title="Python学习05-数据类型(02)-str"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/08/04/Python%E5%AD%A6%E4%B9%A004-%E5%8F%98%E9%87%8F%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Python学习04-变量与数据类型"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn " data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">    <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '2e6fa2ad89748dbf4116',
+    clientSecret: 'f9c89ddcbf94ec2d51bf77a2741a883278b6c9e9',
+    repo: 'wuyubeichen.github.io',
+    owner: 'wuyubeichen',
+    admin: ['wuyubeichen'],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    language: 'zh-CN',
+    enableHotKey: 'true'
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'G-CFFB9VW1Q7', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>

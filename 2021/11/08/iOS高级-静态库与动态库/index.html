@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>iOS高级-静态库与动态库 | Hexo</title>
+  <meta name="description" content="主要内容：  库的概念总结 库的格式类型 区分静态库与动态库 使用静态库与动态库  一、库的概念总结所谓库(Libary)，其实就是代码共享的一种方式，将具备一定功能的模块代码整理起来，方便多次使用； 1.开源库：库中代码公开，可以方便使用者学习和根据自己的需求随意修改源代码； 2.闭源库： 闭源库中代码不公开，只能通过其公开的一些头文件来调用； 闭源库中代码库是已经编译好的二进制文件，程序的运行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS高级-静态库与动态库">
+<meta property="og:url" content="https://wuyubeichen.github.io/2021/11/08/iOS%E9%AB%98%E7%BA%A7-%E9%9D%99%E6%80%81%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E5%BA%93/index.html">
+<meta property="og:site_name" content="梧雨北辰的博客">
+<meta property="og:description" content="主要内容：  库的概念总结 库的格式类型 区分静态库与动态库 使用静态库与动态库  一、库的概念总结所谓库(Libary)，其实就是代码共享的一种方式，将具备一定功能的模块代码整理起来，方便多次使用； 1.开源库：库中代码公开，可以方便使用者学习和根据自己的需求随意修改源代码； 2.闭源库： 闭源库中代码不公开，只能通过其公开的一些头文件来调用； 闭源库中代码库是已经编译好的二进制文件，程序的运行">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://182.92.228.41/wp-content/uploads/libray_classification.png">
+<meta property="og:image" content="http://182.92.228.41/wp-content/uploads/libray_app_cocoapods.png">
+<meta property="og:image" content="http://182.92.228.41/wp-content/uploads/libray_static_use_in_system.png">
+<meta property="og:image" content="http://182.92.228.41/wp-content/uploads/libray_dynamic_use_in_system.png">
+<meta property="og:image" content="http://182.92.228.41/wp-content/uploads/libray_framework_use_in_ios.png">
+<meta property="article:published_time" content="2021-11-08T14:23:12.000Z">
+<meta property="article:modified_time" content="2022-08-29T01:39:32.019Z">
+<meta property="article:author" content="Zhou Shuai">
+<meta property="article:tag" content="静态库">
+<meta property="article:tag" content="动态库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://182.92.228.41/wp-content/uploads/libray_classification.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wuyubeichen.github.io/2021/11/08/iOS%E9%AB%98%E7%BA%A7-%E9%9D%99%E6%80%81%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E5%BA%93/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="梧雨北辰的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+    
+ <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142"
+     crossorigin="anonymous"></script>
+     
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body class="main-center theme-purple" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wuyubeichen" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">梧雨北辰</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">iOS Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Beijing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BA%95%E5%B1%82/">iOS底层</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E5%BC%80%E5%8F%91/">iOS开发</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86/">网络原理</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Block/" style="font-size: 13.25px;">Block</a> <a href="/tags/CPU%E6%9E%B6%E6%9E%84/" style="font-size: 13px;">CPU架构</a> <a href="/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/tags/Mach-O/" style="font-size: 13.5px;">Mach-O</a> <a href="/tags/Python/" style="font-size: 13.75px;">Python</a> <a href="/tags/Runtime/" style="font-size: 13.25px;">Runtime</a> <a href="/tags/Swift/" style="font-size: 14px;">Swift</a> <a href="/tags/UI%E9%97%AE%E9%A2%98/" style="font-size: 13.25px;">UI问题</a> <a href="/tags/Xcode/" style="font-size: 13.5px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 14px;">iOS</a> <a href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" style="font-size: 13.25px;">内存管理</a> <a href="/tags/%E5%8A%A8%E6%80%81%E5%BA%93/" style="font-size: 13px;">动态库</a> <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 13.25px;">响应式编程</a> <a href="/tags/%E6%8A%93%E5%8C%85/" style="font-size: 13px;">抓包</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.5px;">环境配置</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13px;">编译原理</a> <a href="/tags/%E9%9D%99%E6%80%81%E5%BA%93/" style="font-size: 13px;">静态库</a>
+    </div>
+  </div>
+
+    
+      <div class="widget">
+    <div class="widget-body">
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142" crossorigin="anonymous"></script>
+         <!-- widget_ad1 -->
+         <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1012757114750142"
+             data-ad-slot="4233351648"
+             data-full-width-responsive="true"></ins>
+         <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+    </div>
+</div>
+
+    
+  </div>
+</aside>
+
+  
+  
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%BA%93%E7%9A%84%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93"><span class="toc-number">1.</span> <span class="toc-text">一、库的概念总结</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%BC%80%E6%BA%90%E5%BA%93%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">1.开源库：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E9%97%AD%E6%BA%90%E5%BA%93%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">2.闭源库：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E5%B0%81%E8%A3%85%E5%BA%93%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">3.封装库的作用</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-Cocoapods%E9%87%8C%E7%9A%84%E5%8A%A8%E3%80%81%E9%9D%99%E6%80%81%E5%BA%93"><span class="toc-number">1.4.</span> <span class="toc-text">4.Cocoapods里的动、静态库</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%BA%93%E7%9A%84%E6%A0%BC%E5%BC%8F%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.</span> <span class="toc-text">二、库的格式类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%90%8E%E7%BC%80%E7%B1%BB%E5%9E%8B-a"><span class="toc-number">2.1.</span> <span class="toc-text">1.后缀类型.a</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%90%8E%E7%BC%80%E7%B1%BB%E5%9E%8B-framework"><span class="toc-number">2.2.</span> <span class="toc-text">2.后缀类型.framework</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E5%90%8E%E7%BC%80%E7%B1%BB%E5%9E%8Btbd-%E4%B9%8B%E5%89%8D%E5%8F%AB-dylib"><span class="toc-number">2.3.</span> <span class="toc-text">3. 后缀类型tbd(之前叫.dylib)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E5%90%8E%E7%BC%80%E7%B1%BB%E5%9E%8BXCFramework"><span class="toc-number">2.4.</span> <span class="toc-text">4.后缀类型XCFramework</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%8C%BA%E5%88%86%E9%9D%99%E6%80%81%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E5%BA%93"><span class="toc-number">3.</span> <span class="toc-text">二、区分静态库与动态库</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E9%9D%99%E6%80%81%E5%BA%93"><span class="toc-number">3.1.</span> <span class="toc-text">1.静态库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%8A%A8%E6%80%81%E5%BA%93"><span class="toc-number">3.2.</span> <span class="toc-text">2.动态库</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BD%BF%E7%94%A8%E9%9D%99%E6%80%81%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E5%BA%93"><span class="toc-number">4.</span> <span class="toc-text">三、使用静态库与动态库</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-iOS8%E4%B9%8B%E5%89%8D%EF%BC%9AiOS%E5%B9%B3%E5%8F%B0%E4%B8%8D%E5%85%81%E8%AE%B8%E4%BD%BF%E7%94%A8%E5%8A%A8%E6%80%81%E5%BA%93"><span class="toc-number">4.1.</span> <span class="toc-text">1. iOS8之前：iOS平台不允许使用动态库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-iOS8%E4%B9%8B%E5%90%8E%EF%BC%9A%E5%85%81%E8%AE%B8%E4%BD%BF%E7%94%A8Embedded-Framework"><span class="toc-number">4.2.</span> <span class="toc-text">2. iOS8之后：允许使用Embedded Framework</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E2%80%9CDo-Not-Embed%E2%80%9D%E3%80%81%E2%80%9CEmbed-amp-Sign%E2%80%9D%E3%80%81%E2%80%9CEmbed-Without-Signing%E2%80%9D-%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-number">4.3.</span> <span class="toc-text">3. “Do Not Embed”、“Embed &amp; Sign”、“Embed Without Signing” 区别？</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-iOS高级-静态库与动态库" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS高级-静态库与动态库
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/11/08/iOS%E9%AB%98%E7%BA%A7-%E9%9D%99%E6%80%81%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E5%BA%93/" class="article-date">
+	  <time datetime="2021-11-08T14:23:12.000Z" itemprop="datePublished">2021-11-08</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/iOS%E9%AB%98%E7%BA%A7/">iOS高级</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/%E5%8A%A8%E6%80%81%E5%BA%93/" rel="tag">动态库</a>, <a class="article-tag-link-link" href="/tags/%E9%9D%99%E6%80%81%E5%BA%93/" rel="tag">静态库</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/11/08/iOS%E9%AB%98%E7%BA%A7-%E9%9D%99%E6%80%81%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E5%BA%93/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 7(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><strong>主要内容：</strong></p>
+<ol>
+<li>库的概念总结</li>
+<li>库的格式类型</li>
+<li>区分静态库与动态库</li>
+<li>使用静态库与动态库</li>
+</ol>
+<h4 id="一、库的概念总结"><a href="#一、库的概念总结" class="headerlink" title="一、库的概念总结"></a>一、库的概念总结</h4><p>所谓库(<code>Libary</code>)，其实就是代码共享的一种方式，将具备一定功能的模块代码整理起来，方便多次使用；<br><img src="http://182.92.228.41/wp-content/uploads/libray_classification.png" width="600" align=center/></p>
+<h5 id="1-开源库："><a href="#1-开源库：" class="headerlink" title="1.开源库："></a>1.开源库：</h5><p>库中代码公开，可以方便使用者学习和根据自己的需求随意修改源代码；</p>
+<h5 id="2-闭源库："><a href="#2-闭源库：" class="headerlink" title="2.闭源库："></a>2.闭源库：</h5><ol>
+<li>闭源库中代码不公开，只能通过其公开的一些头文件来调用；</li>
+<li>闭源库中代码库是已经编译好的二进制文件，程序的运行只需要在编译的时候链接(<code>Link</code>)一下就好了，不会浪费编译时间;</li>
+<li>闭源库由于链接的方式不同，就分为了<code>静态库(静态链接)</code>和<code>动态库(动态链接)</code>；</li>
+</ol>
+<h5 id="3-封装库的作用"><a href="#3-封装库的作用" class="headerlink" title="3.封装库的作用"></a>3.封装库的作用</h5><ol>
+<li><code>方便复用</code>：将不经常改动的功能但经常使用的代码封装成库；</li>
+<li><code>编译效率</code>：动态库与静态库都是二进制文件，程序运行时只要链接这些文件即可，节约时间；</li>
+<li><code>代码安全</code>：重要的代码不想公开，但又需要提供功能给别人使用，可以封装为闭源库；</li>
+</ol>
+<h5 id="4-Cocoapods里的动、静态库"><a href="#4-Cocoapods里的动、静态库" class="headerlink" title="4.Cocoapods里的动、静态库"></a>4.Cocoapods里的动、静态库</h5><p><code>静态库</code>与<code>动态库</code>都是闭源库(都是二进制的)，是看不到源码的, 只能看到头文件，但是<code>Cocoapods</code>集成后却是可以看见的，这是因为：</p>
+<ol>
+<li><code>Cocoapods</code>是集成了源码放到了新建的<code>Pods</code>工程里；</li>
+<li><code>Pods</code>工程的<code>target</code>依赖了我们所有导入的第三方库, 然后主<code>App</code>对<code>Pods</code>工程中的这个<code>target</code> 的生成的<code>product</code>进行依赖, 形成了我们好像直接可以使用第三方库源码的错觉；</li>
+<li>其实<code>App</code>最终链接的还是静态库或者动态库。</li>
+</ol>
+<p>可以在<code>Xcode</code>中查看到效果如下：<br><img src="http://182.92.228.41/wp-content/uploads/libray_app_cocoapods.png" width="800" align=center/></p>
+<h4 id="二、库的格式类型"><a href="#二、库的格式类型" class="headerlink" title="二、库的格式类型"></a>二、库的格式类型</h4><p><code>iOS</code>中动态库与静态库的后缀类型有以下几种：</p>
+<h5 id="1-后缀类型-a"><a href="#1-后缀类型-a" class="headerlink" title="1.后缀类型.a"></a>1.后缀类型<code>.a</code></h5><ol>
+<li><code>.a</code>是是典型的静态库，是纯二进制文件，不能直接使用, 至少还要有<code>.h</code>文件配合；</li>
+<li>创建<code>.a</code>静态库：<code>Xode -&gt; File -&gt; New -&gt; Project</code>中的<code>Static Library</code>即可新建；</li>
+</ol>
+<h5 id="2-后缀类型-framework"><a href="#2-后缀类型-framework" class="headerlink" title="2.后缀类型.framework"></a>2.后缀类型<code>.framework</code></h5><ol>
+<li><code>Framework</code>只是一种打包方式，不代表库的<code>链接</code>特性，所以不能以此区分<code>静态库</code>和<code>动态库</code>；</li>
+<li><code>Framework</code>经过打包，可以将代码文件、头文件、资源文件、说明文档等集中在一起，方便开发者使用；</li>
+<li><code>Framework</code>既可以做成静态库, 也可以做成动态库，只需在创建的<code>Framework</code>工程中修改某个 <code>target</code> 的 <code>Build Setting</code>，切换<code>Mach-O Type</code>即可；</li>
+</ol>
+<h5 id="3-后缀类型tbd-之前叫-dylib"><a href="#3-后缀类型tbd-之前叫-dylib" class="headerlink" title="3. 后缀类型tbd(之前叫.dylib)"></a>3. 后缀类型<code>tbd(之前叫.dylib)</code></h5><p><code>tbd</code>全称是<code>text-based stub libraries</code>，本质上就是一个<code>YAML</code>描述的文本文件；</p>
+<ol>
+<li>用于记录动态库的一些信息，包括导出的符号、动态库的架构信息、动态库的依赖信息；</li>
+<li>用于避免在真机开发过程中直接使用传统的<code>dylib</code>；</li>
+<li>对于真机来说，由于动态库都是在设备上，在<code>Xcode</code>上使用基于<code>tbd</code>格式的伪<code>framework</code>可以大大减少<code>Xcode</code>的大小；</li>
+</ol>
+<h5 id="4-后缀类型XCFramework"><a href="#4-后缀类型XCFramework" class="headerlink" title="4.后缀类型XCFramework"></a>4.后缀类型<code>XCFramework</code></h5><p><code>XCFramework</code>是苹果官方在<code>2019</code>年推出的新的库类型，支持包含多平台架构。<code>XCFramework</code>需要<code>Xcode11</code>以上支持；</p>
+<p><code>XCFramework</code>的优势：</p>
+<ol>
+<li><code>Framework</code>只能包含多个架构(如<code>x86_64</code>、<code>arm64e</code>等)，而<code>XCFramework</code>可以按照平台划分，包含相同架构的不同平台文件(如将<code>iOS</code>，<code>macOS</code>，<code>watchOS</code>等多平台的<code>arm64</code>架构合并在一起)；</li>
+<li><code>XCFramework</code>可以包含其他第三方的库；</li>
+<li><code>XCFramework</code>可以更好的支持<code>Mac Catalyst</code>和<code>ARM</code>芯片的<code>MacOS</code>；</li>
+<li><code>XCFramework</code>可以不用设置复杂的头文件路径；</li>
+<li><code>XCFramework</code>可以在库里面设置权限；</li>
+<li><code>XCFramework</code>使用时，不需要再通过脚本去剥离不需要的架构体系。</li>
+</ol>
+<p>举例：<code>libpo</code>命令不支持将相同架构合并在一起，比如<code>iOS</code>的<code>arm64</code>的与<code>macOS</code>的<code>arm64</code>不能合并；</p>
+<h4 id="二、区分静态库与动态库"><a href="#二、区分静态库与动态库" class="headerlink" title="二、区分静态库与动态库"></a>二、区分静态库与动态库</h4><p>静态库与动态库，都是以二进制形式提供代码复用的代码库；</p>
+<h5 id="1-静态库"><a href="#1-静态库" class="headerlink" title="1.静态库"></a>1.静态库</h5><p>静态库是在<code>编译期</code>链接的库，需要链接到<code>Mach-O</code>文件里；</p>
+<p>优点：</p>
+<ol>
+<li>静态库在链接时, 会被完整的复制到可执行文件中; </li>
+<li>使用静态库时，目标程序没有外部依赖，直接就可以运行，效率较高；</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>多次使用, 就会有多次的拷贝(<code>import</code>)，会使用目标程序的体积增大；</li>
+<li>无法动态加载和更新，每次更新都需要重新编译一次；</li>
+</ol>
+<img src="http://182.92.228.41/wp-content/uploads/libray_static_use_in_system.png" width="300" hegiht="300" align=center/>
+
+
+<h5 id="2-动态库"><a href="#2-动态库" class="headerlink" title="2.动态库"></a>2.动态库</h5><p>动态库是在运行时才链接的库，链接时不会拷贝，系统只加载一次动态库；</p>
+<p>优点：</p>
+<ol>
+<li>代码共享：同一份库可以被多个程序使用，节省内存易于维护；</li>
+<li>减少可执行文件的体积：动态库不需要拷贝到目标程序中，不会影响目标程序的体积；</li>
+<li>动态更新：动态库不绑定到可执行程序上，所以升级替换动态库很容易，不需要重新编译代码；类似<code>windows</code>和<code>linux</code>上面一般插件和模块机制都是这样实现的；</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>动态载入会带来一部分性能损失(可以忽略不计）</li>
+<li>动态库也会使得程序依赖于外部环境，如果环境缺少动态库或者库的版本不正确，就会导致程序无法运行(<code>Linux lib not found</code>错误)；</li>
+</ol>
+<img src="http://182.92.228.41/wp-content/uploads/libray_dynamic_use_in_system.png" width="300" hegiht="300" align=center/>
+
+
+<p><strong>补充：</strong>常见动态库有<code>Windows</code>下的<code>.dll</code>，<code>Linux</code>下的<code>.so</code>，<code>Mac</code>下的<code>.dylib/.tbd</code></p>
+<h4 id="三、使用静态库与动态库"><a href="#三、使用静态库与动态库" class="headerlink" title="三、使用静态库与动态库"></a>三、使用静态库与动态库</h4><img src="http://182.92.228.41/wp-content/uploads/libray_framework_use_in_ios.png" width="400" align=center/>
+
+<h5 id="1-iOS8之前：iOS平台不允许使用动态库"><a href="#1-iOS8之前：iOS平台不允许使用动态库" class="headerlink" title="1. iOS8之前：iOS平台不允许使用动态库"></a>1. iOS8之前：iOS平台不允许使用动态库</h5><ol>
+<li>所有的<code>ipa</code>都需要经过<code>App</code>的秘钥加密后才能使用，所以即使使用动态库也会因为签名不对无法加载(除非越狱和非<code>AppStoree</code>)；</li>
+<li><code>iOS8</code>之前的所有应用都运行在沙盒中，不同程序间不可共享代码，而且<code>iOS</code>是单进程，所以共享库没有存在必要；</li>
+<li>苹果禁止动态下载你代码，无法发挥动态库的优势；</li>
+</ol>
+<h5 id="2-iOS8之后：允许使用Embedded-Framework"><a href="#2-iOS8之后：允许使用Embedded-Framework" class="headerlink" title="2. iOS8之后：允许使用Embedded Framework"></a>2. iOS8之后：允许使用Embedded Framework</h5><ol>
+<li>由于<code>iOS</code>主<code>App</code>需要和<code>Extension</code>共享代码，<code>Swift</code>语言机制也需要动态库，于是苹果后来提出了<code>Embedded Framework</code>；</li>
+<li>这种动态库允许<code>APP</code>和<code>APP Extension</code>共享代码，但是这份动态库的生命被限定在一个<code>APP</code>进程内。简单点可以理解为被阉割的动态库；</li>
+<li><code>iOS</code>中的<code>Embedded Framework</code>可以理解为独立的没有<code>main</code>函数的可执行文件。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>库</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Static Framework</code></td>
+<td>用户可制作的静态库，相当于<code>头文件 + 资源文件 + 二进制代码</code>；</td>
+</tr>
+<tr>
+<td><code>Dynamic Framework</code></td>
+<td>1.具有所有动态库的特性，比如<code>UIKit.framework</code>，系统提供的<code>framework</code>都是动态库；<br>2.系统的<code>Framework</code>不需要拷贝到目标程序中;<br>3.系统的的动态库是给多个进程用的；</td>
+</tr>
+<tr>
+<td><code>Embedded Framework</code></td>
+<td>1.用户可以制作的<code>framework</code>动态库；<br>2.需要拷贝到<code>App</code>中，并在<code>Xcode</code>中进行动态库的配置：<code>TARGET</code> -&gt; <code>General</code> -&gt; <code>Frameworks,Libraries,and Enbedded Content </code>；<br>3.只具有部分动态特性，因为受到<code>iOS</code>平台限制(签名机制和沙盒机制限制)；<br>3.只是给单进程里多个可执行文件(<code>Extension</code>可执行文件和APP可执行文件)用；<br></td>
+</tr>
+</tbody></table>
+<p>上面提到跟<code>Swift</code>也有原因，在<code>Swift</code>的项目使用外部代码，可选的方式只有两种：</p>
+<ol>
+<li>把代码拷贝到工程中；</li>
+<li>使用动态库<code>Framework</code>；</li>
+</ol>
+<p><code>Swift</code>不支持使用静态库，这个问题的根本原因主要是：</p>
+<ol>
+<li><code>Swift runtime</code>没有被包含在<code>iOS</code>系统中，而是会打包进<code>App</code>中；</li>
+<li>这也是造成<code>Swift App</code>体积大的原因，若使用静态库会导致最终的目标程序中包含重复的运行库；</li>
+</ol>
+<h5 id="3-“Do-Not-Embed”、“Embed-amp-Sign”、“Embed-Without-Signing”-区别？"><a href="#3-“Do-Not-Embed”、“Embed-amp-Sign”、“Embed-Without-Signing”-区别？" class="headerlink" title="3. “Do Not Embed”、“Embed &amp; Sign”、“Embed Without Signing” 区别？"></a>3. “Do Not Embed”、“Embed &amp; Sign”、“Embed Without Signing” 区别？</h5><ul>
+<li><strong>Embed</strong>：嵌入，对于静态库选择<code>Do Not Embed</code>，动态链接选择<code>Embed</code>；</li>
+<li><strong>Sign</strong>：签名，如果代码没有签名则选择<code>Embed &amp; Sign</code>，否则<code>Embed Without Signing</code>；</li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wuyubeichen.github.io/2021/11/08/iOS%E9%AB%98%E7%BA%A7-%E9%9D%99%E6%80%81%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E5%BA%93/" title="iOS高级-静态库与动态库" target="_blank" rel="external">https://wuyubeichen.github.io/2021/11/08/iOS高级-静态库与动态库/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wuyubeichen" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wuyubeichen" target="_blank"><span class="text-dark">梧雨北辰</span><small class="ml-1x">iOS Developer</small></a></h3>
+        <div>天行健，君子以自强不息</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2021/11/06/iOS%E9%AB%98%E7%BA%A7-MachO%E7%AC%A6%E5%8F%B7%E5%88%86%E7%B1%BB/" title="iOS高级-MachO符号分类"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn " data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">    <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wuyubeichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/2428260401" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '2e6fa2ad89748dbf4116',
+    clientSecret: 'f9c89ddcbf94ec2d51bf77a2741a883278b6c9e9',
+    repo: 'wuyubeichen.github.io',
+    owner: 'wuyubeichen',
+    admin: ['wuyubeichen'],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    language: 'zh-CN',
+    enableHotKey: 'true'
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'G-CFFB9VW1Q7', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>
