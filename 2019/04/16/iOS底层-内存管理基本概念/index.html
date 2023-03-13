@@ -17,6 +17,10 @@
   <meta http-equiv="window-target" content="_top" />
   
   
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142"
+     crossorigin="anonymous"></script>
+  
+  
   <title>iOS底层-内存管理基本概念 | Hexo</title>
   <meta name="description" content="主要内容：  内存区域划分 内存管理&#x2F;引用计数 MRC手动管理引用计数 ARC自动引用计数 MRC与ARC的切换 内存泄漏问题 野指针问题  一、内存区域划分程序在分配内存的时，主要分为：栈区、堆区、静态区、常量区、代码区；    内存区域 具体说明    栈区 存放局部变量的值，系统自动分配和释放;特点：容量小，速度快，有序   堆区 存放通过malloc系列函数或new操作符分配的内">
 <meta property="og:type" content="article">
@@ -28,7 +32,7 @@
 <meta property="og:image" content="http://182.92.228.41/wp-content/uploads/autoreleasepool_mrc_and_arc.png">
 <meta property="og:image" content="http://182.92.228.41/wp-content/uploads/memory_wild_pointer_questions.png">
 <meta property="article:published_time" content="2019-04-16T10:06:36.000Z">
-<meta property="article:modified_time" content="2022-08-29T01:39:32.012Z">
+<meta property="article:modified_time" content="2023-03-13T09:32:23.391Z">
 <meta property="article:author" content="Zhou Shuai">
 <meta property="article:tag" content="内存管理">
 <meta name="twitter:card" content="summary">
@@ -50,10 +54,6 @@
   
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
   
-    
- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1012757114750142"
-     crossorigin="anonymous"></script>
-     
 <meta name="generator" content="Hexo 6.2.0"></head>
 
 
@@ -618,7 +618,7 @@
     
     
     <li class="next">
-      <a href="/2019/04/15/iOS%E5%BA%95%E5%B1%82-Runtime%E5%9F%BA%E7%A1%80%E7%AF%87/" title="iOS底层-Runtime基础篇"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2019/04/15/iOS%E5%BA%95%E5%B1%82-Runtime%E5%BA%94%E7%94%A8%E7%AF%87/" title="iOS底层-Runtime应用篇"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
@@ -733,17 +733,6 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
-
-    <script defer type="text/javascript">
-(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-260209674-1', 'auto');
-ga('send', 'pageview');
-
-</script>
 
 
 
